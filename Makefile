@@ -9,6 +9,7 @@ venv/bin/activate: requirements.txt
 
 clean:
 	rm -rf venv
+	rm -rf .aws-sam
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
@@ -22,7 +23,7 @@ test: venv
 
 build-lambda: venv
 	. venv/bin/activate; \
-	sam build -m requirements.txt
+	sam build -m requirements.txt --use-container
 
 run-lambda: venv
 	. venv/bin/activate; \
