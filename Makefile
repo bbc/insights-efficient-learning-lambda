@@ -4,6 +4,7 @@ venv: venv/bin/activate
 
 venv/bin/activate: requirements.txt
 	test -d venv || virtualenv venv
+	venv/bin/pip install -e .
 	venv/bin/pip install -Ur requirements.txt
 	touch venv/bin/activate
 
@@ -19,7 +20,7 @@ lint: venv
 
 test: venv
 	. venv/bin/activate; \
-	pytest
+	pytest -s --cov=src/ test/ --cov-report term-missing
 
 build-lambda: venv
 	. venv/bin/activate; \

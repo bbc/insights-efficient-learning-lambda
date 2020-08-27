@@ -1,3 +1,32 @@
 {
-    "message": "This is an Event!"
+    "topicIds": ["z2s8v9q", "z9236yc"],
+    "returnResults": true,
+    "questions": [{
+        "topicId": "z2s8v9q",
+        "studyGuideId": "zc7k2nb",
+        "id": "1",
+        "isCorrect": true,
+        "timeTaken": 12345
+    },
+    {
+        "topicId": "z2s8v9q",
+        "studyGuideId": "z84jtv4",
+        "id": "2",
+        "isCorrect": true,
+        "timeTaken": 12345
+    },
+    {
+        "topicId": "z9236yc",
+        "studyGuideId": "zt8t3k7",
+        "id": "3",
+        "isCorrect": true,
+        "timeTaken": 12345
+    },
+    {
+        "topicId": "z9236yc",
+        "studyGuideId": "zt8t3k7",
+        "id": "4",
+        "isCorrect": true,
+        "timeTaken": 12345
+    }]
 }

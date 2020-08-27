@@ -68,3 +68,15 @@ REPORT RequestId: 7848c912-9618-1117-e563-b8aa2b5fc672	Init Duration: 287.57 ms	
 {"message":"This is an Event!"}
 ```
 
+## Testing
+
+Before doing anything, the dependecies must be installed using virtualenv
+
+```
+$ make venv
+```
+
+Run the Unit Tests via 
+```
+$ make test
+```
