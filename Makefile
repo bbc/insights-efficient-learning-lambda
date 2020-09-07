@@ -20,7 +20,7 @@ lint: venv
 
 test: venv
 	. venv/bin/activate; \
-	pytest -s --cov=src/ test/ --cov-report term-missing
+	pytest -s --cov=src/ test/ --cov-report term-missing -v
 
 build-lambda: venv
 	. venv/bin/activate; \

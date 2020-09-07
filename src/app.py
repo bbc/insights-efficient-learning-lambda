@@ -51,7 +51,9 @@ def handler(event, context):
         results_list.append({
             'studyGuideId': study_guide_id,
             'topicId': topic_id,
-            'mastery': mastery * 100
+            'band': 1,
+            'masteryScore': mastery * 100,
+            'confidenceScore': (1 - confidence_interval) * 100
         })
 
     next_question = {

@@ -13,7 +13,7 @@ def test_choose_random_question_returns_question():
 
 def test_choose_question_returns_question():
     study_guide_list = ['zc7k2nb', 'zs8y4qt']
-    confidence_intervals_list = [0.70, 0.50]
+    confidence_intervals_list = [0.70, 0]
 
     actual_question = algorithm.choose_question(
         study_guide_list, confidence_intervals_list)
