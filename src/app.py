@@ -1,7 +1,8 @@
 import algorithm
 import helper
 
-
+# pylint: disable=too-many-locals
+# pylint: disable=unused-argument
 def handler(event, context):
     try:
         topic_id_list = event['topicIds']

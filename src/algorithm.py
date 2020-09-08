@@ -8,16 +8,16 @@ client = StorageClient(boto3.client('s3'))
 
 
 def choose_random_question(study_guide_id_list):
-    next_study_guide_id = random.choice(study_guide_id_list)
+    study_guide_id = random.choice(study_guide_id_list)
 
-    return client.select(next_study_guide_id)
+    return client.select_question_by_study_guide_id(study_guide_id)
 
 
 def choose_question(study_guide_id_list, confidence_intervals_list):
-    next_study_guide_id = __choose_next_study_guide_id(
+    study_guide_id = __choose_next_study_guide_id(
         study_guide_id_list, confidence_intervals_list)
 
-    return client.select(next_study_guide_id)
+    return client.select_question_by_study_guide_id(study_guide_id)
 
 
 def __choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
@@ -26,16 +26,21 @@ def __choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list)
 
     return np.random.choice(a=study_guide_id_list, p=probabilities_list)
 
+
 def __convert_confidence_interval_into_probability(confidence_intervals):
     probabilities_list = [confidence_interval **
                           8 for confidence_interval in confidence_intervals]
 
     return __normalise_list(probabilities_list)
 
+
 def __normalise_list(list_):
     return [element / sum(list_) for element in list_]
 
-def calculate_mastery_and_confidence(study_guide_score, study_guide_attempts, topic_score, topic_attempts):
+
+def calculate_mastery_and_confidence(
+        study_guide_score, study_guide_attempts, topic_score, topic_attempts
+):
     average_study_guide_mastery = __calculate_beta_distribution_mean(
         study_guide_score, study_guide_attempts)
     average_topic_mastery = __calculate_beta_distribution_mean(
@@ -86,4 +91,3 @@ def __calculate_weighted_value(weighting, study_guide_value, topic_value):
 
 def __calculate_confidence_interval(samples):
     return np.percentile(samples, 95) - np.percentile(samples, 5)
-

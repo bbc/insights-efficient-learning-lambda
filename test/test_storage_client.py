@@ -1,26 +1,77 @@
-from test.fixtures.questions import VALID_QUESTION
-import pytest
+from test.fixtures.storage_client import VALID_SELECT_RESPONSE, INVALID_BINARY_SELECT_RESPONSE, \
+    VALID_SELECT_PARSED_RESPONSE, NO_RECORDS_SELECT_RESPONSE
 import boto3
+import pytest
+from botocore.exceptions import ClientError, ParamValidationError
 from storage_client import StorageClient
 
-s3_client = boto3.client('s3')
-storage_client = StorageClient(s3_client)
+s3 = boto3.client('s3')
+storage_client = StorageClient(s3)
+
+VALID_KEY = 'quizzes/z2296yc.json'
+VALID_EXPRESSION = "SELECT * FROM S3OBJECT s"
 
 def test_storage_client_instantiation():
-    assert storage_client.client == s3_client
+    assert storage_client.client == s3
 
-def test_valid_study_guide_id_returns_question():
-    valid_study_guide_id = 'zc7k2nb'
 
-    actual_question = storage_client.select(valid_study_guide_id)
+def test_storage_client_returns_event(mocker):
+    select_mock = mocker.patch.object(s3, 'select_object_content')
+    select_mock.return_value = VALID_SELECT_RESPONSE
 
-    assert actual_question == VALID_QUESTION
+    response = storage_client.select(VALID_KEY, VALID_EXPRESSION)
 
-def test_invalid_study_guide_id_raises_exception():
-    valid_study_guide_id = 'z123abc'
+    assert response == VALID_SELECT_PARSED_RESPONSE
+
+def test_storage_client_raises_exceptions_when_invalid_binary(mocker):
+    select_mock = mocker.patch.object(s3, 'select_object_content')
+    select_mock.return_value = INVALID_BINARY_SELECT_RESPONSE
 
     with pytest.raises(Exception) as error:
-        storage_client.select(valid_study_guide_id)
+        storage_client.select(VALID_KEY, VALID_EXPRESSION)
 
-    assert str(error.value) == f'[NOT FOUND]: No questions found for studyGuideId: {valid_study_guide_id}'
+    assert str(
+        error.value) == '[S3 CLIENT ERROR]: An error occurred, could not parse binary'
 
+def test_storage_client_raises_exceptions_when_invalid_parameter(mocker):
+    select_mock = mocker.patch.object(s3, 'select_object_content')
+    select_mock.side_effect = ParamValidationError(report='Error Report')
+
+    invalid_key = ''
+    invalid_expression = ''
+
+    with pytest.raises(Exception) as error:
+        storage_client.select(invalid_key, invalid_expression)
+
+    assert str(
+        error.value) == '[S3 CLIENT ERROR]: Parameter validation failed:\nError Report'
+
+
+def test_storage_client_raises_exception_when_client_error(mocker):
+    select_mock = mocker.patch.object(s3, 'select_object_content')
+
+    error = {
+        "Error": {
+            "Code": "Error Code",
+            "Message": "Error Message"
+        }
+    }
+
+    select_mock.side_effect = ClientError(error, 'SelectObjectContent')
+
+    with pytest.raises(Exception) as error:
+        storage_client.select(VALID_KEY, VALID_EXPRESSION)
+
+    assert str(
+        error.value) == '[S3 CLIENT ERROR]: An error occurred (Error Code) when calling the SelectObjectContent operation: Error Message'
+
+
+def test_storage_client_raises_exception_when_no_records_in_event(mocker):
+    select_mock = mocker.patch.object(s3, 'select_object_content')
+    select_mock.return_value = NO_RECORDS_SELECT_RESPONSE
+
+    with pytest.raises(Exception) as error:
+        storage_client.select(VALID_KEY, VALID_EXPRESSION)
+
+    assert str(
+        error.value) == f'[S3 CLIENT ERROR]: An error occurred, No Records found in response from S3 with key: {VALID_KEY} and expression: {VALID_EXPRESSION}'

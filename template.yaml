@@ -17,4 +17,5 @@ Resources:
       Runtime: python3.7
       Environment:
         Variables:
+          S3_BUCKET: 'test-borodin-assets-bucket-borodinassetsbucket-f3xq0jsnkt9s'
   
