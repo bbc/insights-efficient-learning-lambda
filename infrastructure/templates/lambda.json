@@ -1,0 +1,208 @@
+{
+    "Description": "Lambda part of Intelligent Learning Experience to generate quizz questions and mastery scores",
+    "Outputs": {
+        "EfficientLearningFunctionArn": {
+            "Description": "Function to generate speech files",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EfficientLearningFunction",
+                    "Arn"
+                ]
+            }
+        },
+        "EfficientLearningRoleArn": {
+            "Description": "Role to grant permissions needed to generate speech files",
+            "Value": {
+                "Fn::GetAtt": [
+                    "EfficientLearningRole",
+                    "Arn"
+                ]
+            }
+        }
+    },
+    "Parameters": {
+        "LambdaEnv": {
+            "Default": "test",
+            "Description": "Environment this lambda represents - used for alias name",
+            "Type": "String"
+        },
+        "LambdaMemorySize": {
+            "AllowedValues": [
+                128,
+                192,
+                256,
+                320,
+                384,
+                448,
+                512,
+                576,
+                640,
+                704,
+                768,
+                832,
+                896,
+                960,
+                1024,
+                1088,
+                1152,
+                1216,
+                1280,
+                1344,
+                1408,
+                1472,
+                1536,
+                1600,
+                1664,
+                1728,
+                1792,
+                1856,
+                1920,
+                1984,
+                2048,
+                2112,
+                2176,
+                2240,
+                2304,
+                2368,
+                2432,
+                2496,
+                2560,
+                2624,
+                2688,
+                2752,
+                2816,
+                2880,
+                2944,
+                3008
+            ],
+            "Default": "128",
+            "Description": "Amount of memory to allocate to the Lambda Function",
+            "Type": "Number"
+        },
+        "LambdaTimeout": {
+            "Default": "20",
+            "Description": "Timeout in seconds for the Lambda function",
+            "Type": "Number"
+        },
+        "PythonLayer": {
+            "Default": "arn:aws:lambda:eu-west-1:399891621064:layer:AWSLambda-Python37-SciPy1x:37",
+            "Description": "ARN of AWS Python Lambda Layer",
+            "Type": "String"
+        },
+        "QuestionsBucket": {
+            "Description": "ARN of the bucket where the questions are stored",
+            "Type": "String"
+        }
+    },
+    "Resources": {
+        "EfficientLearningFunction": {
+            "Properties": {
+                "Code": {
+                    "ZipFile": "$LATEST"
+                },
+                "Description": "Lambda returns quizz questions and mastery scores ",
+                "FunctionName": "EfficientLearningFunction",
+                "Handler": "index.handler",
+                "Layers": [
+                    {
+                        "Ref": "PythonLayer"
+                    }
+                ],
+                "MemorySize": {
+                    "Ref": "LambdaMemorySize"
+                },
+                "Role": {
+                    "Fn::GetAtt": [
+                        "EfficientLearningRole",
+                        "Arn"
+                    ]
+                },
+                "Runtime": "python3.7",
+                "Timeout": {
+                    "Ref": "LambdaTimeout"
+                }
+            },
+            "Type": "AWS::Lambda::Function"
+        },
+        "EfficientLearningRole": {
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Statement": [
+                        {
+                            "Action": [
+                                "sts:AssumeRole"
+                            ],
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "lambda.amazonaws.com"
+                                ]
+                            }
+                        }
+                    ],
+                    "Version": "2012-10-17"
+                },
+                "Path": "/",
+                "Policies": [
+                    {
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": [
+                                        "logs:*"
+                                    ],
+                                    "Effect": "Allow",
+                                    "Resource": "arn:aws:logs:*:*:*"
+                                }
+                            ],
+                            "Version": "2012-10-17"
+                        },
+                        "PolicyName": "AllowLoggingPolicy"
+                    },
+                    {
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Action": "s3:GetObject",
+                                    "Effect": "Allow",
+                                    "Resource": [
+                                        {
+                                            "Ref": "QuestionsBucket"
+                                        },
+                                        {
+                                            "Fn::Join": [
+                                                "",
+                                                [
+                                                    {
+                                                        "Ref": "QuestionsBucket"
+                                                    },
+                                                    "/*"
+                                                ]
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "Version": "2012-10-17"
+                        },
+                        "PolicyName": "AllowS3Policy"
+                    }
+                ]
+            },
+            "Type": "AWS::IAM::Role"
+        },
+        "LambdaAlias": {
+            "Properties": {
+                "Description": "Cosmos Alias",
+                "FunctionName": {
+                    "Ref": "EfficientLearningFunction"
+                },
+                "FunctionVersion": "$LATEST",
+                "Name": {
+                    "Ref": "LambdaEnv"
+                }
+            },
+            "Type": "AWS::Lambda::Alias"
+        }
+    }
+}

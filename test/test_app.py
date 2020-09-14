@@ -3,7 +3,7 @@ from test.fixtures.events import INVALID_EVENT, VALID_EVENT_NO_QUESTIONS, \
 from test.fixtures.questions import VALID_QUESTION, \
     VALID_QUESTION_RESPONSE_NO_RESULTS, VALID_QUESTION_RESPONSE_WITH_RESULTS
 import pytest
-from app import handler
+from index import handler
 
 CONTEXT = None
 

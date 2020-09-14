@@ -11,6 +11,8 @@ venv/bin/activate: requirements.txt
 clean:
 	rm -rf venv
 	rm -rf .aws-sam
+	rm -r .pytest_cache
+	rm -r .coverage
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
@@ -28,4 +30,7 @@ build-lambda: venv
 
 run-lambda: venv
 	. venv/bin/activate; \
-	sam local invoke -e events/event.json LambdaFunction --docker-network host
+	sam local invoke -e events/event.json --docker-network host EfficientLearningFunction
+
+build-infra:
+	make -C infrastructure all

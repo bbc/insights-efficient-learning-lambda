@@ -3,7 +3,7 @@ import json
 import random
 from botocore.exceptions import ClientError, ParamValidationError
 
-BUCKET = os.getenv('S3_BUCKET') or None
+BUCKET = os.getenv('S3_BUCKET') or ''
 
 # pylint: disable=too-few-public-methods
 class StorageClient:
@@ -24,7 +24,7 @@ class StorageClient:
 
         try:
             response = self.client.select_object_content(
-                Bucket='test-borodin-assets-bucket-borodinassetsbucket-f3xq0jsnkt9s',
+                Bucket=BUCKET,
                 Key=key,
                 ExpressionType='SQL',
                 Expression=expression,

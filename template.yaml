@@ -9,13 +9,13 @@ Globals:
     Timeout: 10
 
 Resources:
-  LambdaFunction:
+  EfficientLearningFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: src/
-      Handler: app.handler
+      Handler: index.handler
       Runtime: python3.7
       Environment:
         Variables:
-          S3_BUCKET: 'test-borodin-assets-bucket-borodinassetsbucket-f3xq0jsnkt9s'
+          S3_BUCKET: ''
   
