@@ -12,6 +12,8 @@ The pipeline is split into several stages
 | Release | Unstashes the zip archive and uses the cosmos-release tool to release the lambda to the Cosmos repository so it can be deployed |
 | Deploy to Test| Deploys the current version to the TEST environment using the Cosmos CLI|
 
+Note: The `Build and Test` and `Build and Package` both clean the `/venv` directory to avoid pullution between stages.
+
 ## Workflow
 
 The Pipeline is trigger via pushed changes to Branches and PullRequests
