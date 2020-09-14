@@ -44,17 +44,23 @@ def handler(event, context):
         study_guide_score = study_guide_score_and_attempts[study_guide_id]['score']
         study_guide_attempts = study_guide_score_and_attempts[study_guide_id]['attempts']
 
-        mastery, confidence_interval = algorithm.calculate_mastery_and_confidence(
+        weighted_score, weighted_attempts = algorithm.calculate_weighted_score_and_attempts(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
+        mastery, confidence_interval = algorithm.calculate_mastery_and_confidence(
+                weighted_score, weighted_attempts)
+
         confidence_intervals_list.append(confidence_interval)
+
+        mastery_band, band_confidence = algorithm.calculate_mastery_band_and_confidence(
+            mastery, weighted_score, weighted_attempts)
 
         results_list.append({
             'studyGuideId': study_guide_id,
             'topicId': topic_id,
-            'band': 1,
+            'band': mastery_band,
             'masteryScore': mastery * 100,
-            'confidenceScore': (1 - confidence_interval) * 100
+            'confidenceScore': band_confidence * 100
         })
 
     next_question = {

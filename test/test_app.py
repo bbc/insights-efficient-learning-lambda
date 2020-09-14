@@ -38,8 +38,11 @@ def test_valid_event_no_results_returns_next_question(mocker):
 
 
 def test_valid_event_with_results_returns_next_question(mocker):
-    question_mock = mocker.patch('algorithm.calculate_mastery_and_confidence')
-    question_mock.return_value = 0.75, 0.50
+    mastery_and_confidence_mock = mocker.patch('algorithm.calculate_mastery_and_confidence')
+    mastery_and_confidence_mock.return_value = 0.75, 0.50
+
+    band_mock = mocker.patch('algorithm.calculate_mastery_band_and_confidence')
+    band_mock.return_value = 3, 0.65
 
     question_mock = mocker.patch('algorithm.choose_question')
     question_mock.return_value = VALID_QUESTION

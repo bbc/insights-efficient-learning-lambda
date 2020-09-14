@@ -61,51 +61,51 @@ VALID_QUESTION_RESPONSE_WITH_RESULTS = {
             {
                 'studyGuideId': 'zc7k2nb',
                 'topicId': 'z2s8v9q',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'z84jtv4',
                 'topicId': 'z2s8v9q',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'zs8y4qt',
                 'topicId': 'z2s8v9q',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'zt8t3k7',
                 'topicId': 'z9236yc',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'zxr7ng8',
                 'topicId': 'z9236yc',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'z3tgw6f',
                 'topicId': 'z9236yc',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             },
             {
                 'studyGuideId': 'z8fkmsg',
                 'topicId': 'z9236yc',
-                'band': 1,
+                'band': 3,
                 'masteryScore': 75.0,
-                'confidenceScore': 50.0
+                'confidenceScore': 65.0
             }
         ]
     }
