@@ -3,6 +3,9 @@
     "Outputs": {
         "EfficientLearningFunctionArn": {
             "Description": "Function to generate speech files",
+            "Export": {
+                "Name": "efficient-learning-function-arn"
+            },
             "Value": {
                 "Fn::GetAtt": [
                     "EfficientLearningFunction",
@@ -12,6 +15,9 @@
         },
         "EfficientLearningRoleArn": {
             "Description": "Role to grant permissions needed to generate speech files",
+            "Export": {
+                "Name": "efficient-learning-role-arn"
+            },
             "Value": {
                 "Fn::GetAtt": [
                     "EfficientLearningRole",

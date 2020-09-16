@@ -1,4 +1,4 @@
-from troposphere import Template, Output, Ref, GetAtt, Parameter, Join
+from troposphere import Template, Output, Ref, GetAtt, Parameter, Join, Export
 from troposphere.constants import NUMBER, STRING
 from troposphere.awslambda import Function, Code, MEMORY_VALUES, EventSourceMapping, Alias
 from troposphere.iam import Role, Policy
@@ -113,12 +113,14 @@ alias = template.add_resource(Alias(
 
 template.add_output(Output(
     "EfficientLearningFunctionArn",
+    Export=Export("efficient-learning-function-arn"),
     Value=GetAtt(efficientLearningFunction, "Arn"),
     Description="Function to generate speech files"
 ))
 
 template.add_output(Output(
     "EfficientLearningRoleArn",
+    Export=Export("efficient-learning-role-arn"),
     Value=GetAtt(lambdaExecutionRole, "Arn"),
     Description="Role to grant permissions needed to generate speech files"
 ))
