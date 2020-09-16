@@ -41,7 +41,7 @@ Your credentials should now be configured and the path to it is ~/.aws/credentia
 
 ## Getting Started
 
-There is a Makefile which shows all available tasks whiich can be executed for this lambda including testing and linting.
+There is a Makefile which shows all available tasks which can be executed for this lambda including testing and linting.
 
 Before doing anything, the dependecies must be installed using virtualenv
 
