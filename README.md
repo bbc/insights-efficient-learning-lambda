@@ -1,12 +1,12 @@
 # efficient-learning-lambda
+
 Backend system to support the Quizzes feature in BBC Bitesize
 
 The following documentation is available:
 
- - [Development Environment](./devdocs/DevelopmentEnvironment.md)
- - [Continuous Deployment](./devdocs/ContinuousDeployment.md)
- - [Infrastructure](./devdocs/Infrastructure.md)
-
+-   [Development Environment](./devdocs/DevelopmentEnvironment.md)
+-   [Continuous Deployment](./devdocs/ContinuousDeployment.md)
+-   [Infrastructure](./devdocs/Infrastructure.md)
 
 ## PreRequisites
 
@@ -27,27 +27,39 @@ VirtualEnv is a virtual environment manager for Python that allows packages to b
 You should be able to install this using pip/pip3 install virtualenv
 
 ### Docker
-Docker is an application that runs containers on your macOS machines. 
+
+Docker is an application that runs containers on your macOS machines.
 Instructions on how to install Docker can be found here : https://docs.docker.com/docker-for-mac/install/
 
 ### AWS CLI
-The AWS Command Line Interface (AWS CLI) is a unified tool that provides a consistent interface for interacting with all parts of AWS. AWS CLI commands for different services are covered in the accompanying user guide, including descriptions, syntax, and usage examples. 
+
+The AWS Command Line Interface (AWS CLI) is a unified tool that provides a consistent interface for interacting with all parts of AWS. AWS CLI commands for different services are covered in the accompanying user guide, including descriptions, syntax, and usage examples.
 Instructions on how to install AWS CLI can be found here : https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html
 
 ### AWS SAM CLI
-SAM is used to build and run the lambda locally. Sam can be used for other tasks such as deployment however we will not be using it for this purpose.
-Instructions on how to install SAM can be found here : https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html 
 
-### JQ
-Instructions on how to install JQ can be found here :https://www.npmjs.com/package/jq
+SAM is used to build and run the lambda locally. Sam can be used for other tasks such as deployment however we will not be using it for this purpose.
+Instructions on how to install SAM can be found here : https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html
 
 ### Configuring AWS Credentials
 
-Edit the aws-configuration.sh to include an AWS_ACCOUNT_NUMBER and then run the following:
+Create a file `~/.curlrc` in your home path i.e, `~/`. In the file add the following parameters
+replacing ACCOUNT_NUMBER with your AWS environment wormhole number. This process saves you time
+regenerating credentials for login. Similalry replace key and cert options with your dev cert paths
+accordingly. Hint: These are same certs used for morph development.
+
+```
+url="https://wormhole.api.bbci.co.uk/account/ACCOUNT_NUMBER/credentials"
+key = "/etc/pki/certificate.pem"
+cert = "/etc/pki/certificate.pem"
+```
+
+then run the following:
 
 ```
 $ ./scripts/aws-configuration.sh
 ```
+
 Your credentials should now be configured and the path to it is ~/.aws/credentials
 
 ## Getting Started
@@ -68,6 +80,7 @@ This should generate a `venv/` directory in the root.
 $ make build-lambda
 $ make run-lambda
 ```
+
 This should show the lambda being invoked liked so:
 
 ```
@@ -94,7 +107,8 @@ Before doing anything, the dependecies must be installed using virtualenv
 $ make venv
 ```
 
-Run the Unit Tests via 
+Run the Unit Tests via
+
 ```
 $ make test
 ```
