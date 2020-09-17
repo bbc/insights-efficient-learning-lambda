@@ -1,6 +1,7 @@
 from test.fixtures.storage_client import VALID_SELECT_RESPONSE, INVALID_BINARY_SELECT_RESPONSE, \
     VALID_SELECT_PARSED_RESPONSE, NO_RECORDS_SELECT_RESPONSE
-# import os
+from test.fixtures.questions import VALID_QUESTION, VALID_QUESTION_ID_LIST
+import os
 import boto3
 import pytest
 from botocore.exceptions import ClientError, ParamValidationError
@@ -79,8 +80,11 @@ def test_storage_client_raises_exception_when_no_records_in_event(mocker):
 
 
 def test_select_question_method(mocker):
-    select_mock = mocker.patch.object(s3, 'select_object_content')
-    select_mock.return_value = VALID_SELECT_RESPONSE
+    mocker.patch('storage_client.BUCKET', "test_bucket")
+    mocker.patch('storage_client.FOLDER', "test_folder")
+
+    select_mock = mocker.patch('storage_client.StorageClient.select')
+    select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
 
     response = storage_client.select_question_by_study_guide_id('z2296yc')
-    assert response == VALID_SELECT_PARSED_RESPONSE[0]
+    select_mock.assert_called_with('test_folder/z2296yc.json', "SELECT * FROM S3OBJECT s WHERE s.id='1'")
