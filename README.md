@@ -26,9 +26,20 @@ VirtualEnv is a virtual environment manager for Python that allows packages to b
 
 You should be able to install this using pip/pip3 install virtualenv
 
+### Docker
+Docker is an application that runs containers on your macOS machines. 
+Instructions on how to install Docker can be found here : https://docs.docker.com/docker-for-mac/install/
+
+### AWS CLI
+The AWS Command Line Interface (AWS CLI) is a unified tool that provides a consistent interface for interacting with all parts of AWS. AWS CLI commands for different services are covered in the accompanying user guide, including descriptions, syntax, and usage examples. 
+Instructions on how to install AWS CLI can be found here : https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html
+
 ### AWS SAM CLI
 SAM is used to build and run the lambda locally. Sam can be used for other tasks such as deployment however we will not be using it for this purpose.
 Instructions on how to install SAM can be found here : https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html 
+
+### JQ
+Instructions on how to install JQ can be found here :https://www.npmjs.com/package/jq
 
 ### Configuring AWS Credentials
 
