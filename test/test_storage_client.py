@@ -86,5 +86,5 @@ def test_select_question_method(mocker):
     select_mock = mocker.patch('storage_client.StorageClient.select')
     select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
 
-    response = storage_client.select_question_by_study_guide_id('z2296yc')
+    storage_client.select_question_by_study_guide_id('z2296yc')
     select_mock.assert_called_with('test_folder/z2296yc.json', "SELECT * FROM S3OBJECT s WHERE s.id='1'")
