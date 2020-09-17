@@ -4,6 +4,7 @@ import random
 from botocore.exceptions import ClientError, ParamValidationError
 
 BUCKET = os.getenv('S3_BUCKET') or ''
+FOLDER = os.getenv('S3_FOLDER') or ''
 
 # pylint: disable=too-few-public-methods
 class StorageClient:
@@ -12,7 +13,7 @@ class StorageClient:
 
 
     def select_question_by_study_guide_id(self, study_guide_id):
-        key = f'quizzes/{study_guide_id}.json'
+        key = f'{FOLDER}/{study_guide_id}.json'
 
         question_id_list = self.select(key, "SELECT s.id FROM S3OBJECT s")
 
