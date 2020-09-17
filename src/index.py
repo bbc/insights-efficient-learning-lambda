@@ -3,6 +3,8 @@ import helper
 
 # pylint: disable=too-many-locals
 # pylint: disable=unused-argument
+
+
 def handler(event, context):
     try:
         topic_id_list = event['topicIds']
@@ -18,8 +20,9 @@ def handler(event, context):
         study_guide_id_list)
 
     if not questions:
+
         next_question = {
-            'nextQuestion': algorithm.choose_random_question(study_guide_id_list)
+            'nextQuestion': algorithm.choose_next_question(topic_id_for_study_guide_id, study_guide_id_list)
         }
 
         return __build_response(200, next_question)
@@ -48,7 +51,7 @@ def handler(event, context):
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
         mastery, confidence_interval = algorithm.calculate_mastery_and_confidence(
-                weighted_score, weighted_attempts)
+            weighted_score, weighted_attempts)
 
         confidence_intervals_list.append(confidence_interval)
 
