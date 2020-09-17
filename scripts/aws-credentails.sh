@@ -2,7 +2,7 @@
 
 curl --version
 
-AWS_ACCOUNT_NUMBER=192774014475
+AWS_ACCOUNT_NUMBER=
 
 if [ -z $AWS_ACCOUNT_NUMBER ]; then
 printf "\e[31mError:\e[0m Invalid account"
