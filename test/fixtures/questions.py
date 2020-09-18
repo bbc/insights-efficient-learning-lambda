@@ -49,7 +49,7 @@ NEXT_QUESTION = {
     ]
 }
 
-FORMATTED_QUESTION = {
+FORMATTED_NEXT_QUESTION = {
     "id": "1",
     "text": "What will happen if a spray of perfume is released into one corner of a room?",
     "studyGuideId": "zc7k2nb",
@@ -79,7 +79,7 @@ FORMATTED_QUESTION = {
 VALID_QUESTION_RESPONSE_NO_RESULTS = {
     'statusCode': 200,
     'body': {
-        'nextQuestion': FORMATTED_QUESTION
+        'nextQuestion': FORMATTED_NEXT_QUESTION
     }
 }
 

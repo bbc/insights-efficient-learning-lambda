@@ -10,7 +10,7 @@ BAND3_THRESHOLD = 0.66
 CONFIDENCE_THRESHOLD = 0.6
 
 
-def choose_random_question(study_guide_id_list, confidence_intervals_list=[]):
+def choose_next_question(study_guide_id_list, confidence_intervals_list=[]):
     if not confidence_intervals_list:
         study_guide_id = random.choice(study_guide_id_list)
     else:
