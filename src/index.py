@@ -20,9 +20,9 @@ def handler(event, context):
         study_guide_id_list)
 
     if not questions:
-
         next_question = {
-            'nextQuestion': algorithm.choose_next_question(topic_id_for_study_guide_id, study_guide_id_list)
+            'nextQuestion': algorithm.choose_random_next_question(
+                topic_id_for_study_guide_id, study_guide_id_list)
         }
 
         return __build_response(200, next_question)
@@ -67,7 +67,7 @@ def handler(event, context):
         })
 
     next_question = {
-        'nextQuestion': algorithm.choose_question(study_guide_id_list, confidence_intervals_list)
+        'nextQuestion': algorithm.choose_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list)
     }
 
     if return_results:

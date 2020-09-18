@@ -53,7 +53,7 @@ NEXT_QUESTION = {
 VALID_QUESTION_RESPONSE_NO_RESULTS = {
     'statusCode': 200,
     'body': {
-        'nextQuestion': VALID_QUESTION
+        'nextQuestion': NEXT_QUESTION
     }
 }
 
@@ -63,6 +63,8 @@ VALID_QUESTION_RESPONSE_WITH_RESULTS = {
         'nextQuestion': {
             'id': '1',
             'text': 'What will happen if a spray of perfume is released into one corner of a room?',
+            'studyGuideId': 'zc7k2nb',
+            'topicId': 'z2s8v9q',
             'options': [
                 {
                     'id': '1',

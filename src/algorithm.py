@@ -18,11 +18,13 @@ def choose_random_question_by_study_guide_id(study_guide_id):
     return client.select_question_by_study_guide_id(study_guide_id)
 
 
-def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list):
+def choose_random_next_question(topic_id_for_study_guide_id, study_guide_id_list):
     study_guide_id = choose_random_study_guide_id(study_guide_id_list)
     question = choose_random_question_by_study_guide_id(study_guide_id)
-    question["studyGuideId"] = study_guide_id
-    question["topicId"] = topic_id_for_study_guide_id[study_guide_id]
+    question.update({
+        "studyGuideId": study_guide_id,
+        "topicId": topic_id_for_study_guide_id[study_guide_id]
+    })
     return question
 
 
@@ -31,11 +33,15 @@ def choose_random_question(study_guide_id_list):
     return client.select_question_by_study_guide_id(study_guide_id)
 
 
-def choose_question(study_guide_id_list, confidence_intervals_list):
+def choose_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list):
     study_guide_id = __choose_next_study_guide_id(
         study_guide_id_list, confidence_intervals_list)
-
-    return client.select_question_by_study_guide_id(study_guide_id)
+    question = client.select_question_by_study_guide_id(study_guide_id)
+    question.update({
+        "studyGuideId": study_guide_id,
+        "topicId": topic_id_for_study_guide_id[study_guide_id]
+    })
+    return question
 
 
 def __choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
