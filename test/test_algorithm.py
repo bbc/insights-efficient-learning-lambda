@@ -3,56 +3,27 @@ import pytest
 import algorithm
 
 
-def test_choose_random_study_guide_id():
-    study_guide_list = ['zc7k2nb']
-    actual_study_guide_id = algorithm.choose_random_study_guide_id(
-        study_guide_list)
-    assert actual_study_guide_id == 'zc7k2nb'
-
-
-def test_choose_random_question_by_study_guide_id(mocker):
+def test_choose_random_question_without_confidence_intervals(mocker):
     select_mock = mocker.patch('storage_client.StorageClient.select')
     select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
 
-    study_guide_id = 'zc7k2nb'
-    actual_question = algorithm.choose_random_question(study_guide_id)
-    assert actual_question == VALID_QUESTION
-
-
-def test_choose_random_next_question(mocker):
-    select_mock = mocker.patch('storage_client.StorageClient.select')
-    select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
-
-    topic_id_for_study_guide_id = {'zc7k2nb': 'z2s8v9q'}
     study_guide_id_list = ['zc7k2nb']
 
-    actual_next_question = algorithm.choose_random_next_question(
-        topic_id_for_study_guide_id, study_guide_id_list)
+    actual_question = algorithm.choose_random_question(
+        study_guide_id_list)
 
-    assert actual_next_question == NEXT_QUESTION
+    assert actual_question == NEXT_QUESTION
 
 
-def test_choose_random_question_returns_question(mocker):
+def test_choose_random_question_with_confidence_intervals(mocker):
     select_mock = mocker.patch('storage_client.StorageClient.select')
     select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
 
-    study_guide_list = ['zc7k2nb']
-
-    actual_question = algorithm.choose_random_question(study_guide_list)
-
-    assert actual_question == VALID_QUESTION
-
-
-def test_choose_question_returns_question(mocker):
-    select_mock = mocker.patch('storage_client.StorageClient.select')
-    select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
-
-    topic_id_for_study_guide_id = {'zc7k2nb': 'z2s8v9q'}
-    study_guide_list = ['zc7k2nb', 'zs8y4qt']
+    study_guide_id_list = ['zc7k2nb', 'zs8y4qt']
     confidence_intervals_list = [0.70, 0]
 
-    actual_question = algorithm.choose_question(
-        topic_id_for_study_guide_id, study_guide_list, confidence_intervals_list)
+    actual_question = algorithm.choose_random_question(
+        study_guide_id_list, confidence_intervals_list)
 
     assert actual_question == NEXT_QUESTION
 

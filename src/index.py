@@ -21,8 +21,7 @@ def handler(event, context):
 
     if not questions:
         next_question = {
-            'nextQuestion': algorithm.choose_random_next_question(
-                topic_id_for_study_guide_id, study_guide_id_list)
+            'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list)
         }
 
         return __build_response(200, next_question)
@@ -67,7 +66,7 @@ def handler(event, context):
         })
 
     next_question = {
-        'nextQuestion': algorithm.choose_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list)
+        'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list)
     }
 
     if return_results:
@@ -76,6 +75,20 @@ def handler(event, context):
         })
 
     return __build_response(200, next_question)
+
+
+def __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list=[]):
+
+    random_next_question = algorithm.choose_random_question(
+        study_guide_id_list, confidence_intervals_list)
+
+    study_guide_id = random_next_question["studyGuideId"]
+
+    random_next_question.update({
+        "topicId": topic_id_for_study_guide_id[study_guide_id]
+    })
+
+    return random_next_question
 
 
 def __initialise_score_and_attempts(list_):
