@@ -10,17 +10,19 @@ BAND3_THRESHOLD = 0.66
 CONFIDENCE_THRESHOLD = 0.6
 
 
-def choose_random_question(study_guide_id_list):
-    study_guide_id = random.choice(study_guide_id_list)
+def choose_next_question(study_guide_id_list, confidence_intervals_list=[]):
+    if not confidence_intervals_list:
+        study_guide_id = random.choice(study_guide_id_list)
+    else:
+        study_guide_id = __choose_next_study_guide_id(
+            study_guide_id_list, confidence_intervals_list)
 
-    return client.select_question_by_study_guide_id(study_guide_id)
+    question = client.select_question_by_study_guide_id(study_guide_id)
+    question.update({
+        "studyGuideId": study_guide_id
+    })
 
-
-def choose_question(study_guide_id_list, confidence_intervals_list):
-    study_guide_id = __choose_next_study_guide_id(
-        study_guide_id_list, confidence_intervals_list)
-
-    return client.select_question_by_study_guide_id(study_guide_id)
+    return question
 
 
 def __choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
@@ -114,8 +116,10 @@ def __calculate_band3_confidence(score, attempts):
 
 
 def __calculate_band2_confidence(score, attempts):
-    band_1_confidence = __calculate_cumulative_probability(BAND1_THRESHOLD, score, attempts)
-    band_1_or_2_confidence = __calculate_cumulative_probability(BAND3_THRESHOLD, score, attempts)
+    band_1_confidence = __calculate_cumulative_probability(
+        BAND1_THRESHOLD, score, attempts)
+    band_1_or_2_confidence = __calculate_cumulative_probability(
+        BAND3_THRESHOLD, score, attempts)
     return band_1_or_2_confidence - band_1_confidence
 
 
@@ -147,5 +151,6 @@ def __calculate_confident_mastery_band(mastery_score, confidence):
 
 def calculate_mastery_band_and_confidence(mastery_score, score, attempts):
     confidence = __calculate_band_confidence(mastery_score, score, attempts)
-    mastery_band = __calculate_confident_mastery_band(mastery_score, confidence)
+    mastery_band = __calculate_confident_mastery_band(
+        mastery_score, confidence)
     return mastery_band, confidence

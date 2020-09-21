@@ -3,6 +3,8 @@ import helper
 
 # pylint: disable=too-many-locals
 # pylint: disable=unused-argument
+
+
 def handler(event, context):
     try:
         topic_id_list = event['topicIds']
@@ -19,7 +21,7 @@ def handler(event, context):
 
     if not questions:
         next_question = {
-            'nextQuestion': algorithm.choose_random_question(study_guide_id_list)
+            'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list)
         }
 
         return __build_response(200, next_question)
@@ -48,7 +50,7 @@ def handler(event, context):
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
         mastery, confidence_interval = algorithm.calculate_mastery_and_confidence(
-                weighted_score, weighted_attempts)
+            weighted_score, weighted_attempts)
 
         confidence_intervals_list.append(confidence_interval)
 
@@ -64,7 +66,7 @@ def handler(event, context):
         })
 
     next_question = {
-        'nextQuestion': algorithm.choose_question(study_guide_id_list, confidence_intervals_list)
+        'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list)
     }
 
     if return_results:
@@ -73,6 +75,20 @@ def handler(event, context):
         })
 
     return __build_response(200, next_question)
+
+
+def __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list=[]):
+
+    next_question = algorithm.choose_next_question(
+        study_guide_id_list, confidence_intervals_list)
+
+    study_guide_id = next_question["studyGuideId"]
+
+    next_question.update({
+        "topicId": topic_id_for_study_guide_id[study_guide_id]
+    })
+
+    return next_question
 
 
 def __initialise_score_and_attempts(list_):
