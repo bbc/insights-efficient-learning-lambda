@@ -1,31 +1,45 @@
-from test.fixtures.questions import NEXT_QUESTION, VALID_QUESTION, VALID_QUESTION_ID_LIST
+from test.fixtures.questions import VALID_QUESTION, VALID_SINGLE_QUESTION_ID_LIST
 import pytest
 import algorithm
 
 
-def test_choose_next_question_without_confidence_intervals(mocker):
-    select_mock = mocker.patch('storage_client.StorageClient.select')
-    select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
+def test_choose_initial_question(mocker):
+    question_ids_mock = mocker.patch(
+        'storage_client.StorageClient.select_all_question_ids')
+    question_ids_mock.return_value = VALID_SINGLE_QUESTION_ID_LIST
 
+    question_mock = mocker.patch(
+        'storage_client.StorageClient.select_question_by_id')
+    question_mock.return_value = VALID_QUESTION
+
+    topic_id_for_study_guide_id = {'zc7k2nb': 'z2s8v9q'}
     study_guide_id_list = ['zc7k2nb']
 
-    actual_question = algorithm.choose_next_question(
-        study_guide_id_list)
+    actual_question = algorithm.choose_initial_question(
+        topic_id_for_study_guide_id, study_guide_id_list)
 
-    assert actual_question == NEXT_QUESTION
+    assert actual_question == VALID_QUESTION
 
 
-def test_choose_next_question_with_confidence_intervals(mocker):
-    select_mock = mocker.patch('storage_client.StorageClient.select')
-    select_mock.side_effect = [VALID_QUESTION_ID_LIST, [VALID_QUESTION]]
+def test_choose_next_question_multiple_recursions(mocker):
+    question_ids_mock = mocker.patch(
+        'storage_client.StorageClient.select_and_filter_question_ids')
+    question_ids_mock.side_effect = [[], VALID_SINGLE_QUESTION_ID_LIST]
 
+    question_mock = mocker.patch(
+        'storage_client.StorageClient.select_question_by_id')
+    question_mock.return_value = VALID_QUESTION
+
+    topic_id_for_study_guide_id = {'zc7k2nb': 'z2s8v9q', 'zs8y4qt': 'zc7k2nb'}
     study_guide_id_list = ['zc7k2nb', 'zs8y4qt']
-    confidence_intervals_list = [0.70, 0]
+    confidence_intervals_list = [0.70, 0.10]
+    question_id_list = ['abc-abc-abc-abc']
 
     actual_question = algorithm.choose_next_question(
-        study_guide_id_list, confidence_intervals_list)
+        topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list, question_id_list)
 
-    assert actual_question == NEXT_QUESTION
+    assert len(study_guide_id_list) == 2
+    assert actual_question == VALID_QUESTION
 
 
 def test_calculate_mastery_and_confidence_interval():

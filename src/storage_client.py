@@ -7,19 +7,38 @@ BUCKET = os.getenv('S3_BUCKET') or ''
 FOLDER = os.getenv('S3_FOLDER') or ''
 
 # pylint: disable=too-few-public-methods
+# pylint: disable=line-too-long
+SELECT_QUESTION_ID_LIST_EXPRESSION = "SELECT s.id FROM S3OBJECT s"
+SELECT_FILTERED_QUESTION_ID_LIST_EXPRESSION = "SELECT s.id FROM S3OBJECT s WHERE NOT s.id IN {question_id_list}"
+SELECT_QUESTION_BY_ID_EXPRESSION = "SELECT * FROM S3OBJECT s WHERE s.id='{question_id}'"
+
+
 class StorageClient:
     def __init__(self, client):
         self.client = client
 
-
-    def select_question_by_study_guide_id(self, study_guide_id):
+    def select_all_question_ids(self, study_guide_id):
         key = f'{FOLDER}/{study_guide_id}.json'
 
-        question_id_list = self.select(key, "SELECT s.id FROM S3OBJECT s")
+        return self.select(key, SELECT_QUESTION_ID_LIST_EXPRESSION)
 
-        question_id = random.choice(question_id_list)['id']
+    def select_and_filter_question_ids(self, study_guide_id, question_id_list):
+        key = f'{FOLDER}/{study_guide_id}.json'
 
-        return self.select(key, f"SELECT * FROM S3OBJECT s WHERE s.id='{question_id}'")[0]
+        return self.select(
+            key,
+            SELECT_FILTERED_QUESTION_ID_LIST_EXPRESSION.format(
+                question_id_list=question_id_list
+            )
+        )
+
+    def select_question_by_id(self, question_id, study_guide_id):
+        key = f'{FOLDER}/{study_guide_id}.json'
+
+        return self.select(
+            key,
+            SELECT_QUESTION_BY_ID_EXPRESSION.format(question_id=question_id)
+        )[0]
 
     def select(self, key, expression):
 

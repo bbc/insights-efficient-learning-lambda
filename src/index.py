@@ -19,9 +19,11 @@ def handler(event, context):
     topic_id_for_study_guide_id = helper.get_topic_id(
         study_guide_id_list)
 
+    question_id_list = []
+
     if not questions:
         next_question = {
-            'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list)
+            'nextQuestion': algorithm.choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list)
         }
 
         return __build_response(200, next_question)
@@ -34,6 +36,7 @@ def handler(event, context):
         __update_topic_score_and_attempts(topic_score_and_attempts, question)
         __update_study_guide_score_and_attempts(
             study_guide_score_and_attempts, question)
+        question_id_list.append(question['id'])
 
     results_list = []
     confidence_intervals_list = []
@@ -66,7 +69,7 @@ def handler(event, context):
         })
 
     next_question = {
-        'nextQuestion': __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list)
+        'nextQuestion': algorithm.choose_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list, question_id_list)
     }
 
     if return_results:
@@ -75,20 +78,6 @@ def handler(event, context):
         })
 
     return __build_response(200, next_question)
-
-
-def __format_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list=[]):
-
-    next_question = algorithm.choose_next_question(
-        study_guide_id_list, confidence_intervals_list)
-
-    study_guide_id = next_question["studyGuideId"]
-
-    next_question.update({
-        "topicId": topic_id_for_study_guide_id[study_guide_id]
-    })
-
-    return next_question
 
 
 def __initialise_score_and_attempts(list_):
