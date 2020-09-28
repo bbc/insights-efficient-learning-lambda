@@ -19,4 +19,4 @@ Resources:
         Variables:
           S3_BUCKET: ''
           S3_FOLDER: ''
-  
+          S3_CONFIG: ''
