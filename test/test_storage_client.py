@@ -1,6 +1,8 @@
 from test.fixtures.storage_client import VALID_SELECT_RESPONSE, INVALID_BINARY_SELECT_RESPONSE, \
     VALID_SELECT_PARSED_RESPONSE, NO_RECORDS_SELECT_RESPONSE
 from test.fixtures.questions import VALID_QUESTION, VALID_SINGLE_QUESTION_ID_LIST
+from test.fixtures.config import STUDY_GUIDES_IDS_PER_TOPIC_ID, TOPIC_ID_PER_STUDY_GUIDE_ID
+
 import boto3
 import pytest
 from botocore.exceptions import ClientError, ParamValidationError
@@ -132,3 +134,29 @@ def test_select_question_by_id(mocker):
     select_mock.assert_called_with(
         'test_folder/zc7k2nb.json', "SELECT * FROM S3OBJECT s WHERE s.id='1'")
     assert actual_question == VALID_QUESTION
+
+def test_get_study_guide_ids_per_topic_ids(mocker):
+    mocker.patch('storage_client.BUCKET', "test_bucket")
+    mocker.patch('storage_client.CONFIG_FOLDER', "test_config")
+
+    select_mock = mocker.patch.object(storage_client, 'get_file')
+    select_mock.return_value = STUDY_GUIDES_IDS_PER_TOPIC_ID
+
+    results = storage_client.get_study_guide_ids_per_topic_ids()
+
+    select_mock.assert_called_with(
+        'test_config/STUDY_GUIDES_IDS_PER_TOPIC_ID.json')
+    assert results == STUDY_GUIDES_IDS_PER_TOPIC_ID
+
+def test_get_topic_id_per_study_guide_id(mocker):
+    mocker.patch('storage_client.BUCKET', "test_bucket")
+    mocker.patch('storage_client.CONFIG_FOLDER', "test_config")
+
+    select_mock = mocker.patch.object(storage_client, 'get_file')
+    select_mock.return_value = TOPIC_ID_PER_STUDY_GUIDE_ID
+
+    results = storage_client.get_topic_id_per_study_guide_id()
+
+    select_mock.assert_called_with(
+        'test_config/TOPIC_ID_PER_STUDY_GUIDE_ID.json')
+    assert results == TOPIC_ID_PER_STUDY_GUIDE_ID

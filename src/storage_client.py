@@ -5,6 +5,7 @@ from botocore.exceptions import ClientError, ParamValidationError
 
 BUCKET = os.getenv('S3_BUCKET') or ''
 FOLDER = os.getenv('S3_FOLDER') or ''
+CONFIG_FOLDER = os.getenv('S3_CONFIG') or ''
 
 # pylint: disable=too-few-public-methods
 # pylint: disable=line-too-long
@@ -64,6 +65,24 @@ class StorageClient:
             raise Exception(
                 f'[S3 CLIENT ERROR]: An error occurred, No Records found in response from S3 with key: {key} and expression: {expression}')
 
+    def get_file(self, file_name): 
+        try:   
+            response = self.client.get_object(
+                Bucket=BUCKET,
+                Key=file_name
+            )
+            data = json.loads(response["Body"].read().decode())
+            return data
+        except error:
+            raise Exception(f'[ERROR]: {error}')
+
+    def get_study_guide_ids_per_topic_ids(self):
+        study_guide_ids_per_topic_ids = self.get_file(f'{CONFIG_FOLDER}/STUDY_GUIDES_IDS_PER_TOPIC_ID.json')
+        return study_guide_ids_per_topic_ids
+
+    def get_topic_id_per_study_guide_id(self):
+        topic_id_per_study_guide_id = self.get_file(f'{CONFIG_FOLDER}/TOPIC_ID_PER_STUDY_GUIDE_ID.json')
+        return topic_id_per_study_guide_id
 
 def _convert_binary_to_json(binary):
     # remove trailing comma, add array brackets and convert to string
