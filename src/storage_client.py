@@ -65,15 +65,16 @@ class StorageClient:
             raise Exception(
                 f'[S3 CLIENT ERROR]: An error occurred, No Records found in response from S3 with key: {key} and expression: {expression}')
 
-    def get_file(self, file_name):    
-        response = self.client.get_object(
-            Bucket=BUCKET,
-            Key=file_name
-        )
-        
-        data = json.loads(response["Body"].read().decode())
-
-        return data
+    def get_file(self, file_name): 
+        try:   
+            response = self.client.get_object(
+                Bucket=BUCKET,
+                Key=file_name
+            )
+            data = json.loads(response["Body"].read().decode())
+            return data
+        except error:
+            raise Exception(f'[ERROR]: {error}')
 
     def get_study_guide_ids_per_topic_ids(self):
         study_guide_ids_per_topic_ids = self.get_file(f'{CONFIG_FOLDER}/STUDY_GUIDES_IDS_PER_TOPIC_ID.json')
