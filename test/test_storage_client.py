@@ -5,6 +5,8 @@ from test.fixtures.config import STUDY_GUIDES_IDS_PER_TOPIC_ID, TOPIC_ID_PER_STU
 
 import boto3
 import pytest
+import io
+import json
 from botocore.exceptions import ClientError, ParamValidationError
 from storage_client import StorageClient
 
@@ -160,3 +162,28 @@ def test_get_topic_id_per_study_guide_id(mocker):
     select_mock.assert_called_with(
         'test_config/TOPIC_ID_PER_STUDY_GUIDE_ID.json')
     assert results == TOPIC_ID_PER_STUDY_GUIDE_ID
+
+def test_get_file_returns_data(mocker):
+    json_body = io.BytesIO(json.dumps('json_body').encode())
+
+    select_mock = mocker.patch.object(storage_client.client, 'get_object')
+    select_mock.side_effect = [{"Body": json_body}]
+
+    valid_key = 'valid_filename'
+
+    assert storage_client.get_file(valid_key) == 'json_body'
+
+def test_get_file_raises_exceptions_with_invalid_key(mocker):
+
+    invalid_key_error = 'An error occurred (InvalidAccessKeyId) when calling the GetObject operation: The AWS Access Key Id you provided does not exist in our records.'
+
+    get_object_mock = mocker.patch.object(s3, 'get_object')
+    get_object_mock.side_effect = Exception(invalid_key_error)
+
+    invalid_key = 'invalid_filename'
+
+    with pytest.raises(Exception) as error:
+        storage_client.get_file(invalid_key)
+
+    assert str(
+        error.value) == f"[S3 CLIENT ERROR]: {invalid_key_error}"

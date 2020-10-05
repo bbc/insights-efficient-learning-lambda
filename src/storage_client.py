@@ -71,10 +71,10 @@ class StorageClient:
                 Bucket=BUCKET,
                 Key=file_name
             )
-            data = json.loads(response["Body"].read().decode())
+            data = json.loads(response["Body"].read().decode('UTF-8'))
             return data
-        except error:
-            raise Exception(f'[ERROR]: {error}')
+        except Exception as error:
+            raise Exception(f'[S3 CLIENT ERROR]: {error}')
 
     def get_study_guide_ids_per_topic_ids(self):
         study_guide_ids_per_topic_ids = self.get_file(f'{CONFIG_FOLDER}/STUDY_GUIDES_IDS_PER_TOPIC_ID.json')
