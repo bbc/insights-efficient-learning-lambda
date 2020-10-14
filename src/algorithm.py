@@ -150,12 +150,12 @@ def __5th_percentile_equation(mastery, score, attempts):
 
 def __calculate_5th_percentile(score, attempts):
     return fsolve(__5th_percentile_equation, x0=0,
-                  args=(score, attempts), xtol=0.1)
+                  args=(score, attempts), xtol=0.1)[0]
 
 
 def __calculate_95th_percentile(score, attempts):
     return fsolve(__95th_percentile_equation, x0=1,
-                  args=(score, attempts), xtol=0.1)
+                  args=(score, attempts), xtol=0.1)[0]
 
 
 def __95th_percentile_equation(mastery, score, attempts):
