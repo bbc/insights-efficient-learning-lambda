@@ -170,3 +170,160 @@ VALID_QUESTION_RESPONSE_WITH_RESULTS = {
 VALID_SINGLE_QUESTION_ID_LIST = [{
     "id": "1"
 }]
+
+REPEATABLE_RESULTS = [
+    {
+      "studyGuideId": "z9vrjty",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 43.243243243601505,
+      "confidenceScore": 53.670226553980136
+    },
+    {
+      "studyGuideId": "zxtscj6",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 39.09465020636277,
+      "confidenceScore": 49.24457647039768
+    },
+    {
+      "studyGuideId": "zcpxfcw",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 66.93548387507578,
+      "confidenceScore": 56.09365941850655
+    },
+    {
+      "studyGuideId": "zsfpb82",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 43.243243243601505,
+      "confidenceScore": 53.670226553980136
+    },
+    {
+      "studyGuideId": "zpk2srd",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 52.32558139681658,
+      "confidenceScore": 58.065867942003216
+    },
+    {
+      "studyGuideId": "zxmmsrd",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 39.09465020636277,
+      "confidenceScore": 49.24457647039768
+    },
+    {
+      "studyGuideId": "zy98msg",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 39.09465020636277,
+      "confidenceScore": 49.24457647039768
+    },
+    {
+      "studyGuideId": "zgmpgdm",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 43.243243243601505,
+      "confidenceScore": 53.670226553980136
+    },
+    {
+      "studyGuideId": "zscrw6f",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 32.89473684415434,
+      "confidenceScore": 56.21892790706553
+    },
+    {
+      "studyGuideId": "z2ty97h",
+      "topicId": "zcj78mn",
+      "band": 2,
+      "masteryScore": 43.243243243601505,
+      "confidenceScore": 53.670226553980136
+    },
+    {
+      "studyGuideId": "zgcrxfr",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 38.70967715397743,
+      "confidenceScore": 42.91140524345732
+    },
+    {
+      "studyGuideId": "zwbyjty",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 57.40740688263869,
+      "confidenceScore": 43.324247389029914
+    },
+    {
+      "studyGuideId": "zqsxrwx",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 44.82758608559743,
+      "confidenceScore": 45.98973602199733
+    },
+    {
+      "studyGuideId": "z8npk2p",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 38.70967715397743,
+      "confidenceScore": 42.91140524345732
+    },
+    {
+      "studyGuideId": "zg9rxfr",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 44.82758608559743,
+      "confidenceScore": 45.98973602199733
+    },
+    {
+      "studyGuideId": "z3fsdxs",
+      "topicId": "zxsyh39",
+      "band": 2,
+      "masteryScore": 46.11872134629721,
+      "confidenceScore": 51.74424069388891
+    },
+    {
+      "studyGuideId": "z9nr6yc",
+      "topicId": "z398rwx",
+      "band": 3,
+      "masteryScore": 69.85294107719447,
+      "confidenceScore": 61.99031206180028
+    },
+    {
+      "studyGuideId": "zsf9pbk",
+      "topicId": "z398rwx",
+      "band": 3,
+      "masteryScore": 69.85294107719447,
+      "confidenceScore": 61.99031206180028
+    },
+    {
+      "studyGuideId": "z2rmrwx",
+      "topicId": "z398rwx",
+      "band": 2,
+      "masteryScore": 62.499999734342296,
+      "confidenceScore": 37.53504465704821
+    },
+    {
+      "studyGuideId": "z2jndxs",
+      "topicId": "z398rwx",
+      "band": 3,
+      "masteryScore": 69.85294107719447,
+      "confidenceScore": 61.99031206180028
+    },
+    {
+      "studyGuideId": "ztr7b82",
+      "topicId": "z398rwx",
+      "band": 2,
+      "masteryScore": 62.499999734342296,
+      "confidenceScore": 37.53504465704821
+    },
+    {
+      "studyGuideId": "z3h4h39",
+      "topicId": "z398rwx",
+      "band": 2,
+      "masteryScore": 57.251908610875404,
+      "confidenceScore": 47.393644491353804
+    }
+  ]

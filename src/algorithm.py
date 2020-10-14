@@ -1,6 +1,7 @@
 import random
 import boto3
 import numpy as np
+from scipy.optimize import fsolve
 from scipy.stats import beta
 from storage_client import StorageClient
 
@@ -82,12 +83,10 @@ def calculate_weighted_score_and_attempts(
     average_topic_mastery = __calculate_beta_distribution_mean(
         topic_score, topic_attempts)
 
-    study_guide_samples = __generate_random_samples(
-        study_guide_score, study_guide_attempts)
-    topic_samples = __generate_random_samples(topic_score, topic_attempts)
-
     study_guide_weighting = __calculate_thompson_sampling(
-        study_guide_samples, topic_samples)
+        study_guide_score, study_guide_attempts,
+        topic_score, topic_attempts)
+
     if average_study_guide_mastery < average_topic_mastery:
         study_guide_weighting = (1 - study_guide_weighting)
 
@@ -106,10 +105,8 @@ def calculate_mastery_and_confidence(
     mastery = __calculate_beta_distribution_mean(
         weighted_score, weighted_attempts)
 
-    weighted_samples = __generate_random_samples(
+    confidence_interval = __calculate_confidence_interval(
         weighted_score, weighted_attempts)
-
-    confidence_interval = __calculate_confidence_interval(weighted_samples)
 
     return mastery, confidence_interval
 
@@ -118,12 +115,28 @@ def __calculate_beta_distribution_mean(score, attempts):
     return (score + 1) / ((score + 1) + (attempts + 1 - score))
 
 
-def __generate_random_samples(score, attempts):
-    return beta.rvs((score + 1), ((attempts - score) + 1), size=1000)
+def __thompson_sampling_integrand(mastery, study_guide_score, study_guide_attempts,
+                         topic_score, topic_attempts):
+
+    topic_ability_equals_mastery = beta.pdf(
+        mastery, 1 + topic_score, 1 + topic_attempts - topic_score)
+
+    study_guide_ability_exceeds_mastery = \
+        1 - __calculate_cumulative_probability(
+            mastery, study_guide_score, study_guide_attempts)
+
+    return study_guide_ability_exceeds_mastery * topic_ability_equals_mastery
 
 
-def __calculate_thompson_sampling(sample1, sample2):
-    return np.mean(sample1 > sample2)
+def __calculate_thompson_sampling(study_guide_score, study_guide_attempts,
+                                  topic_score, topic_attempts):
+
+    trapezium_edge_points = np.linspace(0, 1, 100)
+    trapezium_heights = __thompson_sampling_integrand(
+        trapezium_edge_points, study_guide_score, study_guide_attempts,
+        topic_score, topic_attempts)
+
+    return np.trapz(y=trapezium_heights, x=trapezium_edge_points)
 
 
 def __calculate_weighted_value(weighting, study_guide_value, topic_value):
@@ -131,8 +144,28 @@ def __calculate_weighted_value(weighting, study_guide_value, topic_value):
         + (1 - weighting) * topic_value
 
 
-def __calculate_confidence_interval(samples):
-    return np.percentile(samples, 95) - np.percentile(samples, 5)
+def __5th_percentile_equation(mastery, score, attempts):
+    return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.05
+
+
+def __calculate_5th_percentile(score, attempts):
+    return fsolve(__5th_percentile_equation, x0=0,
+                  args=(score, attempts), xtol=0.1)
+
+
+def __calculate_95th_percentile(score, attempts):
+    return fsolve(__95th_percentile_equation, x0=1,
+                  args=(score, attempts), xtol=0.1)
+
+
+def __95th_percentile_equation(mastery, score, attempts):
+    return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
+
+
+def __calculate_confidence_interval(score, attempts):
+    _95th_percentile = __calculate_95th_percentile(score, attempts)
+    _5th_percentile = __calculate_5th_percentile(score, attempts)
+    return _95th_percentile - _5th_percentile
 
 
 def __calculate_cumulative_probability(mastery_threshold, score, attempts):
