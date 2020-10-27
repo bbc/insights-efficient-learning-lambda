@@ -27,6 +27,11 @@
         }
     },
     "Parameters": {
+        "ConfigFolder": {
+            "Default": "config/",
+            "Description": "Location of the config in the S3 bucket",
+            "Type": "String"
+        },
         "LambdaEnv": {
             "Default": "test",
             "Description": "Environment this lambda represents - used for alias name",
@@ -98,6 +103,11 @@
         "QuestionsBucket": {
             "Description": "ARN of the bucket where the questions are stored",
             "Type": "String"
+        },
+        "QuestionsFolder": {
+            "Default": "questions/",
+            "Description": "Location of the questions in the S3 bucket",
+            "Type": "String"
         }
     },
     "Resources": {
@@ -107,12 +117,26 @@
                     "ZipFile": "$LATEST"
                 },
                 "Description": "Lambda returns quizz questions and mastery scores ",
+                "Environment": {
+                    "Variables": {
+                        "S3_BUCKET": {
+                            "Ref": "QuestionsBucket"
+                        },
+                        "S3_CONFIG": {
+                            "Ref": "ConfigFolder"
+                        },
+                        "S3_FOLDER": {
+                            "Ref": "QuestionsFolder"
+                        }
+                    }
+                },
                 "FunctionName": "EfficientLearningFunction",
                 "Handler": "index.handler",
                 "Layers": [
                     {
                         "Ref": "PythonLayer"
-                    }
+                    },
+                    "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:1"
                 ],
                 "MemorySize": {
                     "Ref": "LambdaMemorySize"
