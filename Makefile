@@ -24,6 +24,10 @@ test: venv
 	. venv/bin/activate; \
 	pytest -s --cov=src/ test/ --cov-report term-missing -v
 
+load-test: 
+	npm i artillery
+	artillery run -e test test/loadtest/quizzes.yaml
+
 build-lambda: venv
 	. venv/bin/activate; \
 	sam build -m requirements.txt --use-container

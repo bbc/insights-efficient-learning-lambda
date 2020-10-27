@@ -20,7 +20,7 @@ memorySize = template.add_parameter(Parameter(
     'LambdaMemorySize',
     Type=NUMBER,
     Description='Amount of memory to allocate to the Lambda Function',
-    Default='128',
+    Default='256',
     AllowedValues=MEMORY_VALUES
 ))
 

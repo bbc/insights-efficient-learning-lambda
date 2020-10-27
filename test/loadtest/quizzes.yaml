@@ -1,0 +1,30 @@
+config:
+    environments:
+        live:
+          target: "https://bitesize.api.bbci.co.uk"
+          phases:
+            - duration: 120
+              arrivalRate: 20
+        test:
+          target: "https://bitesize.test.api.bbci.co.uk"
+          phases:
+            - duration: 600
+              arrivalRate: 20
+    defaults:
+      headers:
+        x-api-key: "gyJA7CAmNW7S43zF2BArI9FhTGzxG0ehmfEKGI8c"
+scenarios:
+    - flow:
+        - post:
+            url: "/quizzes"
+            body: "{\n  \"subjectId\": \"z9ddmp3\",\n  \"examSpecId\": \"zpgcbk7\",\n  \"returnResults\": false,\n  \"topicIds\": [\n    \"zgws7p3\",\n    \"z2s8v9q\",\n    \"zxfd3k7\"\n  ],\n  \"questions\": []\n}"
+            capture:
+                -   json: "$.nextQuestion.id"
+                    as: "id"
+                -   json: "$.nextQuestion.topicId"
+                    as: "topicId"
+                -   json: "$.nextQuestion.studyGuideId"
+                    as: "studyGuideId"
+        - post:
+            url: "/quizzes"
+            body: "{\n  \"subjectId\": \"z9ddmp3\",\n  \"examSpecId\": \"zpgcbk7\",\n  \"returnResults\": false,\n  \"topicIds\": [\n    \"zgws7p3\",\n    \"z2s8v9q\",\n    \"zxfd3k7\"\n  ],\n  \"questions\": [{ \"id\": \"{{ id }}\",\n \"isCorrect\": false,\n \"topicId\": \"{{ topicId }}\",\n \"studyGuideId\": \"{{ studyGuideId }}\" }\n]\n}"
