@@ -30,6 +30,12 @@ questionsBucket = template.add_parameter(Parameter(
     Description='ARN of the bucket where the questions are stored'
 ))
 
+questionsBucketName = template.add_parameter(Parameter(
+    'QuestionsBucketName',
+    Type=STRING,
+    Description='Bucket name (minus ARN)',
+))
+
 pythonLayer = template.add_parameter(Parameter(
     "PythonLayer",
     Default="arn:aws:lambda:eu-west-1:399891621064:layer:AWSLambda-Python37-SciPy1x:37",
@@ -112,7 +118,7 @@ efficientLearningFunction = template.add_resource(Function(
     Runtime="python3.7",
     Environment=Environment(
         Variables={
-            "S3_BUCKET": Ref(questionsBucket),
+            "S3_BUCKET": Ref(questionsBucketName),
             "S3_CONFIG": Ref(configFolder),
             "S3_FOLDER": Ref(questionsFolder)
         }
