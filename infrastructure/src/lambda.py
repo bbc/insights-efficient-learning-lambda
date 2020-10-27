@@ -46,14 +46,14 @@ env = template.add_parameter(Parameter(
 
 questionsFolder = template.add_parameter(Parameter(
     "QuestionsFolder",
-    Default="questions/",
+    Default="quizzes/questions",
     Description="Location of the questions in the S3 bucket",
     Type="String",
 ))
 
 configFolder = template.add_parameter(Parameter(
     "ConfigFolder",    
-    Default="config/",
+    Default="quizzes/config",
     Description="Location of the config in the S3 bucket",
     Type="String",
 ))

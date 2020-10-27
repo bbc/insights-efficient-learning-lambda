@@ -28,7 +28,7 @@
     },
     "Parameters": {
         "ConfigFolder": {
-            "Default": "config/",
+            "Default": "quizzes/config",
             "Description": "Location of the config in the S3 bucket",
             "Type": "String"
         },
@@ -105,7 +105,7 @@
             "Type": "String"
         },
         "QuestionsFolder": {
-            "Default": "questions/",
+            "Default": "quizzes/questions",
             "Description": "Location of the questions in the S3 bucket",
             "Type": "String"
         }
