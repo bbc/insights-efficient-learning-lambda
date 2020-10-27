@@ -1,6 +1,6 @@
 from troposphere import Template, Output, Ref, GetAtt, Parameter, Join, Export
 from troposphere.constants import NUMBER, STRING
-from troposphere.awslambda import Function, Code, MEMORY_VALUES, EventSourceMapping, Alias
+from troposphere.awslambda import Function, Code, MEMORY_VALUES, EventSourceMapping, Alias, Environment
 from troposphere.iam import Role, Policy
 
 FUNCTION_NAME="EfficientLearningFunction"
@@ -41,6 +41,20 @@ env = template.add_parameter(Parameter(
     "LambdaEnv",
     Default="test",
     Description="Environment this lambda represents - used for alias name",
+    Type="String",
+))
+
+questionsFolder = template.add_parameter(Parameter(
+    "QuestionsFolder",
+    Default="quizzes/questions",
+    Description="Location of the questions in the S3 bucket",
+    Type="String",
+))
+
+configFolder = template.add_parameter(Parameter(
+    "ConfigFolder",    
+    Default="quizzes/config",
+    Description="Location of the config in the S3 bucket",
     Type="String",
 ))
 
@@ -92,9 +106,17 @@ efficientLearningFunction = template.add_resource(Function(
     Handler="index.handler",
     Role=GetAtt(lambdaExecutionRole, "Arn"),
     Layers=[
-        Ref(pythonLayer)
+        Ref(pythonLayer),
+        "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:1"
     ],
     Runtime="python3.7",
+    Environment=Environment(
+        Variables={
+            "S3_BUCKET": Ref(questionsBucket),
+            "S3_CONFIG": Ref(configFolder),
+            "S3_FOLDER": Ref(questionsFolder)
+        }
+    ),
     MemorySize=Ref(memorySize),
     Timeout=Ref(timeout),
     Code=Code(
