@@ -104,6 +104,10 @@
             "Description": "ARN of the bucket where the questions are stored",
             "Type": "String"
         },
+        "QuestionsBucketName": {
+            "Description": "Bucket name (minus ARN)",
+            "Type": "String"
+        },
         "QuestionsFolder": {
             "Default": "quizzes/questions",
             "Description": "Location of the questions in the S3 bucket",
@@ -120,7 +124,7 @@
                 "Environment": {
                     "Variables": {
                         "S3_BUCKET": {
-                            "Ref": "QuestionsBucket"
+                            "Ref": "QuestionsBucketName"
                         },
                         "S3_CONFIG": {
                             "Ref": "ConfigFolder"
