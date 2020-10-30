@@ -1,11 +1,12 @@
 import random
 import boto3
 import numpy as np
+from botocore import client
 from scipy.optimize import fsolve
 from scipy.stats import beta
 from storage_client import StorageClient
 
-client = StorageClient(boto3.client('s3'))
+client = StorageClient(boto3.client('s3', config=client.Config(max_pool_connections=50)))
 BAND1_THRESHOLD = 0.34
 BAND3_THRESHOLD = 0.66
 CONFIDENCE_THRESHOLD = 0.6
