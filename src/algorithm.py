@@ -1,11 +1,12 @@
 import random
 import boto3
 import numpy as np
+from botocore import client
 from scipy.optimize import fsolve
 from scipy.stats import beta
 from storage_client import StorageClient
 
-client = StorageClient(boto3.client('s3'))
+client = StorageClient(boto3.client('s3', config=client.Config(max_pool_connections=50)))
 BAND1_THRESHOLD = 0.34
 BAND3_THRESHOLD = 0.66
 CONFIDENCE_THRESHOLD = 0.6
@@ -29,6 +30,7 @@ def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
 
 
 def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list, question_id_list):
+    
     study_guide_id = __choose_next_study_guide_id(
         study_guide_id_list, confidence_intervals_list)
 
