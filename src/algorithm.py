@@ -7,14 +7,12 @@ from scipy.stats import beta
 from storage_client import StorageClient
 
 client = StorageClient(boto3.client('s3', config=client.Config(max_pool_connections=50)))
-cached = ''
 BAND1_THRESHOLD = 0.34
 BAND3_THRESHOLD = 0.66
 CONFIDENCE_THRESHOLD = 0.6
 
 
 def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
-    cached = 'initial cache value'
     study_guide_id = random.choice(study_guide_id_list)
 
     question_id_list = client.select_all_question_ids(study_guide_id)
