@@ -137,6 +137,7 @@ def test_select_question_by_id(mocker):
         'test_folder/zc7k2nb.json', "SELECT * FROM S3OBJECT s WHERE s.id='1'")
     assert actual_question == VALID_QUESTION
 
+
 def test_get_study_guide_ids_per_topic_ids(mocker):
     mocker.patch('storage_client.BUCKET', "test_bucket")
     mocker.patch('storage_client.CONFIG_FOLDER', "test_config")
@@ -149,6 +150,7 @@ def test_get_study_guide_ids_per_topic_ids(mocker):
     select_mock.assert_called_with(
         'test_config/STUDY_GUIDES_IDS_PER_TOPIC_ID.json')
     assert results == STUDY_GUIDES_IDS_PER_TOPIC_ID
+
 
 def test_get_topic_id_per_study_guide_id(mocker):
     mocker.patch('storage_client.BUCKET', "test_bucket")
@@ -163,6 +165,7 @@ def test_get_topic_id_per_study_guide_id(mocker):
         'test_config/TOPIC_ID_PER_STUDY_GUIDE_ID.json')
     assert results == TOPIC_ID_PER_STUDY_GUIDE_ID
 
+
 def test_get_file_returns_data(mocker):
     json_body = io.BytesIO(json.dumps('json_body').encode())
 
@@ -172,6 +175,7 @@ def test_get_file_returns_data(mocker):
     valid_key = 'valid_filename'
 
     assert storage_client.get_file(valid_key) == 'json_body'
+
 
 def test_get_file_raises_exceptions_with_invalid_key(mocker):
 

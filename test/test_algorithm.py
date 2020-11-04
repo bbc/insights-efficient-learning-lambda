@@ -88,4 +88,3 @@ def test_thompson_sampling_integral_returns_correct_values():
 
     actual_weighting = algorithm.__calculate_thompson_sampling(2, 2, 1, 3)
     assert actual_weighting == pytest.approx(0.886, abs=0.001)
-

@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='efficient-learning-lambda',
-    version='1.7.4',
+    version='1.7.5',
     license='',
     description='Python Lambda which fetches Questions for Quizzes and Evaluates Results.',
     packages=find_packages('src'),
