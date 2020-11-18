@@ -24,6 +24,10 @@ test: venv
 	. venv/bin/activate; \
 	pytest -s --cov=src/ test/ --cov-report term-missing -v
 
+docstring_test: venv
+	. venv/bin/activate; \
+	pytest -s test/test_docstrings.py -v -m docstring_test
+
 load-test: 
 	npm i artillery
 	artillery run -e test test/loadtest/quizzes.yaml

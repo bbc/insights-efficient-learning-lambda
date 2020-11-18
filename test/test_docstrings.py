@@ -1,7 +1,10 @@
+import pytest
+
 from docstrings import _add_docstring
 import algorithm
 
 
+@pytest.mark.docstring_test
 def test_docstring_added():
     def function_without_docstring():
         return None
@@ -12,5 +15,6 @@ def test_docstring_added():
     assert function_with_docstring.__doc__ == 'a docstring'
 
 
+@pytest.mark.docstring_test
 def test_calculate_weighted_score_and_attempts_has_docstring():
     assert algorithm.calculate_weighted_score_and_attempts.__doc__ is not None
