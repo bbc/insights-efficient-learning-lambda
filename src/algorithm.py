@@ -206,6 +206,7 @@ def _calculate_band2_confidence(score, attempts):
 
 
 @docstrings._calculate_band_confidence
+@validation._calculate_band_confidence
 def _calculate_band_confidence(mastery_score, score, attempts):
     band = _place_mastery_in_band(mastery_score)
     if band == 1:

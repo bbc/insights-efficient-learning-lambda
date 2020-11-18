@@ -395,3 +395,92 @@ def test_calculate_beta_distribution_mean_score_lt_attempts():
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"{score} > {attempts} : score should be less than or equal to attempts"
+
+
+# --------------------------------------------------------
+# Validation tests on algorithm._calculate_band_confidence
+# --------------------------------------------------------
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_mastery_is_float():
+    mastery_score, score, attempts = '0.7', 1., 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_score_is_float():
+    mastery_score, score, attempts = 0.7, '1', 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"score should be a float, a {score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_attempts_is_float():
+    mastery_score, score, attempts = 0.7, 1., '1'
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"attempts should be a float, a {attempts.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_mastery_score_in_0_to_1():
+    mastery_score, score, attempts = -0.7, 1., 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"unexpected value encountered : mastery_score should be in the interval [0, 1]"
+
+    mastery_score, score, attempts = 7., 1., 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"unexpected value encountered : mastery_score should be in the interval [0, 1]"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_score_is_non_negative():
+    mastery_score, score, attempts = 0.7, -1., 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{score} < 0 : score should be non-negative"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_attempts_is_non_negative():
+    mastery_score, score, attempts = 0.7, 1., -1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{attempts} < 0 : attempts should be non-negative"
+
+
+@pytest.mark.validation_calculate_band_confidence
+def test_calculate_band_confidence_score_lt_attempts():
+    mastery_score, score, attempts = 0.7, 2., 1.
+    try:
+        algorithm._calculate_band_confidence(mastery_score, score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{score} > {attempts} : score should be less than or equal to attempts"
