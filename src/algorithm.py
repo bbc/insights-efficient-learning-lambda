@@ -5,6 +5,7 @@ from botocore import client
 from scipy.optimize import fsolve
 from scipy.stats import beta
 from storage_client import StorageClient
+import docstrings
 
 client = StorageClient(boto3.client('s3', config=client.Config(max_pool_connections=50)))
 BAND1_THRESHOLD = 0.34
@@ -72,6 +73,7 @@ def _choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
     return np.random.choice(a=study_guide_id_list, p=probabilities_list)
 
 
+@docstrings._convert_confidence_interval_into_probability
 def _convert_confidence_interval_into_probability(confidence_intervals):
     probabilities_list = [confidence_interval **
                           8 for confidence_interval in confidence_intervals]
@@ -83,6 +85,7 @@ def _normalise_list(list_):
     return [element / sum(list_) for element in list_]
 
 
+@docstrings.calculate_weighted_score_and_attempts
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
     average_study_guide_mastery = _calculate_beta_distribution_mean(
@@ -118,6 +121,7 @@ def calculate_mastery_and_confidence(
     return mastery, confidence_interval
 
 
+@docstrings._calculate_beta_distribution_mean
 def _calculate_beta_distribution_mean(score, attempts):
     return (score + 1) / ((score + 1) + (attempts + 1 - score))
 
@@ -169,6 +173,7 @@ def _95th_percentile_equation(mastery, score, attempts):
     return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
 
 
+@docstrings._calculate_confidence_interval
 def _calculate_confidence_interval(score, attempts):
     _95th_percentile = _calculate_95th_percentile(score, attempts)
     _5th_percentile = _calculate_5th_percentile(score, attempts)
@@ -195,6 +200,7 @@ def _calculate_band2_confidence(score, attempts):
     return band_1_or_2_confidence - band_1_confidence
 
 
+@docstrings._calculate_band_confidence
 def _calculate_band_confidence(mastery_score, score, attempts):
     band = _place_mastery_in_band(mastery_score)
     if band == 1:
@@ -205,6 +211,7 @@ def _calculate_band_confidence(mastery_score, score, attempts):
         return _calculate_band2_confidence(score, attempts)
 
 
+@docstrings._place_mastery_in_band
 def _place_mastery_in_band(mastery_score):
     if mastery_score < BAND1_THRESHOLD:
         return 1
@@ -214,6 +221,7 @@ def _place_mastery_in_band(mastery_score):
         return 2
 
 
+@docstrings._calculate_confident_mastery_band
 def _calculate_confident_mastery_band(mastery_score, confidence):
     if confidence > CONFIDENCE_THRESHOLD:
         return _place_mastery_in_band(mastery_score)
