@@ -63,3 +63,24 @@ def _calculate_confidence_interval(undecorated_function):
             weighted_score, weighted_attempts)
 
     return validate_calculate_confidence_interval
+
+
+def _convert_confidence_interval_into_probability(undecorated_function):
+    def validate_confidence_interval_into_probability(
+            confidence_intervals_list):
+
+        if not isinstance(confidence_intervals_list, list):
+            raise TypeError(f"confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided")
+
+        for confidence_interval in confidence_intervals_list:
+            if not is_float_like(confidence_interval):
+                raise TypeError(f"unexpected type encountered in confidence_intervals_list : expected float, got {confidence_interval.__class__.__name__}")
+            if confidence_interval < 0:
+                raise ValueError(f"{confidence_interval} < 0 : all confidence intervals should be non-negative")
+
+
+        return undecorated_function(
+            confidence_intervals_list
+        )
+
+    return validate_confidence_interval_into_probability

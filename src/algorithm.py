@@ -75,6 +75,7 @@ def _choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
 
 
 @docstrings._convert_confidence_interval_into_probability
+@validation._convert_confidence_interval_into_probability
 def _convert_confidence_interval_into_probability(confidence_intervals):
     probabilities_list = [confidence_interval **
                           8 for confidence_interval in confidence_intervals]
@@ -175,12 +176,12 @@ def _95th_percentile_equation(mastery, score, attempts):
     return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
 
 
-@validation._calculate_confidence_interval
 @docstrings._calculate_confidence_interval
+@validation._calculate_confidence_interval
 def _calculate_confidence_interval(score, attempts):
     _95th_percentile = _calculate_95th_percentile(score, attempts)
     _5th_percentile = _calculate_5th_percentile(score, attempts)
-    return _95th_percentile - _5th_percentile
+    return float(_95th_percentile - _5th_percentile)
 
 
 def _calculate_cumulative_probability(mastery_threshold, score, attempts):

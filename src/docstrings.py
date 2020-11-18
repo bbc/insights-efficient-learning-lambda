@@ -111,12 +111,12 @@ list of probabilities associated with each of the study guides. These should be 
 
 Raises
 ------
-TypeeError : confidence_intervals_list should be a list
+TypeError : confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided
     when confidence_intervals is not a list
-TypeError : unexpected type encountered in confidence_intervals_list
+TypeError : unexpected type encountered in confidence_intervals_list : expected float, got {confidence_interval.__class__.__name__}
     when non-float value exists in confidence_intervals
 
-ValueError : unexpected value encountered in confidence_intervals_list, all confidenceintervals should be positive
+ValueError : {confidence_interval} < 0 : all confidence intervals should be non-negative
     when negative value encountered in confidence_intervals_list
 """
     return _add_docstring(function, docstring)

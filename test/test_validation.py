@@ -265,3 +265,44 @@ def test_calculate_confidence_interval_weighted_score_lt_attempts():
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"{weighted_score} > {weighted_attempts} : weighted_score should be less than or equal to weighted_attempts"
+
+
+# ---------------------------------------------------------------------------
+# Validation tests on algorithm._convert_confidence_interval_into_probability
+# ---------------------------------------------------------------------------
+
+@pytest.mark.validation_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_receives_list():
+    confidence_intervals_list = {1, 1, 3}
+    try:
+        algorithm._convert_confidence_interval_into_probability(
+            confidence_intervals_list)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_contains_floats():
+    confidence_intervals_list = [1., '1', 3]
+    try:
+        algorithm._convert_confidence_interval_into_probability(
+            confidence_intervals_list)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"unexpected type encountered in confidence_intervals_list : expected float, got {'1'.__class__.__name__}"
+
+
+@pytest.mark.validation_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_contains_floats():
+    confidence_intervals_list = [1., -1, 3]
+    try:
+        algorithm._convert_confidence_interval_into_probability(
+            confidence_intervals_list)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"-1 < 0 : all confidence intervals should be non-negative"
+
