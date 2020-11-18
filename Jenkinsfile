@@ -76,7 +76,7 @@ pipeline {
             steps {
                 unstash 'build-output'
 
-                sh 'cosmos-release lambda --lambda-version=`python3 setup.py --version` ./package.zip efficient-learning-lambda'
+                sh 'cosmos-release lambda --lambda-version=`python3 setup.py --version` ./package.zip insights-efficient-learning-lambda'
             }
         }
 
@@ -90,7 +90,7 @@ pipeline {
             steps {
                 unstash 'build-output'
 
-                sh 'cosmos deploy-lambda -f -r `python3 setup.py --version` efficient-learning-lambda test'
+                sh 'cosmos deploy-lambda -f -r `python3 setup.py --version` insights-efficient-learning-lambda test'
             }
         }
     }

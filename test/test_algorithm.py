@@ -1,6 +1,7 @@
 from test.fixtures.questions import VALID_QUESTION, VALID_SINGLE_QUESTION_ID_LIST
 import pytest
 import algorithm
+from algorithm import _calculate_thompson_sampling
 
 
 def test_choose_initial_question(mocker):
@@ -83,8 +84,8 @@ def test_get_mastery_band_and_confidence_confident_band3():
 
 
 def test_thompson_sampling_integral_returns_correct_values():
-    actual_weighting = algorithm.__calculate_thompson_sampling(0, 2, 1, 3)
+    actual_weighting = _calculate_thompson_sampling(0, 2, 1, 3)
     assert actual_weighting == pytest.approx(0.286, abs=0.001)
 
-    actual_weighting = algorithm.__calculate_thompson_sampling(2, 2, 1, 3)
+    actual_weighting = _calculate_thompson_sampling(2, 2, 1, 3)
     assert actual_weighting == pytest.approx(0.886, abs=0.001)
