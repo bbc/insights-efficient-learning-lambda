@@ -40,3 +40,26 @@ def calculate_weighted_score_and_attempts(undecorated_function):
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
     return validate_calculate_weighted_score_and_attempts
+
+
+def _calculate_confidence_interval(undecorated_function):
+    def validate_calculate_confidence_interval(
+            weighted_score, weighted_attempts):
+
+        if not isinstance(weighted_score, float):
+            raise TypeError(f"weighted_score should be a float, a {weighted_score.__class__.__name__} was provided")
+        if not isinstance(weighted_attempts, float):
+            raise TypeError(f"weighted_attempts should be a float, a {weighted_attempts.__class__.__name__} was provided")
+
+        if weighted_score < 0:
+            raise ValueError(f"{weighted_score} < 0 : weighted_score should be non-negative")
+        if weighted_attempts < 0:
+            raise ValueError(f"{weighted_attempts} < 0 : weighted_attempts should be non-negative")
+
+        if weighted_score > weighted_attempts:
+            raise ValueError(f"{weighted_score} > {weighted_attempts} : weighted_score should be less than or equal to weighted_attempts")
+
+        return undecorated_function(
+            weighted_score, weighted_attempts)
+
+    return validate_calculate_confidence_interval

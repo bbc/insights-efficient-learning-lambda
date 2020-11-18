@@ -198,3 +198,70 @@ def test_calculate_weighted_score_and_attempts_study_guide_score_lt_topic_score(
         assert str(error) == f"{study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score"
 
 
+# ------------------------------------------------------------
+# Validation tests on algorithm._calculate_confidence_interval
+# ------------------------------------------------------------
+
+@pytest.mark.validation_calculate_confidence_interval
+def test_calculate_confidence_interval_weighted_score_is_float():
+    weighted_score = '2'
+    weighted_attempts = 3.
+    try:
+        algorithm._calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"weighted_score should be a float, a {weighted_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_confidence_interval
+def test_calculate_confidence_interval_weighted_attempts_is_float():
+    weighted_score = 2.
+    weighted_attempts = '3'
+    try:
+        algorithm._calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"weighted_attempts should be a float, a {weighted_attempts.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_confidence_interval
+def test_calculate_confidence_interval_weighted_score_is_nonnegative():
+    weighted_score = -2.
+    weighted_attempts = 3.
+    try:
+        algorithm._calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{weighted_score} < 0 : weighted_score should be non-negative"
+
+
+@pytest.mark.validation_calculate_confidence_interval
+def test_calculate_confidence_interval_weighted_attempts_is_nonnegative():
+    weighted_score = 2.
+    weighted_attempts = -3.
+    try:
+        algorithm._calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{weighted_attempts} < 0 : weighted_attempts should be non-negative"
+
+
+@pytest.mark.validation_calculate_confidence_interval
+def test_calculate_confidence_interval_weighted_score_lt_attempts():
+    weighted_score = 5.
+    weighted_attempts = 3.
+    try:
+        algorithm._calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{weighted_score} > {weighted_attempts} : weighted_score should be less than or equal to weighted_attempts"

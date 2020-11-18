@@ -175,6 +175,7 @@ def _95th_percentile_equation(mastery, score, attempts):
     return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
 
 
+@validation._calculate_confidence_interval
 @docstrings._calculate_confidence_interval
 def _calculate_confidence_interval(score, attempts):
     _95th_percentile = _calculate_95th_percentile(score, attempts)
