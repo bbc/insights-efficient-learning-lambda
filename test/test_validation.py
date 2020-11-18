@@ -330,4 +330,68 @@ def test_place_mastery_in_band_mastery_in_0_to_1():
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
-        # assert str(error) == f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided"
+        assert str(error) == f"unexpected value encountered: mastery_score should be in the interval [0, 1]"
+
+
+# ---------------------------------------------------------------------------
+# Validation tests on algorithm._convert_confidence_interval_into_probability
+# ---------------------------------------------------------------------------
+
+@pytest.mark.validation_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_score_is_float():
+    score = '1'
+    attempts = 2.
+    try:
+        algorithm._calculate_beta_distribution_mean(score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"score should be an float, a {score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_attempts_is_float():
+    score = 1
+    attempts = '2.'
+    try:
+        algorithm._calculate_beta_distribution_mean(score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"attempts should be a float, a {score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_score_is_nonegative():
+    score = -1
+    attempts = 2.
+    try:
+        algorithm._calculate_beta_distribution_mean(score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{score} < 0 : score should be non-negative"
+
+
+@pytest.mark.validation_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_attempts_is_nonegative():
+    score = 1
+    attempts = -2.
+    try:
+        algorithm._calculate_beta_distribution_mean(score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{attempts} < 0 : attempts should be non-negative"
+
+
+@pytest.mark.validation_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_score_lt_attempts():
+    score = 2
+    attempts = 1.
+    try:
+        algorithm._calculate_beta_distribution_mean(score, attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{score} > {attempts} : score should be less than or equal to attempts"

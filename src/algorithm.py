@@ -125,6 +125,7 @@ def calculate_mastery_and_confidence(
 
 
 @docstrings._calculate_beta_distribution_mean
+@validation._calculate_beta_distribution_mean
 def _calculate_beta_distribution_mean(score, attempts):
     return (score + 1) / ((score + 1) + (attempts + 1 - score))
 
@@ -150,7 +151,7 @@ def _calculate_thompson_sampling(study_guide_score, study_guide_attempts,
         trapezium_edge_points, study_guide_score, study_guide_attempts,
         topic_score, topic_attempts)
 
-    return np.trapz(y=trapezium_heights, x=trapezium_edge_points)
+    return float(np.trapz(y=trapezium_heights, x=trapezium_edge_points))
 
 
 def _calculate_weighted_value(weighting, study_guide_value, topic_value):

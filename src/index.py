@@ -82,8 +82,8 @@ def handler(event, context):
 def _initialise_score_and_attempts(list_):
     return {
         key: {
-            'score': 0,
-            'attempts': 0
+            'score': 0.,
+            'attempts': 0.
         } for key in list_
     }
 

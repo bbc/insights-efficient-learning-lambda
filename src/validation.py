@@ -1,3 +1,4 @@
+import numpy as np
 import algorithm
 
 
@@ -78,7 +79,6 @@ def _convert_confidence_interval_into_probability(undecorated_function):
             if confidence_interval < 0:
                 raise ValueError(f"{confidence_interval} < 0 : all confidence intervals should be non-negative")
 
-
         return undecorated_function(
             confidence_intervals_list
         )
@@ -94,7 +94,25 @@ def _place_mastery_in_band(undecorated_function):
         if (mastery_score < 0) | (mastery_score > 1):
             raise TypeError(f"unexpected value encountered: mastery_score should be in the interval [0, 1]")
 
-
         return undecorated_function(mastery_score)
 
     return validate_place_mastery_in_band
+
+
+def _calculate_beta_distribution_mean(undecorated_function):
+    def validate_calculate_beta_distribution_mean(score, attempts):
+
+        if not is_float_like(score):
+            raise TypeError(f"score should be an float, a {score.__class__.__name__} was provided")
+        if not is_float_like(attempts):
+            raise TypeError(f"attempts should be a float, a {score.__class__.__name__} was provided")
+        if score < 0:
+            raise ValueError(f"{score} < 0 : score should be non-negative")
+        if attempts < 0:
+            raise ValueError(f"{attempts} < 0 : attempts should be non-negative")
+        if score > attempts:
+            raise ValueError(f"{score} > {attempts} : score should be less than or equal to attempts")
+
+        return undecorated_function(score, attempts)
+
+    return validate_calculate_beta_distribution_mean
