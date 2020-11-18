@@ -5,7 +5,7 @@ def _add_docstring(function, docstring):
 
 def calculate_weighted_score_and_attempts(function):
     docstring = """
-Compares the results for a study guide against the results aggregated across all studyguides within the topic
+Compares the results for a study guide against the results aggregated across all study guides within the topic
 
 Parameters
 ----------
@@ -51,6 +51,8 @@ ValueError : {topic_score} > {topic_attempts} : topic_score should be less than 
     when topic_score is > topic_attempts
 ValueError : {study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts
     when study_guide_attempts > topic_attempts
+ValueError : {study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score
+    when study_guide_score > topic_score
 """
     return _add_docstring(function, docstring)
 

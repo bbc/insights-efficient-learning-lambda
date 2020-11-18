@@ -6,6 +6,7 @@ from scipy.optimize import fsolve
 from scipy.stats import beta
 from storage_client import StorageClient
 import docstrings
+import validation
 
 client = StorageClient(boto3.client('s3', config=client.Config(max_pool_connections=50)))
 BAND1_THRESHOLD = 0.34
@@ -86,6 +87,7 @@ def _normalise_list(list_):
 
 
 @docstrings.calculate_weighted_score_and_attempts
+@validation.calculate_weighted_score_and_attempts
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
     average_study_guide_mastery = _calculate_beta_distribution_mean(
