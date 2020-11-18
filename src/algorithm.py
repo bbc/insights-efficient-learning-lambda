@@ -216,6 +216,7 @@ def _calculate_band_confidence(mastery_score, score, attempts):
 
 
 @docstrings._place_mastery_in_band
+@validation._place_mastery_in_band
 def _place_mastery_in_band(mastery_score):
     if mastery_score < BAND1_THRESHOLD:
         return 1

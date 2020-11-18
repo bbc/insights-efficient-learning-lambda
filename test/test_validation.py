@@ -306,3 +306,28 @@ def test_convert_confidence_interval_into_probability_contains_floats():
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"-1 < 0 : all confidence intervals should be non-negative"
 
+
+# ---------------------------------------------------------------------------
+# Validation tests on algorithm._convert_confidence_interval_into_probability
+# ---------------------------------------------------------------------------
+
+@pytest.mark.validation_place_mastery_in_band
+def test_place_mastery_in_band_receives_float():
+    mastery_score = '4'
+    try:
+        algorithm._place_mastery_in_band(mastery_score)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_place_mastery_in_band
+def test_place_mastery_in_band_mastery_in_0_to_1():
+    mastery_score = 4
+    try:
+        algorithm._place_mastery_in_band(mastery_score)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        # assert str(error) == f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided"

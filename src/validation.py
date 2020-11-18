@@ -84,3 +84,17 @@ def _convert_confidence_interval_into_probability(undecorated_function):
         )
 
     return validate_confidence_interval_into_probability
+
+
+def _place_mastery_in_band(undecorated_function):
+    def validate_place_mastery_in_band(mastery_score):
+
+        if not is_float_like(mastery_score):
+            raise TypeError(f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided")
+        if (mastery_score < 0) | (mastery_score > 1):
+            raise TypeError(f"unexpected value encountered: mastery_score should be in the interval [0, 1]")
+
+
+        return undecorated_function(mastery_score)
+
+    return validate_place_mastery_in_band
