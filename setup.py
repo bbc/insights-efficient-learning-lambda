@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='efficient-learning-lambda',
+    name='insights-efficient-learning-lambda',
     version='1.7.7',
     license='',
     description='Python Lambda which fetches Questions for Quizzes and Evaluates Results.',

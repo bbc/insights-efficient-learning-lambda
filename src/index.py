@@ -25,15 +25,15 @@ def handler(event, context):
             'nextQuestion': algorithm.choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list)
         }
 
-        return __build_response(200, next_question)
+        return _build_response(200, next_question)
 
-    topic_score_and_attempts = __initialise_score_and_attempts(topic_id_list)
-    study_guide_score_and_attempts = __initialise_score_and_attempts(
+    topic_score_and_attempts = _initialise_score_and_attempts(topic_id_list)
+    study_guide_score_and_attempts = _initialise_score_and_attempts(
         study_guide_id_list)
 
     for question in questions:
-        __update_topic_score_and_attempts(topic_score_and_attempts, question)
-        __update_study_guide_score_and_attempts(
+        _update_topic_score_and_attempts(topic_score_and_attempts, question)
+        _update_study_guide_score_and_attempts(
             study_guide_score_and_attempts, question)
         question_id_list.append(question['id'])
 
@@ -76,10 +76,10 @@ def handler(event, context):
             'results': results_list
         })
 
-    return __build_response(200, next_question)
+    return _build_response(200, next_question)
 
 
-def __initialise_score_and_attempts(list_):
+def _initialise_score_and_attempts(list_):
     return {
         key: {
             'score': 0,
@@ -88,7 +88,7 @@ def __initialise_score_and_attempts(list_):
     }
 
 
-def __update_topic_score_and_attempts(topic_score_and_attempts, question):
+def _update_topic_score_and_attempts(topic_score_and_attempts, question):
     topic_id = question['topicId']
     score = question['isCorrect']
 
@@ -96,7 +96,7 @@ def __update_topic_score_and_attempts(topic_score_and_attempts, question):
     topic_score_and_attempts[topic_id]['attempts'] += 1
 
 
-def __update_study_guide_score_and_attempts(study_guide_score_and_attempts, question):
+def _update_study_guide_score_and_attempts(study_guide_score_and_attempts, question):
     study_guide_id = question['studyGuideId']
     score = question['isCorrect']
 
@@ -104,7 +104,7 @@ def __update_study_guide_score_and_attempts(study_guide_score_and_attempts, ques
     study_guide_score_and_attempts[study_guide_id]['attempts'] += 1
 
 
-def __build_response(code, body):
+def _build_response(code, body):
     return {
         'statusCode': code,
         'body': body
