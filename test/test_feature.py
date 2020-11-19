@@ -1,4 +1,5 @@
 import pytest
+import numpy as np
 import algorithm
 
 
@@ -141,3 +142,29 @@ def test_calculate_beta_distribution_mean_is_1_thirds():
     attempts = 1.
     mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
     assert mastery == 1 / 3
+
+
+# -------------------------------------------------------------
+# Feature tests on convert_confidence_interval_into_probability
+# -------------------------------------------------------------
+
+@pytest.mark.feature_place_mastery_in_band
+def test_place_mastery_in_band_returns_1_2_3():
+    mastery_scores = [float(mastery) for mastery in np.linspace(0, 1)]
+    bands = [algorithm._place_mastery_in_band(mastery)
+             for mastery in mastery_scores]
+    assert all([band in [1, 2, 3] for band in bands])
+
+
+@pytest.mark.feature_place_mastery_in_band
+def test_place_mastery_in_band_returns_1_for_0_mastery():
+    mastery = 0.
+    band = algorithm._place_mastery_in_band(mastery)
+    assert band == 1
+
+
+@pytest.mark.feature_place_mastery_in_band
+def test_place_mastery_in_band_returns_3_for_1_mastery():
+    mastery = 1.
+    band = algorithm._place_mastery_in_band(mastery)
+    assert band == 3
