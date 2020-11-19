@@ -5,7 +5,7 @@ def _add_docstring(function, docstring):
 
 def calculate_weighted_score_and_attempts(function):
     docstring = """
-Compares the results for a study guide against the results aggregated across all studyguides within the topic
+Compares the results for a study guide against the results aggregated across all study guides within the topic
 
 Parameters
 ----------
@@ -51,6 +51,8 @@ ValueError : {topic_score} > {topic_attempts} : topic_score should be less than 
     when topic_score is > topic_attempts
 ValueError : {study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts
     when study_guide_attempts > topic_attempts
+ValueError : {study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score
+    when study_guide_score > topic_score
 """
     return _add_docstring(function, docstring)
 
@@ -109,12 +111,12 @@ list of probabilities associated with each of the study guides. These should be 
 
 Raises
 ------
-TypeeError : confidence_intervals_list should be a list
+TypeError : confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided
     when confidence_intervals is not a list
-TypeError : unexpected type encountered in confidence_intervals_list
+TypeError : unexpected type encountered in confidence_intervals_list : expected float, got {confidence_interval.__class__.__name__}
     when non-float value exists in confidence_intervals
 
-ValueError : unexpected value encountered in confidence_intervals_list, all confidenceintervals should be positive
+ValueError : {confidence_interval} < 0 : all confidence intervals should be non-negative
     when negative value encountered in confidence_intervals_list
 """
     return _add_docstring(function, docstring)

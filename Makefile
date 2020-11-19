@@ -28,6 +28,10 @@ docstring_test: venv
 	. venv/bin/activate; \
 	pytest -s test/test_docstrings.py -v -m docstring_test
 
+validation_test: venv
+	. venv/bin/activate; \
+	pytest -s test/ -v -m validation_$(feature_name)
+
 load-test: 
 	npm i artillery
 	artillery run -e test test/loadtest/quizzes.yaml
