@@ -8,7 +8,7 @@ import algorithm
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_typeerror_on_study_guide_score():
-    study_guide_score = '1'
+    study_guide_score = 1
     study_guide_attempts = 1.
     topic_score = 1.
     topic_attempts = 1.
@@ -24,8 +24,8 @@ def test_calculate_weighted_score_and_attempts_typeerror_on_study_guide_score():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_typeerror_on_study_guide_attempts():
-    study_guide_score = 1
-    study_guide_attempts = '1.'
+    study_guide_score = 1.
+    study_guide_attempts = 1
     topic_score = 1.
     topic_attempts = 1.
     try:
@@ -40,9 +40,9 @@ def test_calculate_weighted_score_and_attempts_typeerror_on_study_guide_attempts
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_typeerror_on_topic_score():
-    study_guide_score = 1
-    study_guide_attempts = 1
-    topic_score = '1.'
+    study_guide_score = 1.
+    study_guide_attempts = 1.
+    topic_score = 1
     topic_attempts = 1.
     try:
         algorithm.calculate_weighted_score_and_attempts(
@@ -56,10 +56,10 @@ def test_calculate_weighted_score_and_attempts_typeerror_on_topic_score():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_typeerror_on_topic_attempts():
-    study_guide_score = 1
-    study_guide_attempts = 1
+    study_guide_score = 1.
+    study_guide_attempts = 1.
     topic_score = 1.
-    topic_attempts = '1.'
+    topic_attempts = 1
     try:
         algorithm.calculate_weighted_score_and_attempts(
             study_guide_score, study_guide_attempts,
@@ -72,7 +72,7 @@ def test_calculate_weighted_score_and_attempts_typeerror_on_topic_attempts():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_study_guide_score_nonnegative():
-    study_guide_score = -1
+    study_guide_score = -1.
     study_guide_attempts = 1.
     topic_score = 1.
     topic_attempts = 1.
@@ -88,7 +88,7 @@ def test_calculate_weighted_score_and_attempts_study_guide_score_nonnegative():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_study_guide_attempts_nonnegative():
-    study_guide_score = 1
+    study_guide_score = 1.
     study_guide_attempts = -1.
     topic_score = 1.
     topic_attempts = 1.
@@ -104,7 +104,7 @@ def test_calculate_weighted_score_and_attempts_study_guide_attempts_nonnegative(
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_topic_score_nonnegative():
-    study_guide_score = 1
+    study_guide_score = 1.
     study_guide_attempts = 1.
     topic_score = -1.
     topic_attempts = 1.
@@ -120,7 +120,7 @@ def test_calculate_weighted_score_and_attempts_topic_score_nonnegative():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_topic_attempts_nonnegative():
-    study_guide_score = 1
+    study_guide_score = 1.
     study_guide_attempts = 1.
     topic_score = 1.
     topic_attempts = -1.
@@ -136,7 +136,7 @@ def test_calculate_weighted_score_and_attempts_topic_attempts_nonnegative():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_study_guide_score_lt_attempts():
-    study_guide_score = 2
+    study_guide_score = 2.
     study_guide_attempts = 1.
     topic_score = 1.
     topic_attempts = 1.
@@ -152,7 +152,7 @@ def test_calculate_weighted_score_and_attempts_study_guide_score_lt_attempts():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_topic_score_lt_attempts():
-    study_guide_score = 1
+    study_guide_score = 1.
     study_guide_attempts = 1.
     topic_score = 2.
     topic_attempts = 1.
@@ -168,7 +168,7 @@ def test_calculate_weighted_score_and_attempts_topic_score_lt_attempts():
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_study_guide_attempts_lt_topic_attempts():
-    study_guide_score = 1
+    study_guide_score = 1.
     study_guide_attempts = 3.
     topic_score = 1.
     topic_attempts = 1.
@@ -184,7 +184,7 @@ def test_calculate_weighted_score_and_attempts_study_guide_attempts_lt_topic_att
 
 @pytest.mark.validation_weighted_score_and_attempts
 def test_calculate_weighted_score_and_attempts_study_guide_score_lt_topic_score():
-    study_guide_score = 2
+    study_guide_score = 2.
     study_guide_attempts = 3.
     topic_score = 1.
     topic_attempts = 3.

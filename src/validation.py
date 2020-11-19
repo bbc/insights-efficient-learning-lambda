@@ -10,13 +10,13 @@ def calculate_weighted_score_and_attempts(undecorated_function):
     def validate_calculate_weighted_score_and_attempts(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
-        if not is_float_like(study_guide_score):
+        if not isinstance(study_guide_score, float):
             raise TypeError(f"study_guide_score should be an int or float, a {study_guide_score.__class__.__name__} was provided")
-        if not is_float_like(study_guide_attempts):
+        if not isinstance(study_guide_attempts, float):
             raise TypeError(f"study_guide_attempts should be an int or float, a {study_guide_attempts.__class__.__name__} was provided")
-        if not is_float_like(topic_score):
+        if not isinstance(topic_score, float):
             raise TypeError(f"topic_score should be an int or float, a {topic_score.__class__.__name__} was provided")
-        if not is_float_like(topic_attempts):
+        if not isinstance(topic_attempts, float):
             raise TypeError(f"topic_attempts should be an int or float, a {topic_attempts.__class__.__name__} was provided")
 
         if study_guide_score < 0:
