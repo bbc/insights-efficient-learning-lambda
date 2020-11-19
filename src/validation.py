@@ -101,7 +101,7 @@ def _convert_confidence_interval_into_probability(undecorated_function):
             raise TypeError(f"confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided")
 
         for confidence_interval in confidence_intervals_list:
-            if not is_float_like(confidence_interval):
+            if not isinstance(confidence_interval, float):
                 raise TypeError(f"unexpected type encountered in confidence_intervals_list : expected float, got {confidence_interval.__class__.__name__}")
             if confidence_interval < 0:
                 raise ValueError(f"{confidence_interval} < 0 : all confidence intervals should be non-negative")

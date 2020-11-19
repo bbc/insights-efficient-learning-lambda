@@ -52,3 +52,48 @@ def test_calculate_confidence_interval_in_range_0_to_1():
     confidence = \
         algorithm._calculate_confidence_interval(1., 2.)
     assert confidence == pytest.approx(0.5, abs=0.5)
+
+
+# -------------------------------------------------------------
+# Feature tests on convert_confidence_interval_into_probability
+# -------------------------------------------------------------
+
+@pytest.mark.feature_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_returns_list():
+    confidence_intervals = [1., 2., 3.]
+    list_of_probabilities = \
+        algorithm._convert_confidence_interval_into_probability(confidence_intervals)
+    assert isinstance(list_of_probabilities, list)
+
+
+@pytest.mark.feature_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_returns_floats():
+    confidence_intervals = [1., 2., 3.]
+    list_of_probabilities = \
+        algorithm._convert_confidence_interval_into_probability(confidence_intervals)
+    assert all([isinstance(probability, float) for probability in list_of_probabilities])
+
+
+@pytest.mark.feature_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_probabilities_nonnegative():
+    confidence_intervals = [1., 2., 3.]
+    list_of_probabilities = \
+        algorithm._convert_confidence_interval_into_probability(confidence_intervals)
+    assert all([probability >= 0 for probability in list_of_probabilities])
+
+
+@pytest.mark.feature_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_probabilities_sum_to_1():
+    confidence_intervals = [1., 2., 3.]
+    list_of_probabilities = \
+        algorithm._convert_confidence_interval_into_probability(confidence_intervals)
+    assert sum(list_of_probabilities) == 1
+
+
+@pytest.mark.feature_convert_confidence_interval_into_probability
+def test_convert_confidence_interval_into_probability_probabilities_monotonic():
+    confidence_intervals = [2., 1., 3.]
+    list_of_probabilities = \
+        algorithm._convert_confidence_interval_into_probability(confidence_intervals)
+    assert list_of_probabilities[2] == max(list_of_probabilities)
+    assert list_of_probabilities[1] == min(list_of_probabilities)
