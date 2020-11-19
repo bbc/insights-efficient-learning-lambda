@@ -6,17 +6,31 @@ import algorithm
 # Feature tests on weighted_score_and_attempts
 # --------------------------------------------
 
-@pytest.mark.feature_calculate_weighted_score_and_attempts
-def test_calculate_weighted_score_and_attempts_returns_floats():
-    weighted_score, weighted_attempts = \
-        algorithm.calculate_weighted_score_and_attempts(0., 2., 3., 4.)
-    assert isinstance(weighted_score, float)
-    assert isinstance(weighted_attempts, float)
+@pytest.mark.feature_calculate_weighted_value
+def test_calculate_weighted_value_returns_float():
+    weighted_value = \
+        algorithm._calculate_weighted_value(0.5, 1., 2.)
+    assert isinstance(weighted_value, float)
 
 
-# @pytest.mark.feature_calculate_weighted_score_and_attempts
-# def test_calculate_weighted_score_and_attempts_in_range_0_to_1():
-#     weighted_score, weighted_attempts = \
-#         algorithm.calculate_weighted_score_and_attempts(0., 2., 3., 4.)
-#     assert 0.5 == pytest.approx(weighted_score, abs=0.5)
-#     assert 0.5 == pytest.approx(weighted_attempts, abs=0.5)
+@pytest.mark.feature_calculate_weighted_value
+def test_calculate_weighted_value_between_study_guide_and_topic_value():
+    weighting = 0.5
+    study_guide_value = 1.
+    topic_value = 2.
+    weighted_value = \
+        algorithm._calculate_weighted_value(
+            weighting, study_guide_value, topic_value)
+    assert weighted_value >= study_guide_value
+    assert weighted_value <= topic_value
+
+
+@pytest.mark.feature_calculate_weighted_value
+def test_calculate_weighted_value_is_study_guidewhen_weighting_is_1():
+    weighting = 1.
+    study_guide_value = 1.
+    topic_value = 2.
+    weighted_value = \
+        algorithm._calculate_weighted_value(
+            weighting, study_guide_value, topic_value)
+    assert weighted_value == study_guide_value
