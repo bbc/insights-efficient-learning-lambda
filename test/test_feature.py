@@ -97,3 +97,47 @@ def test_convert_confidence_interval_into_probability_probabilities_monotonic():
         algorithm._convert_confidence_interval_into_probability(confidence_intervals)
     assert list_of_probabilities[2] == max(list_of_probabilities)
     assert list_of_probabilities[1] == min(list_of_probabilities)
+
+
+# -------------------------------------------------------------
+# Feature tests on convert_confidence_interval_into_probability
+# -------------------------------------------------------------
+
+@pytest.mark.feature_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_returns_float():
+    score = 1.
+    attempts = 2.
+    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    assert isinstance(mastery, float)
+
+
+@pytest.mark.feature_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_in_range_0_to_1():
+    score = 1.
+    attempts = 2.
+    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    assert mastery == pytest.approx(0.5, abs=0.5)
+
+
+@pytest.mark.feature_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_is_half():
+    score = 1.
+    attempts = 2.
+    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    assert mastery == 0.5
+
+
+@pytest.mark.feature_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_is_2_thirds():
+    score = 1.
+    attempts = 1.
+    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    assert mastery == 2 / 3
+
+
+@pytest.mark.feature_calculate_beta_distribution_mean
+def test_calculate_beta_distribution_mean_is_1_thirds():
+    score = 0.
+    attempts = 1.
+    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    assert mastery == 1 / 3

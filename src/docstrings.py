@@ -118,22 +118,22 @@ Uses the analytic expression of the form alpha / (alpha + beta).
 
 Parameters
 ----------
-score : non-negative int or float
+score : non-negative float
     score
-attempts : non-negative int or float
+attempts : non-negative float
     number of attempts
 
 Returns
 -------
 Calculates expected value or mean of a beta distribution.
     float in range [0, 1]
-    0.5 when score = 1, attempts = 2
-    2/3 when score = 1, attempts = 1
-    1/3 when score = 0, attempts = 1
+    0.5 when score = 1., attempts = 2.
+    2/3 when score = 1., attempts = 1.
+    1/3 when score = 0., attempts = 1.
 
 Raises
 ------
-TypeError : score should be an float, a {score.__class__.__name__} was provided
+TypeError : score should be a float, a {score.__class__.__name__} was provided
     when score is anything except a float
 TypeError : attempts should be a float, a {score.__class__.__name__} was provided
     when attempts is anything except a float

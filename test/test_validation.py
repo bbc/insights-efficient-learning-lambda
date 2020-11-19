@@ -444,20 +444,20 @@ def test_place_mastery_in_band_mastery_in_0_to_1():
 
 @pytest.mark.validation_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_score_is_float():
-    score = '1'
+    score = 1
     attempts = 2.
     try:
         algorithm._calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
-        assert str(error) == f"score should be an float, a {score.__class__.__name__} was provided"
+        assert str(error) == f"score should be a float, a {score.__class__.__name__} was provided"
 
 
 @pytest.mark.validation_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_attempts_is_float():
-    score = 1
-    attempts = '2.'
+    score = 1.
+    attempts = 2
     try:
         algorithm._calculate_beta_distribution_mean(score, attempts)
         assert False
@@ -468,7 +468,7 @@ def test_calculate_beta_distribution_mean_attempts_is_float():
 
 @pytest.mark.validation_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_score_is_nonegative():
-    score = -1
+    score = -1.
     attempts = 2.
     try:
         algorithm._calculate_beta_distribution_mean(score, attempts)
@@ -480,7 +480,7 @@ def test_calculate_beta_distribution_mean_score_is_nonegative():
 
 @pytest.mark.validation_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_attempts_is_nonegative():
-    score = 1
+    score = 1.
     attempts = -2.
     try:
         algorithm._calculate_beta_distribution_mean(score, attempts)
@@ -492,7 +492,7 @@ def test_calculate_beta_distribution_mean_attempts_is_nonegative():
 
 @pytest.mark.validation_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_score_lt_attempts():
-    score = 2
+    score = 2.
     attempts = 1.
     try:
         algorithm._calculate_beta_distribution_mean(score, attempts)
@@ -519,7 +519,7 @@ def test_calculate_band_confidence_mastery_is_float():
 
 @pytest.mark.validation_calculate_band_confidence
 def test_calculate_band_confidence_score_is_float():
-    mastery_score, score, attempts = 0.7, '1', 1.
+    mastery_score, score, attempts = 0.7, 1, 1.
     try:
         algorithm._calculate_band_confidence(mastery_score, score, attempts)
         assert False
@@ -530,7 +530,7 @@ def test_calculate_band_confidence_score_is_float():
 
 @pytest.mark.validation_calculate_band_confidence
 def test_calculate_band_confidence_attempts_is_float():
-    mastery_score, score, attempts = 0.7, 1., '1'
+    mastery_score, score, attempts = 0.7, 1., 1
     try:
         algorithm._calculate_band_confidence(mastery_score, score, attempts)
         assert False

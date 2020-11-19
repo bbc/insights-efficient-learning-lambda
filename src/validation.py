@@ -129,9 +129,9 @@ def _place_mastery_in_band(undecorated_function):
 def _calculate_beta_distribution_mean(undecorated_function):
     def validate_calculate_beta_distribution_mean(score, attempts):
 
-        if not is_float_like(score):
-            raise TypeError(f"score should be an float, a {score.__class__.__name__} was provided")
-        if not is_float_like(attempts):
+        if not isinstance(score, float):
+            raise TypeError(f"score should be a float, a {score.__class__.__name__} was provided")
+        if not isinstance(attempts, float):
             raise TypeError(f"attempts should be a float, a {score.__class__.__name__} was provided")
         if score < 0:
             raise ValueError(f"{score} < 0 : score should be non-negative")
@@ -148,11 +148,11 @@ def _calculate_beta_distribution_mean(undecorated_function):
 def _calculate_band_confidence(undecorated_function):
     def validate_calculate_band_confidence(mastery_score, score, attempts):
 
-        if not is_float_like(mastery_score):
+        if not isinstance(mastery_score, float):
             raise TypeError(f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided")
-        if not is_float_like(score):
+        if not isinstance(score, float):
             raise TypeError(f"score should be a float, a {score.__class__.__name__} was provided")
-        if not is_float_like(attempts):
+        if not isinstance(attempts, float):
             raise TypeError(f"attempts should be a float, a {attempts.__class__.__name__} was provided")
 
         if (mastery_score < 0) | (mastery_score > 1):
