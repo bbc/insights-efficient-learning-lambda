@@ -114,7 +114,20 @@ def calculate_weighted_score_and_attempts(
 @validation._calculate_study_guide_weighting
 def _calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
-    return None
+
+    average_study_guide_mastery = _calculate_beta_distribution_mean(
+        study_guide_score, study_guide_attempts)
+    average_topic_mastery = _calculate_beta_distribution_mean(
+        topic_score, topic_attempts)
+
+    study_guide_weighting = _calculate_thompson_sampling(
+        study_guide_score, study_guide_attempts,
+        topic_score, topic_attempts)
+
+    if average_study_guide_mastery < average_topic_mastery:
+        study_guide_weighting = (1 - study_guide_weighting)
+
+    return study_guide_weighting
 
 
 def calculate_mastery_and_confidence(
