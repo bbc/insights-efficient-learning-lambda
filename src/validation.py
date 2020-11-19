@@ -6,17 +6,17 @@ def is_float_like(value):
     return type(value) in [int, float]
 
 
-def calculate_weighted_score_and_attempts(undecorated_function):
-    def validate_calculate_weighted_score_and_attempts(
+def calculate_weighting(undecorated_function):
+    def validate_calculate_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
-        if not is_float_like(study_guide_score):
+        if not isinstance(study_guide_score, float):
             raise TypeError(f"study_guide_score should be an int or float, a {study_guide_score.__class__.__name__} was provided")
-        if not is_float_like(study_guide_attempts):
+        if not isinstance(study_guide_attempts, float):
             raise TypeError(f"study_guide_attempts should be an int or float, a {study_guide_attempts.__class__.__name__} was provided")
-        if not is_float_like(topic_score):
+        if not isinstance(topic_score, float):
             raise TypeError(f"topic_score should be an int or float, a {topic_score.__class__.__name__} was provided")
-        if not is_float_like(topic_attempts):
+        if not isinstance(topic_attempts, float):
             raise TypeError(f"topic_attempts should be an int or float, a {topic_attempts.__class__.__name__} was provided")
 
         if study_guide_score < 0:
@@ -40,7 +40,34 @@ def calculate_weighted_score_and_attempts(undecorated_function):
         return undecorated_function(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
-    return validate_calculate_weighted_score_and_attempts
+    return validate_calculate_weighting
+
+
+def _calculate_weighted_value(undecorated_function):
+    def validate_calculate_weighted_value(
+            weighting, study_guide_value, topic_value):
+
+        if not isinstance(weighting, float):
+            raise TypeError(f"weighting should be a float, a {weighting.__class__.__name__} was provided")
+        if not isinstance(study_guide_value, float):
+            raise TypeError(f"study_guide_value should be a float, a {study_guide_value.__class__.__name__} was provided")
+        if not isinstance(topic_value, float):
+            raise TypeError(f"topic_value should be a float, a {topic_value.__class__.__name__} was provided")
+
+        if (weighting < 0) | (weighting > 1):
+            raise ValueError(f"unexpected value encountered - weighted_score should be in the interval [0, 1]")
+        if study_guide_value < 0:
+            raise ValueError(f"{study_guide_value} < 0 : study_guide_value should be non-negative")
+        if topic_value < 0:
+            raise ValueError(f"{topic_value} < 0 : topic_value should be non-negative")
+
+        if study_guide_value > topic_value:
+            raise ValueError(f"{study_guide_value} > {topic_value} : study_guide_value should be less than or equal to topic_value")
+
+        return undecorated_function(
+            weighting, study_guide_value, topic_value)
+
+    return validate_calculate_weighted_value
 
 
 def _calculate_confidence_interval(undecorated_function):
@@ -74,7 +101,7 @@ def _convert_confidence_interval_into_probability(undecorated_function):
             raise TypeError(f"confidence_intervals_list should be a list, a {confidence_intervals_list.__class__.__name__} was provided")
 
         for confidence_interval in confidence_intervals_list:
-            if not is_float_like(confidence_interval):
+            if not isinstance(confidence_interval, float):
                 raise TypeError(f"unexpected type encountered in confidence_intervals_list : expected float, got {confidence_interval.__class__.__name__}")
             if confidence_interval < 0:
                 raise ValueError(f"{confidence_interval} < 0 : all confidence intervals should be non-negative")
@@ -102,9 +129,9 @@ def _place_mastery_in_band(undecorated_function):
 def _calculate_beta_distribution_mean(undecorated_function):
     def validate_calculate_beta_distribution_mean(score, attempts):
 
-        if not is_float_like(score):
-            raise TypeError(f"score should be an float, a {score.__class__.__name__} was provided")
-        if not is_float_like(attempts):
+        if not isinstance(score, float):
+            raise TypeError(f"score should be a float, a {score.__class__.__name__} was provided")
+        if not isinstance(attempts, float):
             raise TypeError(f"attempts should be a float, a {score.__class__.__name__} was provided")
         if score < 0:
             raise ValueError(f"{score} < 0 : score should be non-negative")
@@ -121,11 +148,11 @@ def _calculate_beta_distribution_mean(undecorated_function):
 def _calculate_band_confidence(undecorated_function):
     def validate_calculate_band_confidence(mastery_score, score, attempts):
 
-        if not is_float_like(mastery_score):
+        if not isinstance(mastery_score, float):
             raise TypeError(f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided")
-        if not is_float_like(score):
+        if not isinstance(score, float):
             raise TypeError(f"score should be a float, a {score.__class__.__name__} was provided")
-        if not is_float_like(attempts):
+        if not isinstance(attempts, float):
             raise TypeError(f"attempts should be a float, a {attempts.__class__.__name__} was provided")
 
         if (mastery_score < 0) | (mastery_score > 1):
