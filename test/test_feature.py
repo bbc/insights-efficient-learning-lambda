@@ -168,3 +168,19 @@ def test_place_mastery_in_band_returns_3_for_1_mastery():
     mastery = 1.
     band = algorithm._place_mastery_in_band(mastery)
     assert band == 3
+
+
+# ------------------------------------------
+# Feature tests on calculate_band_confidence
+# ------------------------------------------
+
+@pytest.mark.feature_calculate_band_confidence
+def test_calculate_band_confidence_returns_float():
+    confidence = algorithm._calculate_band_confidence(0.5, 1., 2.)
+    assert isinstance(confidence, float)
+
+
+@pytest.mark.feature_calculate_band_confidence
+def test_calculate_band_confidence_in_range_0_to_1():
+    confidence = algorithm._calculate_band_confidence(0.5, 1., 2.)
+    assert confidence == pytest.approx(0.5, abs=0.5)
