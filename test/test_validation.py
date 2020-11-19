@@ -692,6 +692,18 @@ def test_calculate_study_guide_weighting_topic_attempts_is_float():
 
 
 @pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_score_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = -1., 1., 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_score} < 0 : study_guide_score should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
 def test_calculate_study_guide_weighting_study_guide_attempts_is_nonnegative():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., -1., 2., 2.
     try:
@@ -713,6 +725,18 @@ def test_calculate_study_guide_weighting_topic_score_is_nonnegative():
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"{topic_score} < 0 : topic_score should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_attempts_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2., -2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{topic_attempts} < 0 : topic_attempts should be non-negative"
 
 
 @pytest.mark.validation_calculate_study_guide_weighting
