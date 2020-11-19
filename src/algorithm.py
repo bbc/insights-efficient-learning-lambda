@@ -87,8 +87,6 @@ def _normalise_list(list_):
     return [element / sum(list_) for element in list_]
 
 
-# @docstrings.calculate_weighted_score_and_attempts
-# @validation.calculate_weighted_score_and_attempts
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
     average_study_guide_mastery = _calculate_beta_distribution_mean(
@@ -110,6 +108,13 @@ def calculate_weighted_score_and_attempts(
         study_guide_weighting, study_guide_attempts, topic_attempts)
 
     return weighted_score, weighted_attempts
+
+
+@docstrings._calculate_study_guide_weighting
+@validation._calculate_study_guide_weighting
+def _calculate_study_guide_weighting(
+        study_guide_score, study_guide_attempts, topic_score, topic_attempts):
+    return None
 
 
 def calculate_mastery_and_confidence(

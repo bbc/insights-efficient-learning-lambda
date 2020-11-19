@@ -184,3 +184,41 @@ def _calculate_confident_mastery_band(undecorated_function):
         return undecorated_function(mastery_score, confidence)
 
     return validate_calculate_confident_mastery_band
+
+
+def _calculate_study_guide_weighting(undecorated_function):
+    def validate_calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts):
+
+        if not isinstance(study_guide_score, float):
+            raise TypeError(f"study_guide_score should be a float, a {study_guide_score.__class__.__name__} was provided")
+        if not isinstance(study_guide_attempts, float):
+            raise TypeError(f"study_guide_attempts should be a float, a {study_guide_attempts.__class__.__name__} was provided")
+        if not isinstance(topic_score, float):
+            raise TypeError(f"topic_score should be a float, a {topic_score.__class__.__name__} was provided")
+        if not isinstance(topic_attempts, float):
+            raise TypeError(f"topic_attempts should be a float, a {topic_attempts.__class__.__name__} was provided")
+
+        if study_guide_score < 0:
+            raise ValueError(f"{study_guide_score} < 0 : study_guide_score should be non-negative")
+        if study_guide_attempts < 0:
+            raise ValueError(f"{study_guide_attempts} < 0 : study_guide_attempts should be non-negative")
+        if topic_score < 0:
+            raise ValueError(f"{topic_score} < 0 : topic_score should be non-negative")
+        if topic_attempts < 0:
+            raise ValueError(f"{topic_attempts} < 0 : topic_attempts should be non-negative")
+
+        if study_guide_score > study_guide_attempts:
+            raise ValueError(f"{study_guide_score} > {study_guide_attempts} : study_guide_score should be less than or equal to study_guide_attempts")
+        if topic_score > topic_attempts:
+            raise ValueError(f"{topic_score} > {topic_attempts} : topic_score should be less than or equal to topic_attempts")
+        if study_guide_score > topic_score:
+            raise ValueError(f"{study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score")
+        if study_guide_attempts > topic_attempts:
+            raise ValueError(f"{study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts")
+
+
+        return undecorated_function(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+
+    return validate_calculate_study_guide_weighting
