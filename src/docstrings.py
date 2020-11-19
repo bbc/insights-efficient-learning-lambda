@@ -231,10 +231,10 @@ Returns
 -------
 Final banding of a study guide
     one of [1, 2, 3]
-    1 if mastery_score = 0 and confidence = 1
-    3 if mastery_score = 1 and confidence = 1
-    2 if mastery_score = 0 and confidence = 0
-    2 if mastery_score = 1 and confidence = 0
+    1 if mastery_score = 0. and confidence = 1.
+    3 if mastery_score = 1. and confidence = 1.
+    2 if mastery_score = 0. and confidence = 0.
+    2 if mastery_score = 1. and confidence = 0.
 
 Raises
 ------

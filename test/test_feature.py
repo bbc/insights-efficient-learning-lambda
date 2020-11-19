@@ -184,3 +184,43 @@ def test_calculate_band_confidence_returns_float():
 def test_calculate_band_confidence_in_range_0_to_1():
     confidence = algorithm._calculate_band_confidence(0.5, 1., 2.)
     assert confidence == pytest.approx(0.5, abs=0.5)
+
+
+# ------------------------------------------
+# Feature tests on calculate_confidence_band
+# ------------------------------------------
+
+@pytest.mark.feature_calculate_confident_mastery_band
+def test_calculate_confident_mastery_band_is_1_2_or_3():
+    mastery_scores = np.linspace(0, 1, 20)
+    confidence_scores = np.linspace(0, 1, 20)
+    for mastery in mastery_scores:
+        for confidence in confidence_scores:
+            band = algorithm._calculate_confident_mastery_band(
+                float(mastery), float(confidence))
+            assert band in [1, 2, 3]
+
+
+@pytest.mark.feature_calculate_confident_mastery_band
+def test_calculate_confident_mastery_band_confident_1():
+    band = algorithm._calculate_confident_mastery_band(0., 1.)
+    assert band == 1
+
+
+@pytest.mark.feature_calculate_confident_mastery_band
+def test_calculate_confident_mastery_band_confident_3():
+    band = algorithm._calculate_confident_mastery_band(1., 1.)
+    assert band == 3
+
+
+@pytest.mark.feature_calculate_confident_mastery_band
+def test_calculate_confident_mastery_band_unconfident_1():
+    band = algorithm._calculate_confident_mastery_band(0., 0.)
+    assert band == 2
+
+
+@pytest.mark.feature_calculate_confident_mastery_band
+def test_calculate_confident_mastery_band_unconfident_3():
+    band = algorithm._calculate_confident_mastery_band(1., 0.)
+    assert band == 2
+
