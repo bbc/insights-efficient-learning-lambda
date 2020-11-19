@@ -6,8 +6,8 @@ def is_float_like(value):
     return type(value) in [int, float]
 
 
-def calculate_weighted_score_and_attempts(undecorated_function):
-    def validate_calculate_weighted_score_and_attempts(
+def calculate_weighting(undecorated_function):
+    def validate_calculate_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
         if not isinstance(study_guide_score, float):
@@ -40,7 +40,34 @@ def calculate_weighted_score_and_attempts(undecorated_function):
         return undecorated_function(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
-    return validate_calculate_weighted_score_and_attempts
+    return validate_calculate_weighting
+
+
+def _calculate_weighted_value(undecorated_function):
+    def validate_calculate_weighted_value(
+            weighting, study_guide_value, topic_value):
+
+        if not isinstance(weighting, float):
+            raise TypeError(f"weighting should be a float, a {weighting.__class__.__name__} was provided")
+        if not isinstance(study_guide_value, float):
+            raise TypeError(f"study_guide_value should be a float, a {study_guide_value.__class__.__name__} was provided")
+        if not isinstance(topic_value, float):
+            raise TypeError(f"topic_value should be a float, a {topic_value.__class__.__name__} was provided")
+
+        if (weighting < 0) | (weighting > 1):
+            raise ValueError(f"unexpected value encountered - weighted_score should be in the interval [0, 1]")
+        if study_guide_value < 0:
+            raise ValueError(f"{study_guide_value} < 0 : study_guide_value should be non-negative")
+        if topic_value < 0:
+            raise ValueError(f"{topic_value} < 0 : topic_value should be non-negative")
+
+        if study_guide_value > topic_value:
+            raise ValueError(f"{study_guide_value} > {topic_value} : study_guide_value should be less than or equal to topic_value")
+
+        return undecorated_function(
+            weighting, study_guide_value, topic_value)
+
+    return validate_calculate_weighted_value
 
 
 def _calculate_confidence_interval(undecorated_function):

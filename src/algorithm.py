@@ -87,8 +87,8 @@ def _normalise_list(list_):
     return [element / sum(list_) for element in list_]
 
 
-@docstrings.calculate_weighted_score_and_attempts
-@validation.calculate_weighted_score_and_attempts
+# @docstrings.calculate_weighted_score_and_attempts
+# @validation.calculate_weighted_score_and_attempts
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
     average_study_guide_mastery = _calculate_beta_distribution_mean(
@@ -154,6 +154,8 @@ def _calculate_thompson_sampling(study_guide_score, study_guide_attempts,
     return float(np.trapz(y=trapezium_heights, x=trapezium_edge_points))
 
 
+@docstrings._calculate_weighted_value
+@validation._calculate_weighted_value
 def _calculate_weighted_value(weighting, study_guide_value, topic_value):
     return weighting * study_guide_value \
         + (1 - weighting) * topic_value
