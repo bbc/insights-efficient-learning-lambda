@@ -2,9 +2,9 @@ import pytest
 import algorithm
 
 
-# --------------------------------------------
-# Feature tests on weighted_score_and_attempts
-# --------------------------------------------
+# -----------------------------------------
+# Feature tests on calculate_weighted_value
+# -----------------------------------------
 
 @pytest.mark.feature_calculate_weighted_value
 def test_calculate_weighted_value_returns_float():
@@ -34,3 +34,21 @@ def test_calculate_weighted_value_is_study_guidewhen_weighting_is_1():
         algorithm._calculate_weighted_value(
             weighting, study_guide_value, topic_value)
     assert weighted_value == study_guide_value
+
+
+# ----------------------------------------------
+# Feature tests on calculate_confidence_interval
+# ----------------------------------------------
+
+@pytest.mark.feature_calculate_confidence_interval
+def test_calculate_confidence_interval_returns_float():
+    confidence = \
+        algorithm._calculate_confidence_interval(1., 2.)
+    assert isinstance(confidence, float)
+
+
+@pytest.mark.feature_calculate_confidence_interval
+def test_calculate_confidence_interval_in_range_0_to_1():
+    confidence = \
+        algorithm._calculate_confidence_interval(1., 2.)
+    assert confidence == pytest.approx(0.5, abs=0.5)
