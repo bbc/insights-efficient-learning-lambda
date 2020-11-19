@@ -190,11 +190,11 @@ def _calculate_cumulative_probability(mastery_threshold, score, attempts):
 
 
 def _calculate_band1_confidence(score, attempts):
-    return _calculate_cumulative_probability(BAND1_THRESHOLD, score, attempts)
+    return float(_calculate_cumulative_probability(BAND1_THRESHOLD, score, attempts))
 
 
 def _calculate_band3_confidence(score, attempts):
-    return 1 - _calculate_cumulative_probability(BAND3_THRESHOLD, score, attempts)
+    return float(1 - _calculate_cumulative_probability(BAND3_THRESHOLD, score, attempts))
 
 
 def _calculate_band2_confidence(score, attempts):
@@ -202,7 +202,7 @@ def _calculate_band2_confidence(score, attempts):
         BAND1_THRESHOLD, score, attempts)
     band_1_or_2_confidence = _calculate_cumulative_probability(
         BAND3_THRESHOLD, score, attempts)
-    return band_1_or_2_confidence - band_1_confidence
+    return float(band_1_or_2_confidence - band_1_confidence)
 
 
 @docstrings._calculate_band_confidence
@@ -229,6 +229,7 @@ def _place_mastery_in_band(mastery_score):
 
 
 @docstrings._calculate_confident_mastery_band
+@validation._calculate_confident_mastery_band
 def _calculate_confident_mastery_band(mastery_score, confidence):
     if confidence > CONFIDENCE_THRESHOLD:
         return _place_mastery_in_band(mastery_score)

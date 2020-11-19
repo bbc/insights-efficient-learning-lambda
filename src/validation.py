@@ -128,21 +128,6 @@ def _calculate_band_confidence(undecorated_function):
         if not is_float_like(attempts):
             raise TypeError(f"attempts should be a float, a {attempts.__class__.__name__} was provided")
 
-        return undecorated_function(mastery_score, score, attempts)
-
-    return validate_calculate_band_confidence
-
-
-def _calculate_band_confidence(undecorated_function):
-    def validate_calculate_band_confidence(mastery_score, score, attempts):
-
-        if not is_float_like(mastery_score):
-            raise TypeError(f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided")
-        if not is_float_like(score):
-            raise TypeError(f"score should be a float, a {score.__class__.__name__} was provided")
-        if not is_float_like(attempts):
-            raise TypeError(f"attempts should be a float, a {attempts.__class__.__name__} was provided")
-
         if (mastery_score < 0) | (mastery_score > 1):
             raise ValueError(f"unexpected value encountered : mastery_score should be in the interval [0, 1]")
         if score < 0:
@@ -152,7 +137,23 @@ def _calculate_band_confidence(undecorated_function):
         if score > attempts:
             raise ValueError(f"{score} > {attempts} : score should be less than or equal to attempts")
 
-
         return undecorated_function(mastery_score, score, attempts)
 
     return validate_calculate_band_confidence
+
+
+def _calculate_confident_mastery_band(undecorated_function):
+    def validate_calculate_confident_mastery_band(mastery_score, confidence):
+
+        if not is_float_like(mastery_score):
+            raise TypeError(f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided")
+        if not is_float_like(confidence):
+            raise TypeError(f"confidence should be a float, a {confidence.__class__.__name__} was provided")
+        if (mastery_score < 0) | (mastery_score > 1):
+            raise ValueError(f"unexpected value encountered - mastery_score should be in the interval [0, 1]")
+        if (confidence < 0) | (confidence > 1):
+            raise ValueError(f"unexpected value encountered - confidence should be in the interval [0, 1]")
+
+        return undecorated_function(mastery_score, confidence)
+
+    return validate_calculate_confident_mastery_band

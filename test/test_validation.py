@@ -296,7 +296,7 @@ def test_convert_confidence_interval_into_probability_contains_floats():
 
 
 @pytest.mark.validation_convert_confidence_interval_into_probability
-def test_convert_confidence_interval_into_probability_contains_floats():
+def test_convert_confidence_interval_into_probability_nonegative():
     confidence_intervals_list = [1., -1, 3]
     try:
         algorithm._convert_confidence_interval_into_probability(
@@ -484,3 +484,51 @@ def test_calculate_band_confidence_score_lt_attempts():
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"{score} > {attempts} : score should be less than or equal to attempts"
+
+
+# ---------------------------------------------------------------
+# Validation tests on algorithm._calculate_confident_mastery_band
+# ---------------------------------------------------------------
+
+@pytest.mark.validation_calculate_confident_mastery_band
+def test_calculate_calculate_confident_mastery_band_mastery_is_float():
+    mastery_score, confidence = '0.7', 2.
+    try:
+        algorithm._calculate_confident_mastery_band(mastery_score, confidence)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"mastery_score should be a float, a {mastery_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_confident_mastery_band
+def test_calculate_calculate_confident_mastery_band_confidence_is_float():
+    mastery_score, confidence = 0.7, '2.'
+    try:
+        algorithm._calculate_confident_mastery_band(mastery_score, confidence)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"confidence should be a float, a {confidence.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_confident_mastery_band
+def test_calculate_calculate_confident_mastery_band_mastery_in_0_to_1():
+    mastery_score, confidence = 1.7, 0.5
+    try:
+        algorithm._calculate_confident_mastery_band(mastery_score, confidence)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"unexpected value encountered - mastery_score should be in the interval [0, 1]"
+
+
+@pytest.mark.validation_calculate_confident_mastery_band
+def test_calculate_calculate_confident_mastery_band_confidence_in_0_to_1():
+    mastery_score, confidence = 0.7, 2.
+    try:
+        algorithm._calculate_confident_mastery_band(mastery_score, confidence)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"unexpected value encountered - confidence should be in the interval [0, 1]"
