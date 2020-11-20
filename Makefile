@@ -40,6 +40,10 @@ fint_test: venv
 	. venv/bin/activate; \
 	pytest -s test/ -v -m fint_$(feature_name)
 
+bint_test: venv
+	. venv/bin/activate; \
+	pytest -s test/ -v -m bint_$(feature_name)
+
 functionality_test: venv
 	. venv/bin/activate; \
 	pytest -s test/ -v -m functionality_$(feature_name)
