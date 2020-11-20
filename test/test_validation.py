@@ -304,7 +304,7 @@ def test_calculate_weighted_value_study_guide_value_lt_topic_value():
 
 
 # ------------------------------------------------------------
-# Validation tests on algorithm._calculate_confidence_interval
+# Validation tests on algorithm.calculate_confidence_interval
 # ------------------------------------------------------------
 
 @pytest.mark.validation_calculate_confidence_interval
@@ -312,7 +312,7 @@ def test_calculate_confidence_interval_weighted_score_is_float():
     weighted_score = '2'
     weighted_attempts = 3.
     try:
-        algorithm._calculate_confidence_interval(
+        algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
         assert False
     except Exception as error:
@@ -325,7 +325,7 @@ def test_calculate_confidence_interval_weighted_attempts_is_float():
     weighted_score = 2.
     weighted_attempts = '3'
     try:
-        algorithm._calculate_confidence_interval(
+        algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
         assert False
     except Exception as error:
@@ -338,7 +338,7 @@ def test_calculate_confidence_interval_weighted_score_is_nonnegative():
     weighted_score = -2.
     weighted_attempts = 3.
     try:
-        algorithm._calculate_confidence_interval(
+        algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
         assert False
     except Exception as error:
@@ -351,7 +351,7 @@ def test_calculate_confidence_interval_weighted_attempts_is_nonnegative():
     weighted_score = 2.
     weighted_attempts = -3.
     try:
-        algorithm._calculate_confidence_interval(
+        algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
         assert False
     except Exception as error:
@@ -364,7 +364,7 @@ def test_calculate_confidence_interval_weighted_score_lt_attempts():
     weighted_score = 5.
     weighted_attempts = 3.
     try:
-        algorithm._calculate_confidence_interval(
+        algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
         assert False
     except Exception as error:
@@ -447,7 +447,7 @@ def test_calculate_beta_distribution_mean_score_is_float():
     score = 1
     attempts = 2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
@@ -459,7 +459,7 @@ def test_calculate_beta_distribution_mean_attempts_is_float():
     score = 1.
     attempts = 2
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
@@ -471,7 +471,7 @@ def test_calculate_beta_distribution_mean_score_is_nonegative():
     score = -1.
     attempts = 2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
@@ -483,7 +483,7 @@ def test_calculate_beta_distribution_mean_attempts_is_nonegative():
     score = 1.
     attempts = -2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
@@ -495,7 +495,7 @@ def test_calculate_beta_distribution_mean_score_lt_attempts():
     score = 2.
     attempts = 1.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'

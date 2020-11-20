@@ -44,14 +44,14 @@ def test_calculate_weighted_value_is_study_guidewhen_weighting_is_1():
 @pytest.mark.feature_calculate_confidence_interval
 def test_calculate_confidence_interval_returns_float():
     confidence = \
-        algorithm._calculate_confidence_interval(1., 2.)
+        algorithm.calculate_confidence_interval(1., 2.)
     assert isinstance(confidence, float)
 
 
 @pytest.mark.feature_calculate_confidence_interval
 def test_calculate_confidence_interval_in_range_0_to_1():
     confidence = \
-        algorithm._calculate_confidence_interval(1., 2.)
+        algorithm.calculate_confidence_interval(1., 2.)
     assert confidence == pytest.approx(0.5, abs=0.5)
 
 
@@ -100,15 +100,15 @@ def test_convert_confidence_interval_into_probability_probabilities_monotonic():
     assert list_of_probabilities[1] == min(list_of_probabilities)
 
 
-# -------------------------------------------------------------
-# Feature tests on convert_confidence_interval_into_probability
-# -------------------------------------------------------------
+# -------------------------------------------------
+# Feature tests on calculate_beta_distribution_mean
+# -------------------------------------------------
 
 @pytest.mark.feature_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_returns_float():
     score = 1.
     attempts = 2.
-    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    mastery = algorithm.calculate_beta_distribution_mean(score, attempts)
     assert isinstance(mastery, float)
 
 
@@ -116,7 +116,7 @@ def test_calculate_beta_distribution_mean_returns_float():
 def test_calculate_beta_distribution_mean_in_range_0_to_1():
     score = 1.
     attempts = 2.
-    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    mastery = algorithm.calculate_beta_distribution_mean(score, attempts)
     assert mastery == pytest.approx(0.5, abs=0.5)
 
 
@@ -124,7 +124,7 @@ def test_calculate_beta_distribution_mean_in_range_0_to_1():
 def test_calculate_beta_distribution_mean_is_half():
     score = 1.
     attempts = 2.
-    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    mastery = algorithm.calculate_beta_distribution_mean(score, attempts)
     assert mastery == 0.5
 
 
@@ -132,7 +132,7 @@ def test_calculate_beta_distribution_mean_is_half():
 def test_calculate_beta_distribution_mean_is_2_thirds():
     score = 1.
     attempts = 1.
-    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    mastery = algorithm.calculate_beta_distribution_mean(score, attempts)
     assert mastery == 2 / 3
 
 
@@ -140,7 +140,7 @@ def test_calculate_beta_distribution_mean_is_2_thirds():
 def test_calculate_beta_distribution_mean_is_1_thirds():
     score = 0.
     attempts = 1.
-    mastery = algorithm._calculate_beta_distribution_mean(score, attempts)
+    mastery = algorithm.calculate_beta_distribution_mean(score, attempts)
     assert mastery == 1 / 3
 
 

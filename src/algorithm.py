@@ -107,9 +107,9 @@ def calculate_weighted_score_and_attempts(
 def _calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
-    average_study_guide_mastery = _calculate_beta_distribution_mean(
+    average_study_guide_mastery = calculate_beta_distribution_mean(
         study_guide_score, study_guide_attempts)
-    average_topic_mastery = _calculate_beta_distribution_mean(
+    average_topic_mastery = calculate_beta_distribution_mean(
         topic_score, topic_attempts)
 
     study_guide_weighting = _calculate_thompson_sampling(
@@ -122,21 +122,9 @@ def _calculate_study_guide_weighting(
     return study_guide_weighting
 
 
-def calculate_mastery_and_confidence(
-        weighted_score, weighted_attempts
-):
-    mastery = _calculate_beta_distribution_mean(
-        weighted_score, weighted_attempts)
-
-    confidence_interval = _calculate_confidence_interval(
-        weighted_score, weighted_attempts)
-
-    return mastery, confidence_interval
-
-
-@docstrings._calculate_beta_distribution_mean
-@validation._calculate_beta_distribution_mean
-def _calculate_beta_distribution_mean(score, attempts):
+@docstrings.calculate_beta_distribution_mean
+@validation.calculate_beta_distribution_mean
+def calculate_beta_distribution_mean(score, attempts):
     return (score + 1) / ((score + 1) + (attempts + 1 - score))
 
 
@@ -189,9 +177,9 @@ def _95th_percentile_equation(mastery, score, attempts):
     return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
 
 
-@docstrings._calculate_confidence_interval
-@validation._calculate_confidence_interval
-def _calculate_confidence_interval(score, attempts):
+@docstrings.calculate_confidence_interval
+@validation.calculate_confidence_interval
+def calculate_confidence_interval(score, attempts):
     _95th_percentile = _calculate_95th_percentile(score, attempts)
     _5th_percentile = _calculate_5th_percentile(score, attempts)
     return float(_95th_percentile - _5th_percentile)

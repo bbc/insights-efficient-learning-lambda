@@ -44,7 +44,7 @@ ValueError : {study_guide_value} > {topic_value} : study_guide_value should be l
     return _add_docstring(function, docstring)
 
 
-def _calculate_confidence_interval(function):
+def calculate_confidence_interval(function):
     docstring = """
 Calculates the width of the confidence interval given by the 5th and 9th percentile ofthe weighted mastery.
 
@@ -109,7 +109,7 @@ ValueError : {confidence_interval} < 0 : all confidence intervals should be non-
     return _add_docstring(function, docstring)
 
 
-def _calculate_beta_distribution_mean(function):
+def calculate_beta_distribution_mean(function):
     docstring = """
 Calculates expected value or mean of a beta distribution Beta(alpha, beta), where
 alpha = 1 + score

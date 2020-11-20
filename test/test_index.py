@@ -49,9 +49,11 @@ def test_valid_event_with_results_returns_next_question(mocker):
         'helper.get_topic_id')
     get_topic_id_mock.return_value = {'zc7k2nb': 'z2s8v9q', 'z84jtv4': 'z2s8v9q', 'zs8y4qt': 'z2s8v9q', 'zt8t3k7': 'z9236yc', 'zxr7ng8': 'z9236yc', 'z3tgw6f': 'z9236yc', 'z8fkmsg': 'z9236yc'}
 
-    mastery_and_confidence_mock = mocker.patch(
-        'algorithm.calculate_mastery_and_confidence')
-    mastery_and_confidence_mock.return_value = 0.75, 0.50
+    mastery_mock = mocker.patch('algorithm.calculate_beta_distribution_mean')
+    mastery_mock.return_value = 0.75
+
+    confidence_mock = mocker.patch('algorithm.calculate_confidence_interval')
+    confidence_mock.return_value = 0.5
 
     band_mock = mocker.patch('algorithm.calculate_mastery_band_and_confidence')
     band_mock.return_value = 3, 0.65
@@ -73,9 +75,11 @@ def test_valid_event_no_results_returns_next_question(mocker):
         'helper.get_topic_id')
     get_topic_id_mock.return_value = {'zc7k2nb': 'z2s8v9q', 'z84jtv4': 'z2s8v9q', 'zs8y4qt': 'z2s8v9q', 'zt8t3k7': 'z9236yc', 'zxr7ng8': 'z9236yc', 'z3tgw6f': 'z9236yc', 'z8fkmsg': 'z9236yc'}
 
-    mastery_and_confidence_mock = mocker.patch(
-        'algorithm.calculate_mastery_and_confidence')
-    mastery_and_confidence_mock.return_value = 0.75, 0.50
+    mastery_mock = mocker.patch('algorithm.calculate_beta_distribution_mean')
+    mastery_mock.return_value = 0.75
+
+    confidence_mock = mocker.patch('algorithm.calculate_confidence_interval')
+    confidence_mock.return_value = 0.5
 
     band_mock = mocker.patch('algorithm.calculate_mastery_band_and_confidence')
     band_mock.return_value = 3, 0.65

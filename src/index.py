@@ -51,7 +51,10 @@ def handler(event, context):
         weighted_score, weighted_attempts = algorithm.calculate_weighted_score_and_attempts(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
-        mastery, confidence_interval = algorithm.calculate_mastery_and_confidence(
+        mastery = algorithm.calculate_beta_distribution_mean(
+            weighted_score, weighted_attempts)
+
+        confidence_interval = algorithm.calculate_confidence_interval(
             weighted_score, weighted_attempts)
 
         confidence_intervals_list.append(confidence_interval)
