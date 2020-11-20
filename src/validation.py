@@ -70,7 +70,7 @@ def _calculate_weighted_value(undecorated_function):
     return validate_calculate_weighted_value
 
 
-def _calculate_confidence_interval(undecorated_function):
+def calculate_confidence_interval(undecorated_function):
     def validate_calculate_confidence_interval(
             weighted_score, weighted_attempts):
 

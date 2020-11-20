@@ -22,7 +22,7 @@ def test_calculate_weighted_value():
 
 @pytest.mark.docstring_test
 def test_calculate_confidence_interval_has_docstring():
-    assert algorithm._calculate_confidence_interval.__doc__ is not None
+    assert algorithm.calculate_confidence_interval.__doc__ is not None
 
 
 @pytest.mark.docstring_test

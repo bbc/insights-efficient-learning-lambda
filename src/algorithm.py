@@ -128,7 +128,7 @@ def calculate_mastery_and_confidence(
     mastery = calculate_beta_distribution_mean(
         weighted_score, weighted_attempts)
 
-    confidence_interval = _calculate_confidence_interval(
+    confidence_interval = calculate_confidence_interval(
         weighted_score, weighted_attempts)
 
     return mastery, confidence_interval
@@ -189,9 +189,9 @@ def _95th_percentile_equation(mastery, score, attempts):
     return beta.cdf(mastery, 1 + score, 1 + attempts - score) - 0.95
 
 
-@docstrings._calculate_confidence_interval
-@validation._calculate_confidence_interval
-def _calculate_confidence_interval(score, attempts):
+@docstrings.calculate_confidence_interval
+@validation.calculate_confidence_interval
+def calculate_confidence_interval(score, attempts):
     _95th_percentile = _calculate_95th_percentile(score, attempts)
     _5th_percentile = _calculate_5th_percentile(score, attempts)
     return float(_95th_percentile - _5th_percentile)
