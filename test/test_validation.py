@@ -447,7 +447,7 @@ def test_calculate_beta_distribution_mean_score_is_float():
     score = 1
     attempts = 2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
@@ -459,7 +459,7 @@ def test_calculate_beta_distribution_mean_attempts_is_float():
     score = 1.
     attempts = 2
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'TypeError'
@@ -471,7 +471,7 @@ def test_calculate_beta_distribution_mean_score_is_nonegative():
     score = -1.
     attempts = 2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
@@ -483,7 +483,7 @@ def test_calculate_beta_distribution_mean_attempts_is_nonegative():
     score = 1.
     attempts = -2.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
@@ -495,7 +495,7 @@ def test_calculate_beta_distribution_mean_score_lt_attempts():
     score = 2.
     attempts = 1.
     try:
-        algorithm._calculate_beta_distribution_mean(score, attempts)
+        algorithm.calculate_beta_distribution_mean(score, attempts)
         assert False
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'

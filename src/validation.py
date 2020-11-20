@@ -126,7 +126,7 @@ def _place_mastery_in_band(undecorated_function):
     return validate_place_mastery_in_band
 
 
-def _calculate_beta_distribution_mean(undecorated_function):
+def calculate_beta_distribution_mean(undecorated_function):
     def validate_calculate_beta_distribution_mean(score, attempts):
 
         if not isinstance(score, float):

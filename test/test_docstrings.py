@@ -32,7 +32,7 @@ def test_convert_confidence_interval_into_probability_has_docstring():
 
 @pytest.mark.docstring_test
 def test_calculate_beta_distribution_mean_has_docstring():
-    assert algorithm._calculate_beta_distribution_mean.__doc__ is not None
+    assert algorithm.calculate_beta_distribution_mean.__doc__ is not None
 
 
 @pytest.mark.docstring_test

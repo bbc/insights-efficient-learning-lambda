@@ -109,7 +109,7 @@ ValueError : {confidence_interval} < 0 : all confidence intervals should be non-
     return _add_docstring(function, docstring)
 
 
-def _calculate_beta_distribution_mean(function):
+def calculate_beta_distribution_mean(function):
     docstring = """
 Calculates expected value or mean of a beta distribution Beta(alpha, beta), where
 alpha = 1 + score
