@@ -122,17 +122,17 @@ def _calculate_study_guide_weighting(
     return study_guide_weighting
 
 
-def calculate_mastery_and_confidence(
-        weighted_score, weighted_attempts
-):
-    mastery = calculate_beta_distribution_mean(
-        weighted_score, weighted_attempts)
-
-    confidence_interval = calculate_confidence_interval(
-        weighted_score, weighted_attempts)
-
-    return mastery, confidence_interval
-
+# def calculate_mastery_and_confidence(
+#         weighted_score, weighted_attempts
+# ):
+#     mastery = calculate_beta_distribution_mean(
+#         weighted_score, weighted_attempts)
+#
+#     confidence_interval = calculate_confidence_interval(
+#         weighted_score, weighted_attempts)
+#
+#     return mastery, confidence_interval
+#
 
 @docstrings.calculate_beta_distribution_mean
 @validation.calculate_beta_distribution_mean

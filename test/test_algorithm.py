@@ -43,14 +43,6 @@ def test_choose_next_question_multiple_recursions(mocker):
     assert actual_question == VALID_QUESTION
 
 
-def test_calculate_mastery_and_confidence_interval():
-    actual_mastery, actual_confidence = algorithm.calculate_mastery_and_confidence(
-        1., 1.)
-
-    assert actual_confidence == pytest.approx(0.75, abs=0.005)
-    assert actual_mastery == pytest.approx(0.66, abs=0.01)
-
-
 def test_get_mastery_band_and_confidence_confident_band1():
     actual_mastery_band, actual_confidence = algorithm.calculate_mastery_band_and_confidence(
         1 / 6, 0., 4.)

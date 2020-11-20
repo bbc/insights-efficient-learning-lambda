@@ -100,9 +100,9 @@ def test_convert_confidence_interval_into_probability_probabilities_monotonic():
     assert list_of_probabilities[1] == min(list_of_probabilities)
 
 
-# -------------------------------------------------------------
-# Feature tests on convert_confidence_interval_into_probability
-# -------------------------------------------------------------
+# -------------------------------------------------
+# Feature tests on calculate_beta_distribution_mean
+# -------------------------------------------------
 
 @pytest.mark.feature_calculate_beta_distribution_mean
 def test_calculate_beta_distribution_mean_returns_float():
