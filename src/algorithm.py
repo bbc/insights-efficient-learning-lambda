@@ -87,10 +87,26 @@ def _normalise_list(list_):
     return [element / sum(list_) for element in list_]
 
 
-# @docstrings.calculate_weighted_score_and_attempts
-# @validation.calculate_weighted_score_and_attempts
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
+
+    study_guide_weighting = _calculate_study_guide_weighting(
+        study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+
+    weighted_score = _calculate_weighted_value(
+        study_guide_weighting, study_guide_score, topic_score)
+
+    weighted_attempts = _calculate_weighted_value(
+        study_guide_weighting, study_guide_attempts, topic_attempts)
+
+    return weighted_score, weighted_attempts
+
+
+@docstrings._calculate_study_guide_weighting
+@validation._calculate_study_guide_weighting
+def _calculate_study_guide_weighting(
+        study_guide_score, study_guide_attempts, topic_score, topic_attempts):
+
     average_study_guide_mastery = _calculate_beta_distribution_mean(
         study_guide_score, study_guide_attempts)
     average_topic_mastery = _calculate_beta_distribution_mean(
@@ -103,13 +119,7 @@ def calculate_weighted_score_and_attempts(
     if average_study_guide_mastery < average_topic_mastery:
         study_guide_weighting = (1 - study_guide_weighting)
 
-    weighted_score = _calculate_weighted_value(
-        study_guide_weighting, study_guide_score, topic_score)
-
-    weighted_attempts = _calculate_weighted_value(
-        study_guide_weighting, study_guide_attempts, topic_attempts)
-
-    return weighted_score, weighted_attempts
+    return study_guide_weighting
 
 
 def calculate_mastery_and_confidence(

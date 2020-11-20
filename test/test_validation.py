@@ -637,3 +637,151 @@ def test_calculate_calculate_confident_mastery_band_confidence_in_0_to_1():
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"unexpected value encountered - confidence should be in the interval [0, 1]"
+
+
+# --------------------------------------------------------------
+# Validation tests on algorithm._calculate_study_guide_weighting
+# --------------------------------------------------------------
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_score_is_float():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1, 1., 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"study_guide_score should be a float, a {study_guide_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_attempts_is_float():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1, 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"study_guide_attempts should be a float, a {study_guide_attempts.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_score_is_float():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2, 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"topic_score should be a float, a {topic_score.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_attempts_is_float():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2., 2
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"topic_attempts should be a float, a {topic_attempts.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_score_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = -1., 1., 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_score} < 0 : study_guide_score should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_attempts_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., -1., 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_attempts} < 0 : study_guide_attempts should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_score_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., -2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{topic_score} < 0 : topic_score should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_attempts_is_nonnegative():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2., -2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{topic_attempts} < 0 : topic_attempts should be non-negative"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_score_lt_attempts():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 10., 1., 2., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_score} > {study_guide_attempts} : study_guide_score should be less than or equal to study_guide_attempts"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_topic_score_lt_attempts():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 20., 2.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{topic_score} > {topic_attempts} : topic_score should be less than or equal to topic_attempts"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_score_lt_topic_score():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 3., 3., 2., 4.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score"
+
+
+@pytest.mark.validation_calculate_study_guide_weighting
+def test_calculate_study_guide_weighting_study_guide_attempts_lt_topic_attempts():
+    study_guide_score, study_guide_attempts, topic_score, topic_attempts = 2., 5., 2., 4.
+    try:
+        algorithm._calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(error) == f"{study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts"

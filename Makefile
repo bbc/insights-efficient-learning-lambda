@@ -36,6 +36,10 @@ feature_test: venv
 	. venv/bin/activate; \
 	pytest -s test/ -v -m feature_$(feature_name)
 
+fint_test: venv
+	. venv/bin/activate; \
+	pytest -s test/ -v -m fint_$(feature_name)
+
 load-test: 
 	npm i artillery
 	artillery run -e test test/loadtest/quizzes.yaml
