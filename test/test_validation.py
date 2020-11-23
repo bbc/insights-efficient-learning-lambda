@@ -12,7 +12,7 @@ def test_calculate_weighted_value_weighting_is_float():
     study_guide_value = 1.
     topic_value = 1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -26,7 +26,7 @@ def test_calculate_weighted_value_study_guide_value_is_float():
     study_guide_value = 1
     topic_value = 1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -40,7 +40,7 @@ def test_calculate_weighted_value_topic_value_is_float():
     study_guide_value = 1.
     topic_value = 1
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -54,7 +54,7 @@ def test_calculate_weighted_value_weighting_in_range_0_to_1():
     study_guide_value = 1.
     topic_value = 1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -68,7 +68,7 @@ def test_calculate_weighted_value_study_guide_value_nonnegative():
     study_guide_value = -1.
     topic_value = 1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -82,7 +82,7 @@ def test_calculate_weighted_value_topic_value_nonnegative():
     study_guide_value = 1.
     topic_value = -1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:
@@ -96,7 +96,7 @@ def test_calculate_weighted_value_study_guide_value_lt_topic_value():
     study_guide_value = 2.
     topic_value = 1.
     try:
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
         assert False
     except Exception as error:

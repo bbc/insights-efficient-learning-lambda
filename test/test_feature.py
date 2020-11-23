@@ -10,7 +10,7 @@ import algorithm
 @pytest.mark.feature_calculate_weighted_value
 def test_calculate_weighted_value_returns_float():
     weighted_value = \
-        algorithm._calculate_weighted_value(0.5, 1., 2.)
+        algorithm.calculate_weighted_value(0.5, 1., 2.)
     assert isinstance(weighted_value, float)
 
 
@@ -20,7 +20,7 @@ def test_calculate_weighted_value_between_study_guide_and_topic_value():
     study_guide_value = 1.
     topic_value = 2.
     weighted_value = \
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
     assert weighted_value >= study_guide_value
     assert weighted_value <= topic_value
@@ -32,7 +32,7 @@ def test_calculate_weighted_value_is_study_guidewhen_weighting_is_1():
     study_guide_value = 1.
     topic_value = 2.
     weighted_value = \
-        algorithm._calculate_weighted_value(
+        algorithm.calculate_weighted_value(
             weighting, study_guide_value, topic_value)
     assert weighted_value == study_guide_value
 

@@ -3,7 +3,7 @@ def _add_docstring(function, docstring):
     return function
 
 
-def _calculate_weighted_value(function):
+def calculate_weighted_value(function):
     docstring = """
 Takes a weighted average of a value associated with a study guide and the corresponding value for the topic and returns a weighted average. 
 
