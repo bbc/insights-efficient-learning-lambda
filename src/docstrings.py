@@ -306,7 +306,7 @@ ValueError : {study_guide_attempts} > {topic_attempts} : study_guide_attempts sh
 
 
 def calculate_confidence_intervals_list(function):
-    docstring =  """
+    docstring = """
 Calculates confidence intervals for each study guide in the test. Intervals are based on the 5th and 95th percentiles of the mastery distribution. Returns list of confidence intervals corresponding, in order, to the guides in study_guide_id_list.
 
 Parameters
