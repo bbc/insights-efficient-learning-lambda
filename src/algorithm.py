@@ -47,13 +47,19 @@ def _remove_completed_guide(
     return filtered_study_guide_id_list, filtered_confidence_intervals_list
 
 
+def _get_list_of_unasked_questions_from_guide(
+        study_guide_id, question_id_list):
+    return client.select_and_filter_question_ids(
+        study_guide_id, question_id_list)
+
+
 def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
                          confidence_intervals_list, question_id_list):
     
     study_guide_id = _choose_next_study_guide_id(
         study_guide_id_list, confidence_intervals_list)
 
-    filtered_question_id_list = client.select_and_filter_question_ids(
+    filtered_question_id_list = _get_list_of_unasked_questions_from_guide(
         study_guide_id, question_id_list)
 
     if not filtered_question_id_list:
