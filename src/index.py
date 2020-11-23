@@ -26,13 +26,10 @@ def handler(event, context):
 
         return _build_response(200, next_question)
 
-
-
     question_id_list = _create_question_id_list(questions)
     study_guide_score_and_attempts, topic_score_and_attempts = \
         _accumulate_score_and_attempts(
             study_guide_id_list, topic_id_list, questions)
-
 
     results_list = []
     confidence_intervals_list = []
