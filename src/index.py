@@ -26,16 +26,10 @@ def handler(event, context):
 
         return _build_response(200, next_question)
 
-    topic_score_and_attempts = _initialise_score_and_attempts(topic_id_list)
-    study_guide_score_and_attempts = _initialise_score_and_attempts(
-        study_guide_id_list)
-
     question_id_list = _create_question_id_list(questions)
-
-    for question in questions:
-        _update_topic_score_and_attempts(topic_score_and_attempts, question)
-        _update_study_guide_score_and_attempts(
-            study_guide_score_and_attempts, question)
+    study_guide_score_and_attempts, topic_score_and_attempts = \
+        _accumulate_score_and_attempts(
+            study_guide_id_list, topic_id_list, questions)
 
     results_list = []
     confidence_intervals_list = []
@@ -80,6 +74,21 @@ def handler(event, context):
         })
 
     return _build_response(200, next_question)
+
+
+def _accumulate_score_and_attempts(
+        study_guide_id_list, topic_id_list, questions):
+
+    topic_score_and_attempts = _initialise_score_and_attempts(topic_id_list)
+    study_guide_score_and_attempts = _initialise_score_and_attempts(
+        study_guide_id_list)
+
+    for question in questions:
+        _update_topic_score_and_attempts(topic_score_and_attempts, question)
+        _update_study_guide_score_and_attempts(
+            study_guide_score_and_attempts, question)
+
+    return study_guide_score_and_attempts, topic_score_and_attempts
 
 
 def _create_question_id_list(questions):
