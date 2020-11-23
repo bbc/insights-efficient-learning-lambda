@@ -67,8 +67,9 @@ def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
         study_guide_id, question_id_list)
 
     if not filtered_question_id_list:
-        filtered_study_guide_id_list, filtered_confidence_intervals_list = _remove_completed_guide(
-            study_guide_id, study_guide_id_list, confidence_intervals_list)
+        filtered_study_guide_id_list, filtered_confidence_intervals_list = \
+            _remove_completed_guide(
+                study_guide_id, study_guide_id_list, confidence_intervals_list)
 
         return choose_next_question(
             topic_id_for_study_guide_id, filtered_study_guide_id_list,
@@ -95,6 +96,26 @@ def _choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
         confidence_intervals_list)
 
     return np.random.choice(a=study_guide_id_list, p=probabilities_list)
+
+
+@docstrings.calculate_confidence_intervals_list
+@validation.calculate_confidence_intervals_list
+def calculate_confidence_intervals_list(
+        study_guide_id_list, study_guide_score_and_attempts):
+
+    confidence_intervals_list = []
+    for study_guide_id in study_guide_id_list:
+        weighted_score = study_guide_score_and_attempts[
+            study_guide_id]['weighted_score']
+        weighted_attempts = study_guide_score_and_attempts[
+            study_guide_id]['weighted_attempts']
+
+        confidence_interval = calculate_confidence_interval(
+            weighted_score, weighted_attempts)
+
+        confidence_intervals_list.append(confidence_interval)
+
+    return confidence_intervals_list
 
 
 @docstrings._convert_confidence_interval_into_probability

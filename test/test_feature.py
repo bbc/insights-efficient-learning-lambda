@@ -55,6 +55,57 @@ def test_calculate_confidence_interval_in_range_0_to_1():
     assert confidence == pytest.approx(0.5, abs=0.5)
 
 
+# ----------------------------------------------------
+# Feature tests on calculate_confidence_intervals_list
+# ----------------------------------------------------
+
+@pytest.mark.feature_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_returns_list():
+    study_guide_id_list = ['z1', 'z2']
+    weighted_score_and_attempts = {
+        'z1': {'weighted_score': 0.,
+               'weighted_attempts': 0.},
+        'z2': {'weighted_score': 0.,
+               'weighted_attempts': 0.}
+    }
+    confidence_intervals_list = \
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+    assert isinstance(confidence_intervals_list, list)
+
+
+@pytest.mark.feature_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_returns_floats():
+    study_guide_id_list = ['z1', 'z2']
+    weighted_score_and_attempts = {
+        'z1': {'weighted_score': 10.,
+               'weighted_attempts': 10.},
+        'z2': {'weighted_score': 0.,
+               'weighted_attempts': 10.}
+    }
+    confidence_intervals_list = \
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+    assert all([isinstance(confidence, float)
+                for confidence in confidence_intervals_list])
+
+
+@pytest.mark.feature_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_returns_floats_in_range_0_to_1():
+    study_guide_id_list = ['z1', 'z2']
+    weighted_score_and_attempts = {
+        'z1': {'weighted_score': 10.,
+               'weighted_attempts': 10.},
+        'z2': {'weighted_score': 0.,
+               'weighted_attempts': 10.}
+    }
+    confidence_intervals_list = \
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+    assert all([(confidence >= 0) & (confidence <= 1)
+                for confidence in confidence_intervals_list])
+
+
 # -------------------------------------------------------------
 # Feature tests on convert_confidence_interval_into_probability
 # -------------------------------------------------------------

@@ -38,10 +38,8 @@ def handler(event, context):
         study_guide_score_and_attempts, topic_score_and_attempts,
         study_guide_id_list, topic_id_for_study_guide_id)
 
-    results_list = []
-    confidence_intervals_list = []
-
     if return_results:
+        results_list = []
         for study_guide_id in study_guide_id_list:
             topic_id = topic_id_for_study_guide_id[study_guide_id]
 
@@ -66,17 +64,8 @@ def handler(event, context):
 
         response['results'] = results_list
     else:
-        for study_guide_id in study_guide_id_list:
-
-            weighted_score = study_guide_score_and_attempts[
-                study_guide_id]['weighted_score']
-            weighted_attempts = study_guide_score_and_attempts[
-                study_guide_id]['weighted_attempts']
-
-            confidence_interval = algorithm.calculate_confidence_interval(
-                weighted_score, weighted_attempts)
-
-            confidence_intervals_list.append(confidence_interval)
+        confidence_intervals_list = algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, study_guide_score_and_attempts)
 
         response['nextQuestion'] = algorithm.choose_next_question(
             topic_id_for_study_guide_id, study_guide_id_list,
