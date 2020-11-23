@@ -19,12 +19,14 @@ def handler(event, context):
     topic_id_for_study_guide_id = helper.get_topic_id(
         study_guide_id_list)
 
-    if not questions:
-        next_question = {
-            'nextQuestion': algorithm.choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list)
-        }
+    response = {'nextQuestion': {},
+                'results': []}
 
-        return _build_response(200, next_question)
+    if not questions:
+        response['nextQuestion'] = algorithm.choose_initial_question(
+            topic_id_for_study_guide_id, study_guide_id_list)
+
+        return _build_response(200, response)
 
     question_id_list = _create_question_id_list(questions)
 
@@ -66,14 +68,12 @@ def handler(event, context):
             'confidenceScore': band_confidence * 100
         })
 
-    response = {
-        'nextQuestion': algorithm.choose_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list, question_id_list)
-    }
-
     if return_results:
-        response.update({
-            'results': results_list
-        })
+        response['results'] = results_list
+    else:
+        response['nextQuestion'] = algorithm.choose_next_question(
+            topic_id_for_study_guide_id, study_guide_id_list,
+            confidence_intervals_list, question_id_list)
 
     return _build_response(200, response)
 
