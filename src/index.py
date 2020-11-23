@@ -41,36 +41,43 @@ def handler(event, context):
     results_list = []
     confidence_intervals_list = []
 
-    for study_guide_id in study_guide_id_list:
-        topic_id = topic_id_for_study_guide_id[study_guide_id]
-
-        weighted_score = study_guide_score_and_attempts[
-            study_guide_id]['weighted_score']
-        weighted_attempts = study_guide_score_and_attempts[
-            study_guide_id]['weighted_attempts']
-
-        mastery = algorithm.calculate_beta_distribution_mean(
-            weighted_score, weighted_attempts)
-
-        confidence_interval = algorithm.calculate_confidence_interval(
-            weighted_score, weighted_attempts)
-
-        confidence_intervals_list.append(confidence_interval)
-
-        mastery_band, band_confidence = algorithm.calculate_mastery_band_and_confidence(
-            mastery, weighted_score, weighted_attempts)
-
-        results_list.append({
-            'studyGuideId': study_guide_id,
-            'topicId': topic_id,
-            'band': mastery_band,
-            'masteryScore': mastery * 100,
-            'confidenceScore': band_confidence * 100
-        })
-
     if return_results:
+        for study_guide_id in study_guide_id_list:
+            topic_id = topic_id_for_study_guide_id[study_guide_id]
+
+            weighted_score = study_guide_score_and_attempts[
+                study_guide_id]['weighted_score']
+            weighted_attempts = study_guide_score_and_attempts[
+                study_guide_id]['weighted_attempts']
+
+            mastery = algorithm.calculate_beta_distribution_mean(
+                weighted_score, weighted_attempts)
+
+            mastery_band, band_confidence = algorithm.calculate_mastery_band_and_confidence(
+                mastery, weighted_score, weighted_attempts)
+
+            results_list.append({
+                'studyGuideId': study_guide_id,
+                'topicId': topic_id,
+                'band': mastery_band,
+                'masteryScore': mastery * 100,
+                'confidenceScore': band_confidence * 100
+            })
+
         response['results'] = results_list
     else:
+        for study_guide_id in study_guide_id_list:
+
+            weighted_score = study_guide_score_and_attempts[
+                study_guide_id]['weighted_score']
+            weighted_attempts = study_guide_score_and_attempts[
+                study_guide_id]['weighted_attempts']
+
+            confidence_interval = algorithm.calculate_confidence_interval(
+                weighted_score, weighted_attempts)
+
+            confidence_intervals_list.append(confidence_interval)
+
         response['nextQuestion'] = algorithm.choose_next_question(
             topic_id_for_study_guide_id, study_guide_id_list,
             confidence_intervals_list, question_id_list)
