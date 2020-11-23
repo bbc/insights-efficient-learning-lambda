@@ -17,11 +17,11 @@ CONFIDENCE_THRESHOLD = 0.6
 def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     study_guide_id = random.choice(study_guide_id_list)
 
-    question_id_list = client.select_all_question_ids(study_guide_id)
+    question_id_list = _get_all_question_ids_from_guide(study_guide_id)
 
     question_id = random.choice(question_id_list)['id']
 
-    question = client.select_question_by_id(question_id, study_guide_id)
+    question = _get_question_text(question_id, study_guide_id)
 
     question.update({
         "studyGuideId": study_guide_id,
@@ -29,6 +29,32 @@ def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     })
 
     return question
+
+
+def _get_all_question_ids_from_guide(study_guide_id):
+    return client.select_all_question_ids(study_guide_id)
+
+
+def _remove_completed_guide(
+        study_guide_id, study_guide_id_list, confidence_intervals_list):
+
+    index = study_guide_id_list.index(study_guide_id)
+
+    filtered_study_guide_id_list = [guide_id for guide_id in study_guide_id_list
+                                    if guide_id != study_guide_id]
+
+    filtered_confidence_intervals_list = [confidence_interval
+                                          for index_, confidence_interval
+                                          in enumerate(confidence_intervals_list)
+                                          if index_ != index]
+
+    return filtered_study_guide_id_list, filtered_confidence_intervals_list
+
+
+def _get_list_of_unasked_questions_from_guide(
+        study_guide_id, question_id_list):
+    return client.select_and_filter_question_ids(
+        study_guide_id, question_id_list)
 
 
 def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
@@ -37,19 +63,12 @@ def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
     study_guide_id = _choose_next_study_guide_id(
         study_guide_id_list, confidence_intervals_list)
 
-    filtered_question_id_list = client.select_and_filter_question_ids(
+    filtered_question_id_list = _get_list_of_unasked_questions_from_guide(
         study_guide_id, question_id_list)
 
     if not filtered_question_id_list:
-        index = study_guide_id_list.index(study_guide_id)
-
-        filtered_study_guide_id_list = [guide_id for guide_id in study_guide_id_list
-                                        if guide_id != study_guide_id]
-
-        filtered_confidence_intervals_list = [confidence_interval
-                                              for index_, confidence_interval
-                                              in enumerate(confidence_intervals_list)
-                                              if index_ != index]
+        filtered_study_guide_id_list, filtered_confidence_intervals_list = _remove_completed_guide(
+            study_guide_id, study_guide_id_list, confidence_intervals_list)
 
         return choose_next_question(
             topic_id_for_study_guide_id, filtered_study_guide_id_list,
@@ -57,7 +76,7 @@ def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
 
     question_id = random.choice(filtered_question_id_list)['id']
 
-    question = client.select_question_by_id(question_id, study_guide_id)
+    question = _get_question_text(question_id, study_guide_id)
 
     question.update({
         "studyGuideId": study_guide_id,
@@ -65,6 +84,10 @@ def choose_next_question(topic_id_for_study_guide_id, study_guide_id_list,
     })
 
     return question
+
+
+def _get_question_text(question_id, study_guide_id):
+    return client.select_question_by_id(question_id, study_guide_id)
 
 
 def _choose_next_study_guide_id(study_guide_id_list, confidence_intervals_list):
