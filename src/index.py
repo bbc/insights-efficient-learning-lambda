@@ -27,23 +27,25 @@ def handler(event, context):
         return _build_response(200, next_question)
 
     question_id_list = _create_question_id_list(questions)
+
     study_guide_score_and_attempts, topic_score_and_attempts = \
         _accumulate_score_and_attempts(
             study_guide_id_list, topic_id_list, questions)
+
+    _add_weighted_score_and_attempts(
+        study_guide_score_and_attempts, topic_score_and_attempts,
+        study_guide_id_list, topic_id_for_study_guide_id)
 
     results_list = []
     confidence_intervals_list = []
 
     for study_guide_id in study_guide_id_list:
         topic_id = topic_id_for_study_guide_id[study_guide_id]
-        topic_score = topic_score_and_attempts[topic_id]['score']
-        topic_attempts = topic_score_and_attempts[topic_id]['attempts']
 
-        study_guide_score = study_guide_score_and_attempts[study_guide_id]['score']
-        study_guide_attempts = study_guide_score_and_attempts[study_guide_id]['attempts']
-
-        weighted_score, weighted_attempts = algorithm.calculate_weighted_score_and_attempts(
-            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+        weighted_score = study_guide_score_and_attempts[
+            study_guide_id]['weighted_score']
+        weighted_attempts = study_guide_score_and_attempts[
+            study_guide_id]['weighted_attempts']
 
         mastery = algorithm.calculate_beta_distribution_mean(
             weighted_score, weighted_attempts)
@@ -74,6 +76,30 @@ def handler(event, context):
         })
 
     return _build_response(200, next_question)
+
+
+def _add_weighted_score_and_attempts(
+    study_guide_score_and_attempts, topic_score_and_attempts,
+        study_guide_id_list, topic_id_for_study_guide_id):
+
+    for study_guide_id in study_guide_id_list:
+        topic_id = topic_id_for_study_guide_id[study_guide_id]
+        topic_score = topic_score_and_attempts[topic_id]['score']
+        topic_attempts = topic_score_and_attempts[topic_id]['attempts']
+
+        study_guide_score = study_guide_score_and_attempts[study_guide_id]['score']
+        study_guide_attempts = study_guide_score_and_attempts[study_guide_id]['attempts']
+
+        study_guide_weighting = algorithm.calculate_study_guide_weighting(
+            study_guide_score, study_guide_attempts, topic_score, topic_attempts)
+
+        study_guide_score_and_attempts[study_guide_id]['weighted_score'] = \
+            algorithm.calculate_weighted_value(
+                study_guide_weighting, study_guide_score, topic_score)
+
+        study_guide_score_and_attempts[study_guide_id]['weighted_attempts'] = \
+            algorithm.calculate_weighted_value(
+                study_guide_weighting, study_guide_attempts, topic_attempts)
 
 
 def _accumulate_score_and_attempts(

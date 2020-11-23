@@ -3,7 +3,7 @@ def _add_docstring(function, docstring):
     return function
 
 
-def _calculate_weighted_value(function):
+def calculate_weighted_value(function):
     docstring = """
 Takes a weighted average of a value associated with a study guide and the corresponding value for the topic and returns a weighted average. 
 
@@ -251,7 +251,7 @@ ValueError : unexpected value encountered - confidence should be in the interval
     return _add_docstring(function, docstring)
 
 
-def _calculate_study_guide_weighting(function):
+def calculate_study_guide_weighting(function):
     docstring = """
 Compares the results for a study guide against the results aggregated across all studyguides within the topic
 

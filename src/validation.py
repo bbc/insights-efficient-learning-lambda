@@ -6,7 +6,7 @@ def is_float_like(value):
     return type(value) in [int, float]
 
 
-def _calculate_weighted_value(undecorated_function):
+def calculate_weighted_value(undecorated_function):
     def validate_calculate_weighted_value(
             weighting, study_guide_value, topic_value):
 
@@ -179,7 +179,6 @@ def _calculate_study_guide_weighting(undecorated_function):
             raise ValueError(f"{study_guide_score} > {topic_score} : study_guide_score should be less than or equal to topic_score")
         if study_guide_attempts > topic_attempts:
             raise ValueError(f"{study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts")
-
 
         return undecorated_function(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)

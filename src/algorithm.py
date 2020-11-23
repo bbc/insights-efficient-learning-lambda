@@ -113,21 +113,21 @@ def _normalise_list(list_):
 def calculate_weighted_score_and_attempts(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
-    study_guide_weighting = _calculate_study_guide_weighting(
+    study_guide_weighting = calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
-    weighted_score = _calculate_weighted_value(
+    weighted_score = calculate_weighted_value(
         study_guide_weighting, study_guide_score, topic_score)
 
-    weighted_attempts = _calculate_weighted_value(
+    weighted_attempts = calculate_weighted_value(
         study_guide_weighting, study_guide_attempts, topic_attempts)
 
     return weighted_score, weighted_attempts
 
 
-@docstrings._calculate_study_guide_weighting
+@docstrings.calculate_study_guide_weighting
 @validation._calculate_study_guide_weighting
-def _calculate_study_guide_weighting(
+def calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts):
 
     average_study_guide_mastery = calculate_beta_distribution_mean(
@@ -175,9 +175,9 @@ def _calculate_thompson_sampling(study_guide_score, study_guide_attempts,
     return float(np.trapz(y=trapezium_heights, x=trapezium_edge_points))
 
 
-@docstrings._calculate_weighted_value
-@validation._calculate_weighted_value
-def _calculate_weighted_value(weighting, study_guide_value, topic_value):
+@docstrings.calculate_weighted_value
+@validation.calculate_weighted_value
+def calculate_weighted_value(weighting, study_guide_value, topic_value):
     return weighting * study_guide_value \
         + (1 - weighting) * topic_value
 

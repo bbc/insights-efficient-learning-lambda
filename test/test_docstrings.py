@@ -17,7 +17,7 @@ def test_docstring_added():
 
 @pytest.mark.docstring_test
 def test_calculate_weighted_value():
-    assert algorithm._calculate_weighted_value.__doc__ is not None
+    assert algorithm.calculate_weighted_value.__doc__ is not None
 
 
 @pytest.mark.docstring_test
@@ -52,4 +52,4 @@ def test_calculate_confident_mastery_band_has_docstring():
 
 @pytest.mark.docstring_test
 def test_calculate_study_guide_weighting():
-    assert algorithm._calculate_study_guide_weighting.__doc__ is not None
+    assert algorithm.calculate_study_guide_weighting.__doc__ is not None
