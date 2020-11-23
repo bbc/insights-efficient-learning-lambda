@@ -3,7 +3,7 @@ from test.fixtures.events import INVALID_EVENT, \
     VALID_EVENT_NO_RESULTS, VALID_EVENT_WITH_RESULTS,\
     FINAL_EVENT_FOR_REPEATABLE_RESULTS
 from test.fixtures.questions import NEXT_QUESTION, \
-    VALID_QUESTION_RESPONSE_NO_RESULTS, VALID_QUESTION_RESPONSE_WITH_RESULTS,\
+    VALID_QUESTION_RESPONSE_NO_RESULTS, VALID_RESPONSE_WITH_RESULTS,\
     REPEATABLE_RESULTS
 
 
@@ -63,7 +63,7 @@ def test_valid_event_with_results_returns_next_question(mocker):
 
     actual_question = handler(VALID_EVENT_WITH_RESULTS, CONTEXT)
 
-    assert actual_question == VALID_QUESTION_RESPONSE_WITH_RESULTS
+    assert actual_question == VALID_RESPONSE_WITH_RESULTS
 
 
 def test_valid_event_no_results_returns_next_question(mocker):
