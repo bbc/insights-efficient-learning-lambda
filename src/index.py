@@ -66,16 +66,16 @@ def handler(event, context):
             'confidenceScore': band_confidence * 100
         })
 
-    next_question = {
+    response = {
         'nextQuestion': algorithm.choose_next_question(topic_id_for_study_guide_id, study_guide_id_list, confidence_intervals_list, question_id_list)
     }
 
     if return_results:
-        next_question.update({
+        response.update({
             'results': results_list
         })
 
-    return _build_response(200, next_question)
+    return _build_response(200, response)
 
 
 def _add_weighted_score_and_attempts(
