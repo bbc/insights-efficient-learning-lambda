@@ -17,11 +17,11 @@ CONFIDENCE_THRESHOLD = 0.6
 def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     study_guide_id = random.choice(study_guide_id_list)
 
-    question_id_list = client.select_all_question_ids(study_guide_id)
+    question_id_list = _get_all_question_ids_from_guide(study_guide_id)
 
     question_id = random.choice(question_id_list)['id']
 
-    question = client.select_question_by_id(question_id, study_guide_id)
+    question = _get_question_text(question_id, study_guide_id)
 
     question.update({
         "studyGuideId": study_guide_id,
@@ -29,6 +29,10 @@ def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     })
 
     return question
+
+
+def _get_all_question_ids_from_guide(study_guide_id):
+    return client.select_all_question_ids(study_guide_id)
 
 
 def _remove_completed_guide(
