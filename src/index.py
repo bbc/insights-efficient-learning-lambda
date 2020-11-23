@@ -4,6 +4,7 @@ import helper
 # pylint: disable=too-many-locals
 # pylint: disable=unused-argument
 
+
 def handler(event, context):
     try:
         topic_id_list = event['topicIds']
@@ -18,8 +19,6 @@ def handler(event, context):
     topic_id_for_study_guide_id = helper.get_topic_id(
         study_guide_id_list)
 
-    question_id_list = []
-
     if not questions:
         next_question = {
             'nextQuestion': algorithm.choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list)
@@ -31,11 +30,12 @@ def handler(event, context):
     study_guide_score_and_attempts = _initialise_score_and_attempts(
         study_guide_id_list)
 
+    question_id_list = _create_question_id_list(questions)
+
     for question in questions:
         _update_topic_score_and_attempts(topic_score_and_attempts, question)
         _update_study_guide_score_and_attempts(
             study_guide_score_and_attempts, question)
-        question_id_list.append(question['id'])
 
     results_list = []
     confidence_intervals_list = []
@@ -80,6 +80,11 @@ def handler(event, context):
         })
 
     return _build_response(200, next_question)
+
+
+def _create_question_id_list(questions):
+    question_id_list = [question['id'] for question in questions]
+    return question_id_list
 
 
 def _initialise_score_and_attempts(list_):
