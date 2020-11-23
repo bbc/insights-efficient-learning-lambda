@@ -104,9 +104,6 @@ def test_calculate_weighted_value_study_guide_value_lt_topic_value():
         assert str(error) == f"{study_guide_value} > {topic_value} : study_guide_value should be less than or equal to topic_value"
 
 
-
-
-
 # -------------------------------------------------------------------
 # Validation tests on algorithm.calculate_weighted_score_and_attempts
 # -------------------------------------------------------------------
@@ -785,3 +782,87 @@ def test_calculate_study_guide_weighting_study_guide_attempts_lt_topic_attempts(
     except Exception as error:
         assert error.__class__.__name__ == 'ValueError'
         assert str(error) == f"{study_guide_attempts} > {topic_attempts} : study_guide_attempts should be less than or equal to topic_attempts"
+
+
+# -------------------------------------------------------------------
+# Validation tests on algorithm.calculate_weighted_score_and_attempts
+# -------------------------------------------------------------------
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_study_guide_id_list_is_list():
+    study_guide_id_list = {}
+    weighted_score_and_attempts = {'z': {}}
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"study_guide_id_list should be a list, a {study_guide_id_list.__class__.__name__} was provided"
+
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_study_guide_id_list_is_list_of_strings():
+    study_guide_id_list = [1]
+    weighted_score_and_attempts = {'z': {}}
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"unexpected type encountered in study_guide_id_list_list : expected str but got int"
+
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_weighted_s_and_a_is_dict():
+    study_guide_id_list = ['z']
+    weighted_score_and_attempts = ['z']
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'TypeError'
+        assert str(error) == f"weighted_score_and_attempts should be a dict, a {weighted_score_and_attempts.__class__.__name__} was provided"
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_study_guide_ids_non_empty():
+    study_guide_id_list = ['']
+    weighted_score_and_attempts = {'z': {}}
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(
+            error) == f"unexpected value encountered in study_guide_id_list: study_guide_ids should be non-empty"
+
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_study_guide_ids_not_z_id():
+    study_guide_id_list = ['b']
+    weighted_score_and_attempts = {'z': {}}
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(
+            error) == f"unexpected value encountered in study_guide_id_list: study_guide_ids should be the z id of a study guide, received b"
+
+
+@pytest.mark.validation_calculate_confidence_intervals_list
+def test_calculate_confidence_intervals_list_keys_are_in_study_guide_id_list():
+    study_guide_id_list = ['z1']
+    weighted_score_and_attempts = {'z': {}}
+    try:
+        algorithm.calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts)
+        assert False
+    except Exception as error:
+        assert error.__class__.__name__ == 'ValueError'
+        assert str(
+            error) == f"unexpected key encountered in weighted_score_and_attempts: key z does not appear in study_guide_id_list"

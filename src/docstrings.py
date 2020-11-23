@@ -303,3 +303,41 @@ ValueError : {study_guide_attempts} > {topic_attempts} : study_guide_attempts sh
     when study_guide_attempts > topic_attempts
 """
     return _add_docstring(function, docstring)
+
+
+def calculate_confidence_intervals_list(function):
+    docstring = """
+Calculates confidence intervals for each study guide in the test. Intervals are based on the 5th and 95th percentiles of the mastery distribution. Returns list of confidence intervals corresponding, in order, to the guides in study_guide_id_list.
+
+Parameters
+----------
+study_guide_id_list : list of strings
+    list of study guide ids
+weighted_score_and_attempts : dict 
+    keys: study guide id
+    values: dict objects of format {'weighted_score': *, 'weighted_attempts': *}
+
+Returns
+-------
+list of confidence intervals in order corresponding to study_guide_id_list
+    list of floats in range [0, 1]
+
+Raises
+------
+TypeError : study_guide_id_list should be a list, a {study_guide_id_list.__class__.__name__} was provided
+    when study_guide_id_list is anything except a list
+TypeError : unexpected type encountered in study_guide_id_list_list : expected str but got {study_guide_id.__class__.__name__}
+    when study_guide_id_list contains anything expect strings
+
+TypeError : weighted_score_and_attempts should be a dict, a {weighted_score_and_attempts.__class__.__name__} was provided
+    when weighted_score_and_attempts is anything except a dict
+
+ValueError : unexpected value encountered in study_guide_id_list: study_guide_ids should be non-empty
+    when study_guide_id_list contains an empty string
+ValueError : unexpected value encountered in study_guide_id_list: study_guide_ids should be the z id of a study guide, received {study_guide_id}
+    when first letter in study_guide_id is not 'z'
+
+ValueError : unexpected key encountered in weighted_score_and_attempts: key z does not appear in study_guide_id_list
+    when the keys in weighted_score_and_attempts differ from ids in study_guide_id_list
+"""
+    return _add_docstring(function, docstring)

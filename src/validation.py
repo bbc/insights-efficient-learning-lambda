@@ -184,3 +184,30 @@ def _calculate_study_guide_weighting(undecorated_function):
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
     return validate_calculate_study_guide_weighting
+
+
+def calculate_confidence_intervals_list(undecorated_function):
+    def validate_calculate_confidence_intervals_list(
+            study_guide_id_list, weighted_score_and_attempts):
+
+        if type(study_guide_id_list) != list:
+            raise TypeError(f"study_guide_id_list should be a list, a {study_guide_id_list.__class__.__name__} was provided")
+        for study_guide_id in study_guide_id_list:
+            if type(study_guide_id) != str:
+                raise TypeError(f"unexpected type encountered in study_guide_id_list_list : expected str but got {study_guide_id.__class__.__name__}")
+        if type(weighted_score_and_attempts) != dict:
+            raise TypeError(f"weighted_score_and_attempts should be a dict, a {weighted_score_and_attempts.__class__.__name__} was provided")
+
+        if any([study_guide_id == '' for study_guide_id in study_guide_id_list]):
+            raise ValueError(f"unexpected value encountered in study_guide_id_list: study_guide_ids should be non-empty")
+        for study_guide_id in study_guide_id_list:
+            if study_guide_id[0] != 'z':
+                raise ValueError(f"unexpected value encountered in study_guide_id_list: study_guide_ids should be the z id of a study guide, received {study_guide_id}")
+        for key in weighted_score_and_attempts:
+            if key not in study_guide_id_list:
+                raise ValueError(f"unexpected key encountered in weighted_score_and_attempts: key {key} does not appear in study_guide_id_list")
+
+        return undecorated_function(
+            study_guide_id_list, weighted_score_and_attempts)
+
+    return validate_calculate_confidence_intervals_list

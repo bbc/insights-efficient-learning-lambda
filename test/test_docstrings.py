@@ -53,3 +53,8 @@ def test_calculate_confident_mastery_band_has_docstring():
 @pytest.mark.docstring_test
 def test_calculate_study_guide_weighting():
     assert algorithm.calculate_study_guide_weighting.__doc__ is not None
+
+
+@pytest.mark.docstring_test
+def test_calculate_confidence_intervals_list():
+    assert algorithm.calculate_confidence_intervals_list.__doc__ is not None

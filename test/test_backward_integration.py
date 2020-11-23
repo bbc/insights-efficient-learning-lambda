@@ -23,7 +23,7 @@ def test_calculate_beta_distribution_passes():
 # -----------------------------------------------------------
 
 @pytest.mark.bint_calculate_confidence_interval
-def test_calculate_confidence_interval_0_out_of_0():
+def test_calculate_confidence_interval_passes():
     weighted_score, weighted_attempts = algorithm.calculate_weighted_score_and_attempts(
         1., 1., 1., 1.)
     try:
