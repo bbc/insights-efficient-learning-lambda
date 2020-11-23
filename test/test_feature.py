@@ -235,7 +235,7 @@ def test_calculate_study_guide_weighting_is_float():
     study_guide_attempts = 2.
     topic_score = 2.
     topic_attempts = 3.
-    weighting = algorithm._calculate_study_guide_weighting(
+    weighting = algorithm.calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
     assert isinstance(weighting, float)
 
@@ -246,7 +246,7 @@ def test_calculate_study_guide_weighting_in_range_0_to_1():
     study_guide_attempts = 2.
     topic_score = 2.
     topic_attempts = 3.
-    weighting = algorithm._calculate_study_guide_weighting(
+    weighting = algorithm.calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
     assert weighting == pytest.approx(0.5, abs=0.5)
 
@@ -257,7 +257,7 @@ def test_calculate_study_guide_weighting_1_when_much_better_at_guide():
     study_guide_attempts = 100.
     topic_score = 100.
     topic_attempts = 1000.
-    weighting = algorithm._calculate_study_guide_weighting(
+    weighting = algorithm.calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
     assert weighting == pytest.approx(1, rel=1e-6)
 
@@ -268,6 +268,6 @@ def test_calculate_study_guide_weighting_1_when_much_worse_at_guide():
     study_guide_attempts = 100.
     topic_score = 100.
     topic_attempts = 100.
-    weighting = algorithm._calculate_study_guide_weighting(
+    weighting = algorithm.calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
     assert weighting == pytest.approx(1, rel=1e-6)

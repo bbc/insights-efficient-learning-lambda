@@ -639,15 +639,15 @@ def test_calculate_calculate_confident_mastery_band_confidence_in_0_to_1():
         assert str(error) == f"unexpected value encountered - confidence should be in the interval [0, 1]"
 
 
-# --------------------------------------------------------------
-# Validation tests on algorithm._calculate_study_guide_weighting
-# --------------------------------------------------------------
+# -------------------------------------------------------------
+# Validation tests on algorithm.calculate_study_guide_weighting
+# -------------------------------------------------------------
 
 @pytest.mark.validation_calculate_study_guide_weighting
 def test_calculate_study_guide_weighting_study_guide_score_is_float():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1, 1., 2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -659,7 +659,7 @@ def test_calculate_study_guide_weighting_study_guide_score_is_float():
 def test_calculate_study_guide_weighting_study_guide_attempts_is_float():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1, 2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -671,7 +671,7 @@ def test_calculate_study_guide_weighting_study_guide_attempts_is_float():
 def test_calculate_study_guide_weighting_topic_score_is_float():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2, 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -683,7 +683,7 @@ def test_calculate_study_guide_weighting_topic_score_is_float():
 def test_calculate_study_guide_weighting_topic_attempts_is_float():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2., 2
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -695,7 +695,7 @@ def test_calculate_study_guide_weighting_topic_attempts_is_float():
 def test_calculate_study_guide_weighting_study_guide_score_is_nonnegative():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = -1., 1., 2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -707,7 +707,7 @@ def test_calculate_study_guide_weighting_study_guide_score_is_nonnegative():
 def test_calculate_study_guide_weighting_study_guide_attempts_is_nonnegative():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., -1., 2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -719,7 +719,7 @@ def test_calculate_study_guide_weighting_study_guide_attempts_is_nonnegative():
 def test_calculate_study_guide_weighting_topic_score_is_nonnegative():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., -2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -731,7 +731,7 @@ def test_calculate_study_guide_weighting_topic_score_is_nonnegative():
 def test_calculate_study_guide_weighting_topic_attempts_is_nonnegative():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 2., -2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -743,7 +743,7 @@ def test_calculate_study_guide_weighting_topic_attempts_is_nonnegative():
 def test_calculate_study_guide_weighting_study_guide_score_lt_attempts():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 10., 1., 2., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -755,7 +755,7 @@ def test_calculate_study_guide_weighting_study_guide_score_lt_attempts():
 def test_calculate_study_guide_weighting_topic_score_lt_attempts():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 1., 1., 20., 2.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -767,7 +767,7 @@ def test_calculate_study_guide_weighting_topic_score_lt_attempts():
 def test_calculate_study_guide_weighting_study_guide_score_lt_topic_score():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 3., 3., 2., 4.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:
@@ -779,7 +779,7 @@ def test_calculate_study_guide_weighting_study_guide_score_lt_topic_score():
 def test_calculate_study_guide_weighting_study_guide_attempts_lt_topic_attempts():
     study_guide_score, study_guide_attempts, topic_score, topic_attempts = 2., 5., 2., 4.
     try:
-        algorithm._calculate_study_guide_weighting(
+        algorithm.calculate_study_guide_weighting(
             study_guide_score, study_guide_attempts, topic_score, topic_attempts)
         assert False
     except Exception as error:

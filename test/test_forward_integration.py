@@ -9,7 +9,7 @@ def test_calculate_study_guide_weighting_passes_into_calculate_weighted_value():
     topic_score = 100.
     topic_attempts = 100.
 
-    study_guide_weighting = algorithm._calculate_study_guide_weighting(
+    study_guide_weighting = algorithm.calculate_study_guide_weighting(
         study_guide_score, study_guide_attempts, topic_score, topic_attempts)
 
     try:
