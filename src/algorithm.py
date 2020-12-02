@@ -17,7 +17,7 @@ CONFIDENCE_THRESHOLD = 0.6
 def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     study_guide_id = random.choice(study_guide_id_list)
 
-    question_id_list = _get_all_question_ids_from_guide(study_guide_id)
+    question_id_list = get_all_question_ids_from_guide(study_guide_id)
 
     question_id = random.choice(question_id_list)['id']
 
@@ -31,7 +31,7 @@ def choose_initial_question(topic_id_for_study_guide_id, study_guide_id_list):
     return question
 
 
-def _get_all_question_ids_from_guide(study_guide_id):
+def get_all_question_ids_from_guide(study_guide_id):
     return client.select_all_question_ids(study_guide_id)
 
 
@@ -163,13 +163,13 @@ def calculate_study_guide_weighting(
     if average_study_guide_mastery < average_topic_mastery:
         study_guide_weighting = (1 - study_guide_weighting)
 
-    return study_guide_weighting
+    return float(study_guide_weighting)
 
 
 @docstrings.calculate_beta_distribution_mean
 @validation.calculate_beta_distribution_mean
 def calculate_beta_distribution_mean(score, attempts):
-    return (score + 1) / ((score + 1) + (attempts + 1 - score))
+    return float((score + 1) / ((score + 1) + (attempts + 1 - score)))
 
 
 def _thompson_sampling_integrand(mastery, study_guide_score, study_guide_attempts,

@@ -17,6 +17,6 @@ Resources:
       Runtime: python3.7
       Environment:
         Variables:
-          S3_BUCKET: ''
-          S3_FOLDER: ''
-          S3_CONFIG: ''
+          S3_BUCKET: 'test-borodin-assets-bucket-borodinassetsbucket-f3xq0jsnkt9s'
+          S3_FOLDER: 'quizzes/questions'
+          S3_CONFIG: 'quizzes/config'

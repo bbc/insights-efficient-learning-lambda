@@ -12,6 +12,7 @@ def test_docstring_added():
     function_with_docstring = _add_docstring(
         function_without_docstring, 'a docstring')
 
+    assert function_with_docstring.__class__.__name__ == 'function'
     assert function_with_docstring.__doc__ == 'a docstring'
 
 

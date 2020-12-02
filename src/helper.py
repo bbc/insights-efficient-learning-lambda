@@ -4,6 +4,7 @@ from storage_client import StorageClient
 
 client = StorageClient(boto3.client('s3'))
 
+
 def get_study_guide_id_list(topic_ids):
     study_guide_ids_list = []
 

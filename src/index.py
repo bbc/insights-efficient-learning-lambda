@@ -1,5 +1,6 @@
 import algorithm
 import helper
+import os
 
 # pylint: disable=too-many-locals
 # pylint: disable=unused-argument
@@ -48,8 +49,8 @@ def handler(event, context):
             weighted_attempts = study_guide_score_and_attempts[
                 study_guide_id]['weighted_attempts']
 
-            mastery = algorithm.calculate_beta_distribution_mean(
-                weighted_score, weighted_attempts)
+            mastery = float(algorithm.calculate_beta_distribution_mean(
+                weighted_score, weighted_attempts))
 
             mastery_band, band_confidence = algorithm.calculate_mastery_band_and_confidence(
                 mastery, weighted_score, weighted_attempts)
